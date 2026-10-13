@@ -23,7 +23,4 @@ export const SECTION_STAGGER = 60;
 
 export const stagger = (index: number, step: number = SECTION_STAGGER, base = 0) => base + index * step;
 
-/** Breathing motif – inhale 4 s, hold, exhale 6 s. Per-exercise patterns override it. */
-export const BREATH = { inhaleMs: 4000, holdMs: 1000, exhaleMs: 6000 } as const;
-export const breathCycleMs = (p: { inhaleMs: number; holdMs: number; exhaleMs: number } = BREATH) =>
-  p.inhaleMs + p.holdMs + p.exhaleMs;
+export { BREATH } from '@/lib/breath';

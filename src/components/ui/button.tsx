@@ -11,7 +11,7 @@ const buttonVariants = cva(
   cn(
     'group shrink-0 flex-row items-center justify-center gap-2 rounded-pill',
     Platform.select({
-      web: 'focus-visible:ring-ring/50 whitespace-nowrap outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none',
+      web: 'whitespace-nowrap outline-none transition-all focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none',
     })
   ),
   {
@@ -21,7 +21,7 @@ const buttonVariants = cva(
         default: 'bg-primary active:bg-primary/90',
         // mint — secondary
         secondary: 'bg-secondary active:bg-secondary/80',
-        outline: 'border-border bg-card active:bg-secondary/60 border',
+        outline: 'border border-border bg-card active:bg-secondary/60',
         ghost: 'active:bg-secondary/70',
         // coral — gentle highlight CTAs
         coral: 'bg-coral active:bg-coral/90',
@@ -64,7 +64,17 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
     haptics?: boolean;
   };
 
-function Button({ className, variant, size, loading, haptics = true, onPress, disabled, children, ...props }: ButtonProps) {
+function Button({
+  className,
+  variant,
+  size,
+  loading,
+  haptics = true,
+  onPress,
+  disabled,
+  children,
+  ...props
+}: ButtonProps) {
   const isDisabled = disabled || loading;
   const handlePress = (e: GestureResponderEvent) => {
     if (haptics) haptic.light();
@@ -79,7 +89,8 @@ function Button({ className, variant, size, loading, haptics = true, onPress, di
         aria-busy={loading}
         aria-disabled={isDisabled}
         onPress={handlePress}
-        {...props}>
+        {...props}
+      >
         {loading ? <ActivityIndicator size="small" /> : null}
         {children as React.ReactNode}
       </Pressable>

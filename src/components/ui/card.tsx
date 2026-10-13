@@ -8,11 +8,11 @@ import { cn } from '@/lib/utils';
 const cardVariants = cva('flex flex-col gap-4 rounded-card py-5', {
   variants: {
     variant: {
-      default: 'bg-card border-border border shadow-lg shadow-forest/10',
+      default: 'border border-border bg-card shadow-lg shadow-forest/10',
       mint: 'bg-secondary',
       sand: 'bg-sand/40',
       lavender: 'bg-lavender/30',
-      outline: 'border-border border bg-transparent',
+      outline: 'border border-border bg-transparent',
       flat: 'bg-card',
     },
   },
@@ -35,11 +35,17 @@ function CardHeader({ className, ...props }: React.ComponentProps<typeof View> &
   return <View className={cn('flex flex-col gap-1.5 px-5', className)} {...props} />;
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<typeof Text> & React.RefAttributes<React.ComponentRef<typeof Text>>) {
+function CardTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof Text> & React.RefAttributes<React.ComponentRef<typeof Text>>) {
   return <Text variant="heading" className={className} {...props} />;
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<typeof Text> & React.RefAttributes<React.ComponentRef<typeof Text>>) {
+function CardDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof Text> & React.RefAttributes<React.ComponentRef<typeof Text>>) {
   return <Text variant="caption" className={className} {...props} />;
 }
 

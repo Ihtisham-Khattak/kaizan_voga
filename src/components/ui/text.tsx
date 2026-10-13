@@ -85,7 +85,9 @@ function Text({
 
   // Urdu: swap every family for Noto Nastaliq at the matching weight.
   const urduStyle: TextStyle | undefined =
-    language === 'ur' ? { fontFamily: urduFamily[weightFromClass(resolved)], writingDirection: 'rtl' } : undefined;
+    language === 'ur'
+      ? { fontFamily: urduFamily[weightFromClass(resolved)], writingDirection: 'rtl' }
+      : undefined;
 
   return (
     <Component

@@ -15,8 +15,7 @@ function ToggleGroup({
   size,
   children,
   ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants>) {
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> & VariantProps<typeof toggleVariants>) {
   return (
     <ToggleGroupPrimitive.Root
       className={cn(
@@ -25,10 +24,9 @@ function ToggleGroup({
         variant === 'outline' && 'shadow-sm shadow-black/5',
         className
       )}
-      {...props}>
-      <ToggleGroupContext.Provider value={{ variant, size }}>
-        {children}
-      </ToggleGroupContext.Provider>
+      {...props}
+    >
+      <ToggleGroupContext.Provider value={{ variant, size }}>{children}</ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
   );
 }
@@ -36,9 +34,7 @@ function ToggleGroup({
 function useToggleGroupContext() {
   const context = React.useContext(ToggleGroupContext);
   if (context === null) {
-    throw new Error(
-      'ToggleGroup compound components cannot be rendered outside the ToggleGroup component'
-    );
+    throw new Error('ToggleGroup compound components cannot be rendered outside the ToggleGroup component');
   }
   return context;
 }
@@ -62,11 +58,12 @@ function ToggleGroupItem({
   return (
     <TextClassContext.Provider
       value={cn(
-        'text-sm text-foreground font-sans-medium',
+        'font-sans-medium text-sm text-foreground',
         ToggleGroupPrimitive.utils.getIsSelected(value, props.value)
           ? 'text-accent-foreground'
           : Platform.select({ web: 'group-hover:text-muted-foreground' })
-      )}>
+      )}
+    >
       <ToggleGroupPrimitive.Item
         className={cn(
           toggleVariants({
@@ -85,7 +82,8 @@ function ToggleGroupItem({
           }),
           className
         )}
-        {...props}>
+        {...props}
+      >
         {children}
       </ToggleGroupPrimitive.Item>
     </TextClassContext.Provider>

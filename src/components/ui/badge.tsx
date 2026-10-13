@@ -7,20 +7,23 @@ import { TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 /** Static label pill. For selectable pills use <Chip>. */
-const badgeVariants = cva('shrink-0 flex-row items-center justify-center gap-1 self-start overflow-hidden rounded-pill px-3 py-1', {
-  variants: {
-    variant: {
-      default: 'bg-primary',
-      secondary: 'bg-secondary',
-      coral: 'bg-coral/25',
-      lavender: 'bg-lavender/35',
-      sand: 'bg-sand/60',
-      destructive: 'bg-destructive/10',
-      outline: 'border-border border',
+const badgeVariants = cva(
+  'shrink-0 flex-row items-center justify-center gap-1 self-start overflow-hidden rounded-pill px-3 py-1',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary',
+        secondary: 'bg-secondary',
+        coral: 'bg-coral/25',
+        lavender: 'bg-lavender/35',
+        sand: 'bg-sand/60',
+        destructive: 'bg-destructive/10',
+        outline: 'border border-border',
+      },
     },
-  },
-  defaultVariants: { variant: 'secondary' },
-});
+    defaultVariants: { variant: 'secondary' },
+  }
+);
 
 const badgeTextVariants = cva('font-sans-medium text-kz-caption', {
   variants: {

@@ -17,7 +17,12 @@ interface SubscriptionState {
   reset: () => void;
 }
 
-const initial = { plan: 'free' as Plan, status: 'free' as SubscriptionStatus, trialEndsAt: null, renewsAt: null };
+const initial = {
+  plan: 'free' as Plan,
+  status: 'free' as SubscriptionStatus,
+  trialEndsAt: null,
+  renewsAt: null,
+};
 const inDays = (d: number) => new Date(Date.now() + d * 86_400_000).toISOString();
 
 export const useSubscriptionStore = register(

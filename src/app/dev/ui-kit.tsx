@@ -1,7 +1,20 @@
-/* eslint-disable no-restricted-syntax -- developer-only screen, strings are intentionally inline */
 import { router } from 'expo-router';
 import { Heart, Leaf, Moon, Sparkle } from 'phosphor-react-native';
 import { useState } from 'react';
+import { BottomSheet } from '@/components/bottom-sheet';
+import { BreathingCircle } from '@/components/breathing-circle';
+import { EmptyState } from '@/components/empty-state';
+import { ExerciseCard } from '@/components/exercise-card';
+import { MoodPicker } from '@/components/mood-picker';
+import { ProgramCard } from '@/components/program-card';
+import { ProgressRing } from '@/components/progress-ring';
+import { RoutineCard } from '@/components/routine-card';
+import { SafetyNotice } from '@/components/safety-notice';
+import { SectionHeader } from '@/components/section-header';
+import { SpeechBubble } from '@/components/speech-bubble';
+import { toast } from '@/components/toast';
+import { getExercise, getProgram, getRoutine } from '@/data/repo';
+import type { Mood } from '@/store/types';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -47,11 +60,21 @@ export default function UiKit() {
   const [checked, setChecked] = useState(true);
   const [on, setOn] = useState(true);
   const [radio, setRadio] = useState('10');
+  const [mood, setMood] = useState<Mood | null>('calm');
+  const [favs, setFavs] = useState<string[]>(['ex-06']);
+  const [sheet, setSheet] = useState(false);
+  const [ring, setRing] = useState(0.65);
 
   return (
     <ScrollView
-      className="bg-background flex-1"
-      contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: insets.bottom + 48, paddingHorizontal: 16, gap: 32 }}>
+      className="flex-1 bg-background"
+      contentContainerStyle={{
+        paddingTop: insets.top + 16,
+        paddingBottom: insets.bottom + 48,
+        paddingHorizontal: 16,
+        gap: 32,
+      }}
+    >
       <View className="gap-1">
         <Text variant="display">{t('common.appName')}</Text>
         <Text variant="caption">{`UI kit · ${scheme} · ${language}`}</Text>
@@ -63,28 +86,42 @@ export default function UiKit() {
             <Chip key={v} label={`Theme: ${v}`} selected={theme === v} onPress={() => set({ theme: v })} />
           ))}
           {(['en', 'ur'] as const).map((v) => (
-            <Chip key={v} label={t(`languages.${v}`)} selected={language === v} onPress={() => set({ language: v })} />
+            <Chip
+              key={v}
+              label={t(`languages.${v}`)}
+              selected={language === v}
+              onPress={() => set({ language: v })}
+            />
           ))}
-          <Chip label="Reduce motion" selected={motion === 'reduce'} onPress={() => set({ motion: motion === 'reduce' ? 'system' : 'reduce' })} />
+          <Chip
+            label="Reduce motion"
+            selected={motion === 'reduce'}
+            onPress={() => set({ motion: motion === 'reduce' ? 'system' : 'reduce' })}
+          />
         </View>
-        <Text variant="caption">Switching to Urdu flips the layout after a reload (React Native limitation).</Text>
+        <Text variant="caption">
+          Switching to Urdu flips the layout after a reload (React Native limitation).
+        </Text>
       </Section>
 
       <Section title="Type scale">
         <Text variant="display">Small steps. Calmer days.</Text>
-        <Text variant="title">Today's session</Text>
+        <Text variant="title">Today&apos;s session</Text>
         <Text variant="heading">Quick relief</Text>
         <Text variant="lead">Lead — ten gentle minutes for your morning.</Text>
         <Text variant="body">Body — breathe in slowly, let your shoulders soften.</Text>
         <Text variant="label">Label — Start session</Text>
-        <Text variant="caption">Caption — Everyone's experience is different.</Text>
+        <Text variant="caption">Caption — Everyone&apos;s experience is different.</Text>
       </Section>
 
       <Section title="Colour tokens">
         <View className="flex-row flex-wrap gap-3">
           {SWATCHES.map((name) => (
             <View key={name} className="items-center gap-1">
-              <View className="border-border size-14 rounded-2xl border" style={{ backgroundColor: tokens[name] }} />
+              <View
+                className="size-14 rounded-2xl border border-border"
+                style={{ backgroundColor: tokens[name] }}
+              />
               <Text variant="caption">{name}</Text>
             </View>
           ))}
@@ -138,12 +175,24 @@ export default function UiKit() {
           ))}
         </View>
         <View className="flex-row flex-wrap gap-2">
-          <Badge><Text>Default</Text></Badge>
-          <Badge variant="secondary"><Text>Secondary</Text></Badge>
-          <Badge variant="coral"><Text>Day 5 of 30</Text></Badge>
-          <Badge variant="lavender"><Text>Sleep</Text></Badge>
-          <Badge variant="sand"><Text>Gentle</Text></Badge>
-          <Badge variant="outline"><Text>Outline</Text></Badge>
+          <Badge>
+            <Text>Default</Text>
+          </Badge>
+          <Badge variant="secondary">
+            <Text>Secondary</Text>
+          </Badge>
+          <Badge variant="coral">
+            <Text>Day 5 of 30</Text>
+          </Badge>
+          <Badge variant="lavender">
+            <Text>Sleep</Text>
+          </Badge>
+          <Badge variant="sand">
+            <Text>Gentle</Text>
+          </Badge>
+          <Badge variant="outline">
+            <Text>Outline</Text>
+          </Badge>
         </View>
       </Section>
 
@@ -204,6 +253,122 @@ export default function UiKit() {
           <Skeleton className="h-6 w-2/3" />
           <Skeleton className="h-24 w-full" />
         </View>
+      </Section>
+
+      <Section title="Mood picker">
+        <MoodPicker value={mood} onChange={setMood} />
+      </Section>
+
+      <Section title="Breathing circle & progress ring">
+        <View className="items-center">
+          <BreathingCircle size={220} showCue />
+        </View>
+        <View className="flex-row items-center justify-around">
+          <ProgressRing progress={ring} size={48} strokeWidth={5} />
+          <ProgressRing progress={ring} size={96}>
+            <Text variant="label">{`${Math.round(ring * 100)}%`}</Text>
+          </ProgressRing>
+          <ProgressRing progress={ring} size={140} strokeWidth={12} color="coral">
+            <Text variant="title">{`${Math.round(ring * 10)}:00`}</Text>
+          </ProgressRing>
+        </View>
+        <Button variant="secondary" onPress={() => setRing((r) => (r >= 0.95 ? 0.05 : r + 0.15))}>
+          <Text>Advance ring</Text>
+        </Button>
+      </Section>
+
+      <Section title="Speech bubbles">
+        <SpeechBubble
+          speaker="ali"
+          text="Eight hours at the desk… my neck and back feel so stiff."
+          tail="start"
+        />
+        <SpeechBubble
+          speaker="hina"
+          text="I lie in bed for hours. My mind just won't switch off."
+          delay={600}
+          tail="end"
+        />
+        <SpeechBubble
+          speaker="zara"
+          text="It didn't change overnight. It changed one small step at a time — that's Kaizen."
+          delay={1200}
+        />
+        <SpeechBubble speaker="kai" text="After one month of small steps…" delay={1800} tail="end" />
+      </Section>
+
+      <Section title="Exercise, routine & program cards">
+        <SectionHeader title="Poses" onSeeAll={() => toast.info('See all tapped')} />
+        {['ex-01', 'ex-16', 'ex-26'].map((id) => (
+          <ExerciseCard
+            key={id}
+            exercise={getExercise(id)}
+            isFavorite={favs.includes(id)}
+            onFavorite={() => setFavs((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]))}
+            onPress={() => toast.info(getExercise(id).name)}
+          />
+        ))}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
+          {['ex-31', 'ex-11', 'ex-46', 'ex-41'].map((id) => (
+            <ExerciseCard key={id} variant="tile" exercise={getExercise(id)} />
+          ))}
+        </ScrollView>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
+          {['r-04', 'r-10', 'r-11', 'qr-01'].map((id) => (
+            <RoutineCard key={id} routine={getRoutine(id)} downloaded={id === 'r-04'} />
+          ))}
+        </ScrollView>
+        <RoutineCard variant="row" routine={getRoutine('r-02')} />
+        <ProgramCard program={getProgram('p-30')} completedDays={5} />
+        <ProgramCard program={getProgram('p-desk')} />
+      </Section>
+
+      <Section title="Safety, empty state, toast, sheet">
+        <SafetyNotice title="A gentle reminder" lines={['Stop if you feel sharp pain or dizziness.']} />
+        <SafetyNotice
+          variant="full"
+          title="Before we begin"
+          lines={[
+            'If you are pregnant, recovering from surgery or managing a health condition, check with a healthcare professional first.',
+          ]}
+        />
+        <EmptyState
+          title="No favourites yet"
+          body="Tap the heart on any pose or routine to keep it here."
+          cta={{ label: 'Explore', onPress: () => toast.gentle('Opening Explore…') }}
+        />
+        <View className="flex-row flex-wrap gap-2">
+          <Button size="sm" variant="secondary" onPress={() => toast.success('Saved to favourites')}>
+            <Text>Success toast</Text>
+          </Button>
+          <Button size="sm" variant="secondary" onPress={() => toast.info('You are offline')}>
+            <Text>Info toast</Text>
+          </Button>
+          <Button size="sm" variant="secondary" onPress={() => toast.gentle('Rest is part of practice too.')}>
+            <Text>Gentle toast</Text>
+          </Button>
+          <Button size="sm" variant="outline" onPress={() => setSheet(true)}>
+            <Text>Open sheet</Text>
+          </Button>
+        </View>
+        <BottomSheet visible={sheet} onClose={() => setSheet(false)} title="Feeling discomfort?">
+          <Text>Stop if you feel sharp pain or dizziness.</Text>
+          <Button variant="secondary">
+            <Text>Switch to an easier version</Text>
+          </Button>
+          <Button variant="secondary">
+            <Text>Skip this pose</Text>
+          </Button>
+          <Button variant="destructive">
+            <Text>End session</Text>
+          </Button>
+        </BottomSheet>
+      </Section>
+
+      <Section title="Dev links">
+        <Button variant="secondary" onPress={() => router.push('/dev/icons')}>
+          <Text>Kaizen icon set</Text>
+        </Button>
       </Section>
 
       <Button variant="ghost" onPress={() => router.back()}>

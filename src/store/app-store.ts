@@ -26,7 +26,11 @@ interface AppState {
   completeOnboarding: () => void;
   confirmAge: () => void;
   acknowledgeSafety: () => void;
-  set: (patch: Partial<Pick<AppState, 'language' | 'theme' | 'motion' | 'captions' | 'haptics' | 'largerText' | 'units'>>) => void;
+  set: (
+    patch: Partial<
+      Pick<AppState, 'language' | 'theme' | 'motion' | 'captions' | 'haptics' | 'largerText' | 'units'>
+    >
+  ) => void;
   /** "Replay intro" – re-shows the story without touching any user data. */
   replayIntro: () => void;
   reset: () => void;

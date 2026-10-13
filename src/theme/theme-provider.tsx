@@ -25,7 +25,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const system = useSystemScheme();
   const { setColorScheme } = useNativeWindScheme();
 
-  const scheme: 'light' | 'dark' = preference === 'system' ? (system === 'dark' ? 'dark' : 'light') : preference;
+  const scheme: 'light' | 'dark' =
+    preference === 'system' ? (system === 'dark' ? 'dark' : 'light') : preference;
 
   useEffect(() => {
     setColorScheme(scheme);

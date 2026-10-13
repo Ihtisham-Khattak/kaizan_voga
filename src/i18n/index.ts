@@ -1,4 +1,5 @@
 import { getLocales } from 'expo-localization';
+/* eslint-disable import/no-named-as-default-member -- i18next's default instance API */
 import i18n from 'i18next';
 import { initReactI18next, useTranslation } from 'react-i18next';
 
@@ -31,4 +32,4 @@ export const setLanguage = (lang: Language) => i18n.changeLanguage(lang);
 /** Typed-ish translate hook. Usage: `const { t } = useT(); t('tabs.home')`. */
 export const useT = useTranslation;
 
-export { default as i18n } from 'i18next';
+export { i18n };

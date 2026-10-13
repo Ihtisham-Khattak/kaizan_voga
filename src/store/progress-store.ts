@@ -48,7 +48,8 @@ export const useProgressStore = register(
               ? st
               : { achievementsUnlocked: { ...st.achievementsUnlocked, [id]: new Date().toISOString() } }
           ),
-        joinChallenge: (id) => set((st) => ({ challenges: { ...st.challenges, [id]: st.challenges[id] ?? [] } })),
+        joinChallenge: (id) =>
+          set((st) => ({ challenges: { ...st.challenges, [id]: st.challenges[id] ?? [] } })),
         reset: () => set(initial),
       }),
       { name: 'kz-progress', version: 1, storage }

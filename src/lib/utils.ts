@@ -9,7 +9,9 @@ const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       'font-size': [{ text: ['kz-display', 'kz-title', 'kz-heading', 'kz-lead', 'kz-body', 'kz-caption'] }],
-      'font-family': [{ font: ['display', 'display-medium', 'sans', 'sans-medium', 'sans-semibold', 'sans-bold'] }],
+      'font-family': [
+        { font: ['display', 'display-medium', 'sans', 'sans-medium', 'sans-semibold', 'sans-bold'] },
+      ],
     },
   },
 });

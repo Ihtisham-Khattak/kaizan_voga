@@ -1,7 +1,4 @@
-import {
-  Fraunces_500Medium,
-  Fraunces_600SemiBold,
-} from '@expo-google-fonts/fraunces';
+import { Fraunces_500Medium, Fraunces_600SemiBold } from '@expo-google-fonts/fraunces';
 import {
   NotoNastaliqUrdu_400Regular,
   NotoNastaliqUrdu_500Medium,

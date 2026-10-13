@@ -23,9 +23,15 @@ interface Props {
 export function ScreenStub({ id, title, note, links = [] }: Props) {
   const insets = useSafeAreaInsets();
   return (
-    <View className="bg-background flex-1">
+    <View className="flex-1 bg-background">
       <ScrollView
-        contentContainerStyle={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24, paddingHorizontal: 16, gap: 16 }}>
+        contentContainerStyle={{
+          paddingTop: insets.top + 24,
+          paddingBottom: insets.bottom + 24,
+          paddingHorizontal: 16,
+          gap: 16,
+        }}
+      >
         <Badge variant="sand">
           <Text>{`Card ${id}`}</Text>
         </Badge>

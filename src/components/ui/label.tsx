@@ -24,10 +24,11 @@ function Label({
       onLongPress={onLongPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      disabled={disabled}>
+      disabled={disabled}
+    >
       <LabelPrimitive.Text
         className={cn(
-          'text-foreground text-sm font-sans-medium',
+          'font-sans-medium text-sm text-foreground',
           Platform.select({ web: 'leading-none' }),
           className
         )}

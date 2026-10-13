@@ -9,8 +9,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ToastHost } from '@/components/toast';
 import { applyDirection } from '@/i18n/direction';
-import { detectLanguage, i18n } from '@/i18n';
+import { detectLanguage, i18n, setLanguage } from '@/i18n';
 import { useAppStore, useAuthStore, useStoresHydrated } from '@/store';
 import { useAppFonts } from '@/theme/fonts';
 import { ThemeProvider } from '@/theme/theme-provider';
@@ -35,6 +36,7 @@ export default function RootLayout() {
             <BottomSheetModalProvider>
               <LanguageSync />
               <RootStack />
+              <ToastHost />
               <PortalHost />
             </BottomSheetModalProvider>
           </ThemeProvider>
@@ -60,7 +62,7 @@ function LanguageSync() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (i18n.language !== language) i18n.changeLanguage(language);
+  if (i18n.language !== language) setLanguage(language);
 
   useEffect(() => {
     applyDirection(language);

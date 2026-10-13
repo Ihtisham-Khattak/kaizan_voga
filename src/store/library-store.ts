@@ -46,17 +46,22 @@ export const useLibraryStore = register(
         ...initial,
         toggleFavorite: (key) =>
           set((s) => ({
-            favorites: s.favorites.includes(key) ? s.favorites.filter((k) => k !== key) : [key, ...s.favorites],
+            favorites: s.favorites.includes(key)
+              ? s.favorites.filter((k) => k !== key)
+              : [key, ...s.favorites],
           })),
         addRecentSearch: (q) => {
           const query = q.trim();
           if (!query) return;
-          set((s) => ({ recentSearches: [query, ...s.recentSearches.filter((x) => x !== query)].slice(0, 8) }));
+          set((s) => ({
+            recentSearches: [query, ...s.recentSearches.filter((x) => x !== query)].slice(0, 8),
+          }));
         },
         clearRecentSearches: () => set({ recentSearches: [] }),
         saveCustomRoutine: (r) =>
           set((s) => ({ customRoutines: [r, ...s.customRoutines.filter((x) => x.id !== r.id)] })),
-        removeCustomRoutine: (id) => set((s) => ({ customRoutines: s.customRoutines.filter((x) => x.id !== id) })),
+        removeCustomRoutine: (id) =>
+          set((s) => ({ customRoutines: s.customRoutines.filter((x) => x.id !== id) })),
         setDownload: (d) => set((s) => ({ downloads: [d, ...s.downloads.filter((x) => x.id !== d.id)] })),
         removeDownload: (id) => set((s) => ({ downloads: s.downloads.filter((x) => x.id !== id) })),
         setLastSession: (lastSession) => set({ lastSession }),
