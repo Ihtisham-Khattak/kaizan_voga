@@ -1,9 +1,73 @@
-:root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kaizen Yoga design tokens — space-separated RGB channels so `bg-primary/50` works.
+   Light = soft morning studio, dark = quiet evening. */
+@layer base {
+  :root {
+    /* shadcn semantic tokens */
+    --background: 250 246 238; /* cream */
+    --foreground: 36 48 42; /* ink */
+    --card: 255 253 248;
+    --card-foreground: 36 48 42;
+    --popover: 255 253 248;
+    --popover-foreground: 36 48 42;
+    --primary: 31 77 58; /* forest */
+    --primary-foreground: 250 246 238;
+    --secondary: 220 235 223; /* mint */
+    --secondary-foreground: 31 77 58;
+    --muted: 241 236 224;
+    --muted-foreground: 111 122 115; /* #6F7A73 */
+    --accent: 110 156 127; /* sage */
+    --accent-foreground: 18 26 22;
+    --destructive: 200 70 60;
+    --destructive-foreground: 250 246 238;
+    --border: 228 221 205;
+    --input: 228 221 205;
+    --ring: 110 156 127;
+
+    /* Kaizen brand palette */
+    --forest: 31 77 58;
+    --sage: 110 156 127;
+    --mint: 220 235 223;
+    --cream: 250 246 238;
+    --sand: 238 217 183;
+    --coral: 233 138 107;
+    --lavender: 185 174 224;
+    --ink: 36 48 42;
+    --muted-text: 111 122 115;
+  }
+
+  .dark:root {
+    --background: 18 26 22; /* #121A16 */
+    --foreground: 238 240 234;
+    --card: 28 38 32; /* #1C2620 */
+    --card-foreground: 238 240 234;
+    --popover: 28 38 32;
+    --popover-foreground: 238 240 234;
+    --primary: 143 191 160; /* lifted sage for AA on dark */
+    --primary-foreground: 18 26 22;
+    --secondary: 38 53 46;
+    --secondary-foreground: 220 235 223;
+    --muted: 38 50 43;
+    --muted-foreground: 160 172 164;
+    --accent: 110 156 127;
+    --accent-foreground: 238 240 234;
+    --destructive: 230 110 100;
+    --destructive-foreground: 18 26 22;
+    --border: 44 58 50;
+    --input: 44 58 50;
+    --ring: 143 191 160;
+
+    --forest: 143 191 160;
+    --sage: 143 191 160;
+    --mint: 38 53 46;
+    --cream: 18 26 22;
+    --sand: 92 80 60;
+    --coral: 240 150 122;
+    --lavender: 150 140 200;
+    --ink: 238 240 234;
+    --muted-text: 160 172 164;
+  }
 }
