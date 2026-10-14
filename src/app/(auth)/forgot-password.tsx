@@ -24,7 +24,11 @@ export default function ForgotPasswordScreen() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ForgotValues>({ resolver: zodResolver(forgotSchema), mode: 'onBlur', defaultValues: { email: '' } });
+  } = useForm<ForgotValues>({
+    resolver: zodResolver(forgotSchema),
+    mode: 'onBlur',
+    defaultValues: { email: '' },
+  });
 
   const send = async (email: string) => {
     setError(null);
@@ -42,12 +46,30 @@ export default function ForgotPasswordScreen() {
 
   if (sentTo) {
     return (
-      <AuthScaffold title={t('auth.forgot.sentTitle')} mood="happy" subtitle={t('auth.forgot.sentBody', { email: maskEmail(sentTo) })}>
-        <Button size="lg" onPress={() => router.push({ pathname: '/verify-code', params: { flow: 'reset', email: sentTo } } as Href)}>
+      <AuthScaffold
+        title={t('auth.forgot.sentTitle')}
+        mood="happy"
+        subtitle={t('auth.forgot.sentBody', { email: maskEmail(sentTo) })}
+      >
+        <Button
+          size="lg"
+          onPress={() =>
+            router.push({ pathname: '/verify-code', params: { flow: 'reset', email: sentTo } } as Href)
+          }
+        >
           <Text>{t('auth.forgot.enterCode')}</Text>
         </Button>
-        <Button variant="secondary" disabled={cooldown.left > 0 || loading} loading={loading} onPress={() => send(sentTo)}>
-          <Text>{cooldown.left > 0 ? t('auth.verify.resendIn', { seconds: cooldown.left }) : t('auth.verify.resend')}</Text>
+        <Button
+          variant="secondary"
+          disabled={cooldown.left > 0 || loading}
+          loading={loading}
+          onPress={() => send(sentTo)}
+        >
+          <Text>
+            {cooldown.left > 0
+              ? t('auth.verify.resendIn', { seconds: cooldown.left })
+              : t('auth.verify.resend')}
+          </Text>
         </Button>
         <Button variant="ghost" onPress={() => setSentTo(null)}>
           <Text>{t('auth.forgot.different')}</Text>
@@ -68,7 +90,17 @@ export default function ForgotPasswordScreen() {
     >
       <ErrorBanner message={error} />
       <View>
-        <FormField control={control} name="email" label={t('auth.email')} placeholder={t('auth.emailPh')} keyboardType="email-address" autoCapitalize="none" autoComplete="email" textContentType="emailAddress" error={errors.email?.message ? t(errors.email.message) : undefined} />
+        <FormField
+          control={control}
+          name="email"
+          label={t('auth.email')}
+          placeholder={t('auth.emailPh')}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          textContentType="emailAddress"
+          error={errors.email?.message ? t(errors.email.message) : undefined}
+        />
       </View>
       <Button size="lg" loading={loading} onPress={handleSubmit((v) => send(v.email))}>
         <Text>{t('auth.forgot.send')}</Text>

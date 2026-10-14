@@ -17,7 +17,7 @@ interface Props {
 }
 
 /**
- * Soft warning card – friendly, never alarming. Leaf icon + warm tint + text (not colour alone).
+ * Soft warning card – friendly, never alarming. Solid surface (never glass), `danger` icon + hairline edge + text (not colour alone).
  */
 export function SafetyNotice({ variant = 'inline', title, lines = [], children, className }: Props) {
   const full = variant === 'full';
@@ -26,13 +26,13 @@ export function SafetyNotice({ variant = 'inline', title, lines = [], children, 
       accessible
       accessibilityRole="summary"
       className={cn(
-        'rounded-card border border-sand bg-sand/40',
+        'rounded-card border border-danger/30 bg-bgMist',
         full ? 'gap-3 p-5' : 'gap-1.5 p-4',
         className
       )}
     >
       <View className="flex-row items-center gap-2">
-        <Icon as={Leaf} size={full ? 26 : 20} weight="duotone" className="text-primary" />
+        <Icon as={Leaf} size={full ? 26 : 20} weight="duotone" className="text-danger" />
         {title ? (
           <Text variant={full ? 'heading' : 'label'} className="flex-1">
             {title}

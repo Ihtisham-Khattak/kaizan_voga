@@ -2,7 +2,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollView, View } from 'react-native';
 
 import { Character } from '@/characters/character';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { ConfettiLeaves } from '@/characters/props';
 import { FadeUp } from '@/components/fade-up';
 import { SpeechBubble } from '@/components/speech-bubble';
@@ -72,8 +72,8 @@ export function Scene6({ width, height }: SceneProps) {
       </ScrollView>
 
       {/* Kai's reaction + Continue: a glass footer the goal list scrolls beneath */}
-      <GlassView
-        level="strong"
+      <GlassCard
+        strong
         radii={{ tl: 28, tr: 28 }}
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{
@@ -92,7 +92,7 @@ export function Scene6({ width, height }: SceneProps) {
             <Text>{t('common.continue')}</Text>
           </Button>
         </View>
-      </GlassView>
+      </GlassCard>
     </>
   );
 }

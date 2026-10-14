@@ -7,7 +7,6 @@ import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
 import { CALM_BREATH, type BreathPhase } from '@/lib/breath';
 import { useTheme } from '@/theme/theme-provider';
-import type { Tokens } from '@/theme/tokens';
 
 const MIN_SCALE = 0.62;
 
@@ -16,7 +15,7 @@ interface Props {
   /** Phases in order; defaults to the signature 4 s in / hold / 6 s out. */
   phases?: BreathPhase[];
   running?: boolean;
-  tint?: keyof Pick<Tokens, 'sage' | 'lavender' | 'coral' | 'sand' | 'primary'>;
+  tint?: 'leaf' | 'sky' | 'lavender' | 'sunrise' | 'primary';
   /** Show "Inhale… / Hold… / Exhale…" in the middle. */
   showCue?: boolean;
   /** Softer, more transparent rings – for use as a background behind characters. */
@@ -34,14 +33,14 @@ export function BreathingCircle({
   size = 240,
   phases = CALM_BREATH,
   running = true,
-  tint = 'sage',
+  tint = 'leaf',
   showCue = false,
   soft = false,
   onPhaseChange,
   children,
 }: Props) {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const reduce = useReduceMotion();
   const [index, setIndex] = useState(0);
   const scale = useSharedValue(running ? MIN_SCALE : 0.8);
@@ -82,7 +81,7 @@ export function BreathingCircle({
     opacity: soft ? 0.5 : 0.9,
   }));
 
-  const color = tokens[tint];
+  const color = colors[tint];
   const disc = (d: number) => ({
     position: 'absolute' as const,
     width: d,

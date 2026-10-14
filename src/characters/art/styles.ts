@@ -1,6 +1,7 @@
 import { shade, tint } from './color';
 import type { HumanStyle } from './human';
 import type { Prim } from './types';
+import { art } from '@/theme/illustration';
 
 /**
  * The four humans. Each = the shared body + ONE signature colour + ONE accessory that never changes:
@@ -9,7 +10,7 @@ import type { Prim } from './types';
  *   Hina – lavender scarf / dupatta
  *   Omar – coral t-shirt · headphones around neck
  */
-export const INK = '#24302A';
+export const INK = art.ink;
 const stroke = (d: string, color: string, sw: number, op = 1): Prim => ({
   k: 'path',
   d,
@@ -28,12 +29,12 @@ const crewNeck = (skin: string, edge: string): Prim[] => [
 
 // ───────────────────────── Zara ─────────────────────────
 export const ZARA: HumanStyle = {
-  skin: '#E8B48F',
-  hair: '#3B2A22',
-  top: '#2FA4A0',
+  skin: art.skinZara,
+  hair: art.hairZara,
+  top: art.teal,
   sleeve: 'long',
-  pants: '#38423E',
-  shoes: '#F1ECE2',
+  pants: art.pants,
+  shoes: art.shoe,
   clothing: (c) => [
     ...crewNeck(c.skin, c.topShade),
     stroke('M78 112 Q86 124 82 142', c.topShade, 2, 0.3),
@@ -42,7 +43,7 @@ export const ZARA: HumanStyle = {
   hairFront: (c) => [
     // high bun with a coral hair tie
     { k: 'ellipse', cx: 100, cy: -29, rx: 12.5, ry: 10.5, fill: c.hair },
-    stroke('M89 -25 Q100 -19 111 -25', '#E98A6B', 3),
+    stroke('M89 -25 Q100 -19 111 -25', art.coral, 3),
     stroke('M93 -34 Q100 -37 107 -33', tint(c.hair, 0.35), 2, 0.7),
     // hair swept back from a soft side parting
     {
@@ -54,29 +55,29 @@ export const ZARA: HumanStyle = {
     stroke('M110 -9 Q108 -17 103 -23', tint(c.hair, 0.3), 1.6, 0.55),
   ],
   earAccessory: () => [
-    stroke('M76 24 L75.5 30', '#6E9C7F', 1.6),
-    { k: 'path', d: 'M75.5 29 C68.5 31 68.5 40 74 43.5 C80 40 80 33 75.5 29 Z', fill: '#6E9C7F' },
-    stroke('M75 31 L74.2 41', '#DCEBDF', 1.2, 0.9),
+    stroke('M76 24 L75.5 30', art.sage, 1.6),
+    { k: 'path', d: 'M75.5 29 C68.5 31 68.5 40 74 43.5 C80 40 80 33 75.5 29 Z', fill: art.sage },
+    stroke('M75 31 L74.2 41', art.mint, 1.2, 0.9),
   ],
 };
 
 // ───────────────────────── Ali ─────────────────────────
 export const ALI: HumanStyle = {
-  skin: '#C98F68',
-  hair: '#2B2420',
-  top: '#E2B13C',
-  cuff: '#C79A2B',
+  skin: art.skinAli,
+  hair: art.hairAli,
+  top: art.mustard,
+  cuff: art.cC79A2B,
   sleeve: 'long',
-  pants: '#3F5575',
-  shoes: '#2F2A27',
+  pants: art.c3F5575,
+  shoes: art.c2F2A27,
   clothing: (c) => [
     // hood resting on the shoulders, with a dark opening
     { k: 'path', d: 'M76 60 Q100 84 124 60 Q116 47 100 47 Q84 47 76 60 Z', fill: shade(c.top, 0.18) },
     { k: 'path', d: 'M86 58 Q100 71 114 58 Q100 53 86 58 Z', fill: shade(c.top, 0.5) },
     // drawstrings
-    stroke('M94 70 L92.5 98 M106 70 L107.5 98', '#FAF6EE', 2.4),
-    { k: 'circle', cx: 92.5, cy: 100, r: 2.8, fill: '#FAF6EE' },
-    { k: 'circle', cx: 107.5, cy: 100, r: 2.8, fill: '#FAF6EE' },
+    stroke('M94 70 L92.5 98 M106 70 L107.5 98', art.cream, 2.4),
+    { k: 'circle', cx: 92.5, cy: 100, r: 2.8, fill: art.cream },
+    { k: 'circle', cx: 107.5, cy: 100, r: 2.8, fill: art.cream },
     // kangaroo pocket
     { k: 'path', d: 'M78 136 L122 136 L129 170 L71 170 Z', fill: shade(c.top, 0.1), op: 0.8 },
     stroke('M78 136 L71 170 M122 136 L129 170', shade(c.top, 0.3), 1.6, 0.5),
@@ -98,8 +99,8 @@ export const ALI: HumanStyle = {
     },
   ],
   faceOverlay: () => [
-    { k: 'circle', cx: 34, cy: 48, r: 12.5, fill: '#FFFFFF', op: 0.1 },
-    { k: 'circle', cx: 66, cy: 48, r: 12.5, fill: '#FFFFFF', op: 0.1 },
+    { k: 'circle', cx: 34, cy: 48, r: 12.5, fill: art.white, op: 0.1 },
+    { k: 'circle', cx: 66, cy: 48, r: 12.5, fill: art.white, op: 0.1 },
     { k: 'circle', cx: 34, cy: 48, r: 12.5, stroke: INK, sw: 3, fill: 'none' },
     { k: 'circle', cx: 66, cy: 48, r: 12.5, stroke: INK, sw: 3, fill: 'none' },
     stroke('M46.5 46 Q50 43 53.5 46', INK, 2.6),
@@ -109,12 +110,12 @@ export const ALI: HumanStyle = {
 
 // ───────────────────────── Hina ─────────────────────────
 export const HINA: HumanStyle = {
-  skin: '#D9A27B',
-  hair: '#2F2420',
-  top: '#EFE6D6',
+  skin: art.skinHina,
+  hair: art.hairHina,
+  top: art.cEFE6D6,
   sleeve: 'long',
-  pants: '#8E8470',
-  shoes: '#6B5445',
+  pants: art.c8E8470,
+  shoes: art.c6B5445,
   behind: (c) => [
     // long hair falling behind the shoulders
     {
@@ -126,11 +127,11 @@ export const HINA: HumanStyle = {
   clothing: (c) => [
     ...crewNeck(c.skin, c.topShade),
     // lavender dupatta: wrapped round the neck, one long drape over the shoulder
-    { k: 'path', d: 'M69 60 Q100 84 131 60 L135 76 Q100 100 65 76 Z', fill: '#B9AEE0' },
-    { k: 'path', d: 'M69 62 Q50 108 55 182 L80 188 Q74 122 94 86 Z', fill: '#B9AEE0' },
-    { k: 'path', d: 'M69 62 Q50 108 55 182 L62 183 Q58 112 74 70 Z', fill: shade('#B9AEE0', 0.12), op: 0.7 },
-    stroke('M62 96 Q58 136 64 176', '#E4DEF6', 3, 0.85),
-    stroke('M66 76 Q100 100 134 76', '#E4DEF6', 2, 0.7),
+    { k: 'path', d: 'M69 60 Q100 84 131 60 L135 76 Q100 100 65 76 Z', fill: art.lilac },
+    { k: 'path', d: 'M69 62 Q50 108 55 182 L80 188 Q74 122 94 86 Z', fill: art.lilac },
+    { k: 'path', d: 'M69 62 Q50 108 55 182 L62 183 Q58 112 74 70 Z', fill: shade(art.lilac, 0.12), op: 0.7 },
+    stroke('M62 96 Q58 136 64 176', art.lilacSoft, 3, 0.85),
+    stroke('M66 76 Q100 100 134 76', art.lilacSoft, 2, 0.7),
   ],
   frontHair: (c) => [
     { k: 'path', d: 'M79 28 C72 52 71 80 77 102 C81 107 88 103 88 96 C84 78 86 54 88 34 Z', fill: c.hair },
@@ -153,22 +154,22 @@ export const HINA: HumanStyle = {
 
 // ───────────────────────── Omar ─────────────────────────
 export const OMAR: HumanStyle = {
-  skin: '#F0C3A0',
-  hair: '#4A3226',
-  top: '#E98A6B',
+  skin: art.skinOmar,
+  hair: art.hairOmar,
+  top: art.coral,
   sleeve: 'short',
-  pants: '#3D4651',
-  shoes: '#F1ECE2',
+  pants: art.c3D4651,
+  shoes: art.shoe,
   clothing: (c) => [
     ...crewNeck(c.skin, c.topShade),
     // headphones resting around the neck: band behind the head, ear cups on the chest
-    stroke('M86 104 Q78 74 91 57 M114 104 Q122 74 109 57', '#2F3A35', 4.5),
-    { k: 'rect', x: 74, y: 98, w: 20, h: 28, rx: 9, fill: '#2F3A35' },
-    { k: 'rect', x: 106, y: 98, w: 20, h: 28, rx: 9, fill: '#2F3A35' },
-    { k: 'rect', x: 78, y: 103, w: 12, h: 18, rx: 6, fill: '#4D5C54' },
-    { k: 'rect', x: 110, y: 103, w: 12, h: 18, rx: 6, fill: '#4D5C54' },
-    { k: 'circle', cx: 84, cy: 112, r: 2.6, fill: '#E98A6B' },
-    { k: 'circle', cx: 116, cy: 112, r: 2.6, fill: '#E98A6B' },
+    stroke('M86 104 Q78 74 91 57 M114 104 Q122 74 109 57', art.charcoal, 4.5),
+    { k: 'rect', x: 74, y: 98, w: 20, h: 28, rx: 9, fill: art.charcoal },
+    { k: 'rect', x: 106, y: 98, w: 20, h: 28, rx: 9, fill: art.charcoal },
+    { k: 'rect', x: 78, y: 103, w: 12, h: 18, rx: 6, fill: art.slate },
+    { k: 'rect', x: 110, y: 103, w: 12, h: 18, rx: 6, fill: art.slate },
+    { k: 'circle', cx: 84, cy: 112, r: 2.6, fill: art.coral },
+    { k: 'circle', cx: 116, cy: 112, r: 2.6, fill: art.coral },
   ],
   hairFront: (c) => [
     {

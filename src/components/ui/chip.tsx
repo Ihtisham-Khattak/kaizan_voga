@@ -34,15 +34,13 @@ function Chip({ label, selected = false, icon, className, onPress, ...props }: C
         }}
         className={cn(
           'min-h-11 flex-row items-center justify-center gap-1.5 rounded-pill border-2 px-4 py-2',
-          selected ? 'border-sage bg-secondary' : 'border-transparent bg-secondary/60 active:bg-secondary',
+          selected ? 'border-leaf bg-secondary' : 'border-transparent bg-secondary/60 active:bg-secondary',
           className
         )}
         {...props}
       >
         {selected ? <Icon as={Check} size={16} weight="bold" className="text-primary" /> : icon}
-        <Text variant="label" className="text-kz-caption">
-          {label}
-        </Text>
+        <Text variant="callout">{label}</Text>
       </Pressable>
     </TextClassContext.Provider>
   );

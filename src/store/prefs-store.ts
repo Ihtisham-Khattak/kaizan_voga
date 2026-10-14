@@ -17,6 +17,8 @@ import type {
 
 export interface Prefs {
   name: string;
+  /** Which illustrated companion shows on the Profile. */
+  avatar: 'zara' | 'ali' | 'hina' | 'omar';
   goals: Goal[];
   experience: Experience | null;
   minutesPerDay: 5 | 10 | 15 | 20;
@@ -41,6 +43,7 @@ interface PrefsState extends Prefs {
 
 export const defaultPrefs: Prefs = {
   name: '',
+  avatar: 'zara',
   goals: [],
   experience: null,
   minutesPerDay: 10,
@@ -58,6 +61,7 @@ export const defaultPrefs: Prefs = {
     time: '08:00',
     days: [1, 2, 3, 4, 5],
     quietHours: { enabled: true, from: '21:30', to: '07:00' },
+    tone: 'bell',
   },
 };
 

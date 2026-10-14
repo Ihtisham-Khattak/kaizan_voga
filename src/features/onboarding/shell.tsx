@@ -5,7 +5,7 @@ import { I18nManager, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Blob } from '@/components/cover-art';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { FadeUp } from '@/components/fade-up';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -54,7 +54,7 @@ export function PersonalizationShell({
   secondary,
 }: Props) {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const index = stepIndex(step);
   const progress = index / (STEPS.length - 1);
@@ -71,10 +71,10 @@ export function PersonalizationShell({
     <View className="flex-1 bg-background">
       {/* soft organic backdrop */}
       <View style={{ position: 'absolute', end: -60, top: -40 }} pointerEvents="none">
-        <Blob color={tokens.sage} size={260} opacity={0.12} />
+        <Blob color={colors.leaf} size={260} opacity={0.12} />
       </View>
       <View style={{ position: 'absolute', start: -70, bottom: 120 }} pointerEvents="none">
-        <Blob color={tokens.sand} size={220} opacity={0.22} />
+        <Blob color={colors.sunriseSoft} size={220} opacity={0.22} />
       </View>
 
       {/* header: back · progress · skip */}
@@ -108,7 +108,7 @@ export function PersonalizationShell({
             from={{ width: `${Math.max(0, (index - 1) / (STEPS.length - 1)) * 100}%` }}
             animate={{ width: `${Math.max(progress, 0.04) * 100}%` }}
             transition={{ type: 'timing', duration: 600 }}
-            style={{ height: '100%', borderRadius: 999, backgroundColor: tokens.sage }}
+            style={{ height: '100%', borderRadius: 999, backgroundColor: colors.leaf }}
           />
         </View>
 
@@ -140,9 +140,7 @@ export function PersonalizationShell({
       >
         <View className="gap-2">
           <FadeUp>
-            <Text variant="display" className="text-kz-title">
-              {title}
-            </Text>
+            <Text variant="display">{title}</Text>
           </FadeUp>
           {subtitle ? (
             <FadeUp delay={120}>
@@ -156,10 +154,9 @@ export function PersonalizationShell({
       </ScrollView>
 
       {/* pinned glass footer: Kai's reaction + Continue (content scrolls and blurs underneath) */}
-      <GlassView
-        level="strong"
+      <GlassCard
+        strong
         radii={{ tl: 28, tr: 28 }}
-        border
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{ paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(insets.bottom, 16) }}
       >
@@ -175,7 +172,7 @@ export function PersonalizationShell({
             </Button>
           ) : null}
         </View>
-      </GlassView>
+      </GlassCard>
     </View>
   );
 }

@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Character } from '@/characters/character';
 import { ConfettiLeaves, SceneBackground } from '@/characters/props';
 import { FadeUp } from '@/components/fade-up';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
@@ -36,34 +36,49 @@ export default function GateScreen() {
   };
 
   return (
-    <View className="bg-background flex-1">
+    <View className="flex-1 bg-background">
       <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : ['#CFE6D6', '#FAF6EE']} />
       <ConfettiLeaves width={width} height={height} count={7} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom + 28, paddingHorizontal: 16, gap: 16 }}
+        contentContainerStyle={{
+          paddingTop: insets.top + 24,
+          paddingBottom: insets.bottom + 28,
+          paddingHorizontal: 16,
+          gap: 16,
+        }}
       >
         <FadeUp className="items-center gap-2">
           <Character name="kai" pose="celebrate" mood="happy" size={128} />
-          <GlassView level="subtle" radius={16} shadow={false} contentStyle={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 8 }}>
+          <GlassCard
+            radius={16}
+            shadow={false}
+            contentStyle={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+            }}
+          >
             <Icon as={Leaf} size={16} weight="duotone" className="text-primary" />
             <Text variant="caption" className="text-foreground">
               {t('auth.gate.planChip', { minutes })}
             </Text>
-          </GlassView>
+          </GlassCard>
         </FadeUp>
 
         <FadeUp delay={150} className="gap-1.5 px-2">
-          <Text variant="display" className="text-kz-title text-center">
+          <Text variant="title1" className="text-center">
             {t('auth.gate.title')}
           </Text>
-          <Text variant="body" className="text-muted-foreground text-center">
+          <Text variant="body" className="text-center text-muted-foreground">
             {t('auth.gate.body')}
           </Text>
         </FadeUp>
 
         <FadeUp delay={300}>
-          <GlassView level="strong" radius={28} contentStyle={{ padding: 18, gap: 12 }}>
+          <GlassCard strong radius={28} contentStyle={{ padding: 18, gap: 12 }}>
             <Button size="lg" onPress={() => router.push('/sign-up')}>
               <Text>{t('auth.gate.signUp')}</Text>
             </Button>
@@ -78,17 +93,25 @@ export default function GateScreen() {
             <Text variant="caption" className="text-center">
               {t('auth.gate.guestHint')}
             </Text>
-          </GlassView>
+          </GlassCard>
         </FadeUp>
 
         <FadeUp delay={450} className="px-4">
           <Text variant="caption" className="text-center">
             {t('auth.gate.legal')}{' '}
-            <RNText onPress={() => router.push('/settings/terms')} style={{ textDecorationLine: 'underline' }} accessibilityRole="link">
+            <RNText
+              onPress={() => router.push('/settings/terms')}
+              style={{ textDecorationLine: 'underline' }}
+              accessibilityRole="link"
+            >
               {t('auth.gate.terms')}
             </RNText>{' '}
             {t('auth.gate.and')}{' '}
-            <RNText onPress={() => router.push('/settings/privacy')} style={{ textDecorationLine: 'underline' }} accessibilityRole="link">
+            <RNText
+              onPress={() => router.push('/settings/privacy')}
+              style={{ textDecorationLine: 'underline' }}
+              accessibilityRole="link"
+            >
               {t('auth.gate.privacy')}
             </RNText>
           </Text>

@@ -38,10 +38,10 @@ export default function SafetyScreen() {
         <Character name="kai" pose="float" mood="calm" size={120} />
       </View>
 
-      <View className="border-sand bg-sand/40 gap-4 rounded-card border p-5">
+      <View className="gap-4 rounded-card border border-danger/30 bg-bgMist p-5">
         {ROWS.map((r, i) => (
           <FadeUp key={r.key} delay={150 + i * 120} distance={10} className="flex-row items-start gap-3">
-            <View className="bg-card size-10 items-center justify-center rounded-full">
+            <View className="size-10 items-center justify-center rounded-full bg-card">
               <Icon as={r.icon} size={22} weight="duotone" className="text-primary" />
             </View>
             <Text variant="body" className="flex-1">
@@ -58,8 +58,12 @@ export default function SafetyScreen() {
           accessibilityLabel={t('onboardingR.safety.understand')}
           accessibilityHint={t('onboardingR.safety.hint')}
         />
-        <Pressable onPress={() => setChecked((c) => !c)} className="min-h-11 flex-1 justify-center" accessibilityRole="button">
-          <Text variant="label" className="text-kz-lead">
+        <Pressable
+          onPress={() => setChecked((c) => !c)}
+          className="min-h-11 flex-1 justify-center"
+          accessibilityRole="button"
+        >
+          <Text variant="bodyLarge" className="font-sans-semibold">
             {t('onboardingR.safety.understand')}
           </Text>
         </Pressable>

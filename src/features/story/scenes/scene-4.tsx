@@ -16,6 +16,7 @@ import { useTheme } from '@/theme/theme-provider';
 
 import { dir, Entrance, SceneCTA, SceneScroll, SceneTitle, stageWidth } from '../stage';
 import type { SceneProps } from '../types';
+import { art } from '@/theme/illustration';
 
 const cfg = scenes[4];
 const NODE = 30;
@@ -32,7 +33,7 @@ function MilestoneRow({
   isLast: boolean;
 }) {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const reduce = useReduceMotion();
   const [h, setH] = useState(0);
 
@@ -48,14 +49,14 @@ function MilestoneRow({
             width: 3,
             height: Math.max(0, h - NODE),
             borderRadius: 2,
-            backgroundColor: tokens.border,
+            backgroundColor: colors.hairline,
             overflow: 'hidden',
           }}
         >
           <MotiView
             animate={{ height: nextLit ? Math.max(0, h - NODE) : 0 }}
             transition={{ type: 'timing', duration: reduce ? 200 : 700 }}
-            style={{ width: 3, backgroundColor: tokens.sage }}
+            style={{ width: 3, backgroundColor: colors.leaf }}
           />
         </View>
       ) : null}
@@ -72,19 +73,19 @@ function MilestoneRow({
               width: NODE,
               height: NODE,
               borderRadius: NODE / 2,
-              backgroundColor: tokens.sage,
+              backgroundColor: colors.leaf,
             }}
           />
         ) : null}
         <MotiView
-          animate={{ scale: lit ? 1 : 0.9, backgroundColor: lit ? tokens.sage : tokens.card }}
+          animate={{ scale: lit ? 1 : 0.9, backgroundColor: lit ? colors.leaf : colors.bgMist }}
           transition={{ type: 'spring', ...spring.pop }}
           style={{
             width: NODE,
             height: NODE,
             borderRadius: NODE / 2,
             borderWidth: 2,
-            borderColor: lit ? tokens.sage : tokens.border,
+            borderColor: lit ? colors.leaf : colors.hairline,
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -93,7 +94,7 @@ function MilestoneRow({
             animate={{ scale: lit ? 1 : 0, rotate: lit ? '0deg' : '-40deg' }}
             transition={{ type: 'spring', ...spring.pop, delay: 120 }}
           >
-            <KaizenIcon name="leaf" size={16} color="#121A16" strokeWidth={2} />
+            <KaizenIcon name="leaf" size={16} color={art.night} strokeWidth={2} />
           </MotiView>
         </MotiView>
       </View>
@@ -108,7 +109,7 @@ function MilestoneRow({
             {t('story.s4.week', { n: m.week })}
           </Text>
         </View>
-        <Text variant="label" className="pt-1 text-kz-lead">
+        <Text variant="bodyLarge" className="pt-1 font-sans-semibold">
           {t(m.titleKey)}
         </Text>
         <Text variant="caption">{t(m.subKey)}</Text>

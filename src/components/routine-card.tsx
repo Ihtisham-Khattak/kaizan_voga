@@ -36,12 +36,12 @@ export function RoutineCard({ routine: r, variant = 'tile', downloaded, onPress,
         <Text>{t(`level.${r.level}`)}</Text>
       </Badge>
       {r.goals[0] ? (
-        <Badge variant={r.kind === 'sleep' ? 'lavender' : 'coral'}>
+        <Badge variant={r.kind === 'sleep' ? 'lavender' : 'sky'}>
           <Text>{t(`goal.${r.goals[0]}`)}</Text>
         </Badge>
       ) : null}
       {downloaded ? (
-        <Badge variant="sand" accessibilityLabel={t('cards.downloaded')}>
+        <Badge variant="secondary" accessibilityLabel={t('cards.downloaded')}>
           <Icon as={ArrowDown} size={14} weight="bold" />
         </Badge>
       ) : null}

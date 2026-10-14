@@ -5,8 +5,9 @@ import { ActivityIndicator, Platform, Pressable, type GestureResponderEvent } fr
 import { TextClassContext } from '@/components/ui/text';
 import { haptic } from '@/lib/haptics';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/theme/theme-provider';
 
-/** Pills (radius 999), min height 48, 44px+ touch target at every size. */
+/** Pills (radius 999), min height 48, 44px+ touch target at every size. Text = `button` style (17/22 600). */
 const buttonVariants = cva(
   cn(
     'group shrink-0 flex-row items-center justify-center gap-2 rounded-pill',
@@ -17,16 +18,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // forest — primary actions
+        // primary actions (soft green glow, see Button)
         default: 'bg-primary active:bg-primary/90',
         // mint — secondary
-        secondary: 'bg-secondary active:bg-secondary/80',
-        outline: 'border border-border bg-card active:bg-secondary/60',
-        ghost: 'active:bg-secondary/70',
-        // coral — gentle highlight CTAs
-        coral: 'bg-coral active:bg-coral/90',
-        // soft red wash, never an alarming solid
-        destructive: 'bg-destructive/10 active:bg-destructive/20',
+        secondary: 'bg-mint active:bg-mint/80',
+        outline: 'border border-hairline bg-bg active:bg-mint',
+        ghost: 'active:bg-mint',
+        // sunrise — celebration CTAs only
+        sunrise: 'bg-sunriseSoft active:bg-sunriseSoft/80',
+        // soft danger wash, never an alarming solid
+        destructive: 'bg-danger/10 active:bg-danger/20',
         link: '',
       },
       size: {
@@ -40,18 +41,19 @@ const buttonVariants = cva(
   }
 );
 
-const buttonTextVariants = cva('font-sans-semibold text-kz-body', {
+// every button uses the `button` text style (Jakarta 17/22 600)
+const buttonTextVariants = cva('font-sans-semibold text-kz-button', {
   variants: {
     variant: {
-      default: 'text-primary-foreground',
-      secondary: 'text-secondary-foreground',
-      outline: 'text-foreground',
+      default: 'text-onPrimary',
+      secondary: 'text-forest',
+      outline: 'text-ink',
       ghost: 'text-primary',
-      coral: 'text-[#24302A]', // ink on coral: AA in both modes
-      destructive: 'text-destructive',
+      sunrise: 'text-sunriseInk',
+      destructive: 'text-danger',
       link: cn('text-primary group-active:underline', Platform.select({ web: 'hover:underline' })),
     },
-    size: { default: '', sm: 'text-kz-caption', lg: 'text-kz-lead', icon: '' },
+    size: { default: '', sm: '', lg: '', icon: '' },
   },
   defaultVariants: { variant: 'default', size: 'default' },
 });
@@ -75,6 +77,7 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
+  const { shadows } = useTheme();
   const isDisabled = disabled || loading;
   const handlePress = (e: GestureResponderEvent) => {
     if (haptics) haptic.light();
@@ -89,6 +92,11 @@ function Button({
         aria-busy={loading}
         aria-disabled={isDisabled}
         onPress={handlePress}
+        // soft green glow under primary buttons
+        style={[
+          !isDisabled && (variant === undefined || variant === 'default') ? shadows.glow : null,
+          props.style as never,
+        ]}
         {...props}
       >
         {loading ? <ActivityIndicator size="small" /> : null}

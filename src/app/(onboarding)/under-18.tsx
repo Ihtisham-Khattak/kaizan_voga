@@ -13,13 +13,16 @@ export default function Under18Screen() {
   const { t } = useT();
   const insets = useSafeAreaInsets();
   return (
-    <View className="bg-background flex-1 items-center justify-center gap-5 px-8" style={{ paddingBottom: insets.bottom + 24 }}>
+    <View
+      className="flex-1 items-center justify-center gap-5 bg-background px-8"
+      style={{ paddingBottom: insets.bottom + 24 }}
+    >
       <Character name="kai" pose="float" mood="tired" size={190} />
       <FadeUp delay={150} className="items-center gap-2">
         <Text variant="title" className="text-center">
           {t('onboardingR.age.underTitle')}
         </Text>
-        <Text variant="body" className="text-muted-foreground text-center">
+        <Text variant="body" className="text-center text-muted-foreground">
           {t('onboardingR.age.underBody')}
         </Text>
       </FadeUp>

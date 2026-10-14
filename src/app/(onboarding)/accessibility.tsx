@@ -34,8 +34,15 @@ export default function AccessibilityScreen() {
       reaction={limitations.length > 0 ? t('onboardingQ.accessibility.reaction') : null}
     >
       <FadeUp delay={100}>
-        <SafetyNotice title={t('onboardingQ.accessibility.whyTitle')} lines={[t('onboardingQ.accessibility.whyBody')]}>
-          <Pressable onPress={() => router.push('/settings/privacy')} accessibilityRole="link" className="min-h-11 justify-center">
+        <SafetyNotice
+          title={t('onboardingQ.accessibility.whyTitle')}
+          lines={[t('onboardingQ.accessibility.whyBody')]}
+        >
+          <Pressable
+            onPress={() => router.push('/settings/privacy')}
+            accessibilityRole="link"
+            className="min-h-11 justify-center"
+          >
             <Text variant="label" className="text-primary underline">
               {t('onboardingQ.accessibility.learnMore')}
             </Text>
@@ -43,10 +50,10 @@ export default function AccessibilityScreen() {
         </SafetyNotice>
       </FadeUp>
 
-      <View className="bg-card border-border overflow-hidden rounded-card border" role="group">
+      <View className="overflow-hidden rounded-card border border-border bg-card" role="group">
         {OPTIONS.map((l, i) => (
           <FadeUp key={l} delay={200 + i * 60} distance={10}>
-            <View className={i > 0 ? 'border-border border-t' : undefined}>
+            <View className={i > 0 ? 'border-t border-border' : undefined}>
               <View className="min-h-16 flex-row items-center gap-3 px-4 py-3">
                 <Text variant="body" className="flex-1">
                   {t(`onboardingQ.accessibility.${l}`)}

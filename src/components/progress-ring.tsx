@@ -4,7 +4,6 @@ import Animated, { Easing, useAnimatedProps, useSharedValue, withTiming } from '
 import Svg, { Circle } from 'react-native-svg';
 
 import { useTheme } from '@/theme/theme-provider';
-import type { Tokens } from '@/theme/tokens';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -13,7 +12,7 @@ interface Props {
   progress: number;
   size?: number;
   strokeWidth?: number;
-  color?: keyof Pick<Tokens, 'sage' | 'coral' | 'primary' | 'lavender'>;
+  color?: 'leaf' | 'sunrise' | 'primary' | 'lavender' | 'sky';
   /** Animation length for each progress change. Use ~1000 + linear for per-second countdowns. */
   duration?: number;
   linear?: boolean;
@@ -27,13 +26,13 @@ export function ProgressRing({
   progress,
   size = 96,
   strokeWidth = 10,
-  color = 'sage',
+  color = 'leaf',
   duration = 600,
   linear = false,
   children,
   accessibilityLabel,
 }: Props) {
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const r = (size - strokeWidth) / 2;
   const c = 2 * Math.PI * r;
   const p = useSharedValue(Math.min(1, Math.max(0, progress)));
@@ -60,7 +59,7 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke={tokens.secondary}
+          stroke={colors.mint}
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -68,7 +67,7 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke={tokens[color]}
+          stroke={colors[color]}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={c}

@@ -8,7 +8,7 @@ import { Character } from '@/characters/character';
 import { ConfettiLeaves, SceneBackground } from '@/characters/props';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { FadeUp } from '@/components/fade-up';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { RoutineCard } from '@/components/routine-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -40,7 +40,7 @@ function Loader() {
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 28 }}
     >
       <View style={{ width: 240, height: 240 }} className="items-center justify-center">
-        <BreathingCircle size={240} soft tint="sage" />
+        <BreathingCircle size={240} soft tint="leaf" />
         <View style={{ position: 'absolute' }}>
           <Character name="kai" pose="float" mood="calm" size={120} />
         </View>
@@ -103,13 +103,13 @@ function Summary() {
     >
       <FadeUp className="items-center gap-1">
         <Character name="kai" pose="celebrate" mood="happy" size={120} />
-        <Text variant="display" className="text-center text-kz-title">
+        <Text variant="display" className="text-center">
           {t('onboardingR.plan.title')}
         </Text>
       </FadeUp>
 
       <FadeUp delay={200}>
-        <GlassView level="strong" radius={28} contentStyle={{ padding: 20, gap: 18 }}>
+        <GlassCard strong radius={28} contentStyle={{ padding: 20, gap: 18 }}>
           <Row label={t('onboardingR.plan.focus')}>
             <View className="flex-row flex-wrap gap-2">
               {(prefs.goals.length ? prefs.goals : (['gentle'] as const)).map((g) => (
@@ -161,7 +161,7 @@ function Summary() {
           <Row label={t('onboardingR.plan.first')}>
             <RoutineCard variant="row" routine={routine} />
           </Row>
-        </GlassView>
+        </GlassCard>
       </FadeUp>
 
       <FadeUp delay={500} className="gap-2">

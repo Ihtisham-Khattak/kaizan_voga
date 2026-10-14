@@ -11,7 +11,7 @@ function Input({ className, invalid, style, ...props }: InputProps) {
   return (
     <TextInput
       className={cn(
-        'min-h-14 w-full flex-row items-center rounded-2xl border bg-card px-4 py-3 font-sans text-kz-lead text-foreground',
+        'min-h-14 w-full flex-row items-center rounded-2xl border bg-card px-4 py-3 font-sans text-kz-body-large text-foreground',
         invalid ? 'border-destructive' : 'border-input focus:border-ring',
         props.editable === false && 'opacity-50',
         Platform.select({

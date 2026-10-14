@@ -47,12 +47,15 @@ export function OptionCard({ title, subtitle, selected, onPress, leading, multi,
           }}
           className={cn(
             'min-h-16 flex-row items-center gap-3 rounded-card border-2 px-4 py-3 active:opacity-90',
-            selected ? 'border-sage bg-secondary' : 'border-border bg-card'
+            selected ? 'border-leaf bg-secondary' : 'border-border bg-card'
           )}
         >
           {leading ? <View className="size-12 items-center justify-center">{leading}</View> : null}
           <View className="flex-1 gap-0.5">
-            <Text variant="label" className={cn('text-kz-lead', selected && 'text-secondary-foreground')}>
+            <Text
+              variant="bodyLarge"
+              className={cn('font-sans-semibold', selected && 'text-secondary-foreground')}
+            >
               {title}
             </Text>
             {subtitle ? <Text variant="caption">{subtitle}</Text> : null}
@@ -61,10 +64,10 @@ export function OptionCard({ title, subtitle, selected, onPress, leading, multi,
             className={cn(
               'size-7 items-center justify-center border-2',
               multi ? 'rounded-lg' : 'rounded-full',
-              selected ? 'border-sage bg-sage' : 'border-border bg-transparent'
+              selected ? 'border-leaf bg-leaf' : 'border-border bg-transparent'
             )}
           >
-            {selected ? <Icon as={Check} size={16} weight="bold" className="text-[#121A16]" /> : null}
+            {selected ? <Icon as={Check} size={16} weight="bold" className="text-onLeaf" /> : null}
           </View>
         </Pressable>
       </MotiView>

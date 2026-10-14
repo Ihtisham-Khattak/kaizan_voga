@@ -16,8 +16,17 @@ import { resetSchema, type ResetValues } from '@/lib/validation';
 
 function Rule({ ok, label }: { ok: boolean; label: string }) {
   return (
-    <View className="flex-row items-center gap-2" accessible accessibilityLabel={`${label}: ${ok ? '✓' : '–'}`}>
-      <Icon as={ok ? CheckCircle : MinusCircle} size={18} weight={ok ? 'fill' : 'regular'} className={ok ? 'text-primary' : 'text-muted-foreground'} />
+    <View
+      className="flex-row items-center gap-2"
+      accessible
+      accessibilityLabel={`${label}: ${ok ? '✓' : '–'}`}
+    >
+      <Icon
+        as={ok ? CheckCircle : MinusCircle}
+        size={18}
+        weight={ok ? 'fill' : 'regular'}
+        className={ok ? 'text-primary' : 'text-muted-foreground'}
+      />
       <Text variant="caption" className={ok ? 'text-foreground' : undefined}>
         {label}
       </Text>
@@ -34,14 +43,23 @@ export default function ResetPasswordScreen() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ResetValues>({ resolver: zodResolver(resetSchema), mode: 'onBlur', defaultValues: { password: '', confirm: '' } });
+  } = useForm<ResetValues>({
+    resolver: zodResolver(resetSchema),
+    mode: 'onBlur',
+    defaultValues: { password: '', confirm: '' },
+  });
   const pw = useWatch({ control, name: 'password' });
   const confirm = useWatch({ control, name: 'confirm' });
   const msg = (k?: string) => (k ? t(k) : undefined);
 
   if (done) {
     return (
-      <AuthScaffold hideBack title={t('auth.reset.doneTitle')} subtitle={t('auth.reset.doneBody')} mood="happy">
+      <AuthScaffold
+        hideBack
+        title={t('auth.reset.doneTitle')}
+        subtitle={t('auth.reset.doneBody')}
+        mood="happy"
+      >
         <Button size="lg" onPress={() => router.replace('/sign-in')}>
           <Text>{t('auth.reset.backToSignIn')}</Text>
         </Button>
@@ -52,10 +70,26 @@ export default function ResetPasswordScreen() {
   return (
     <AuthScaffold title={t('auth.reset.title')} subtitle={t('auth.reset.subtitle')}>
       <View className="gap-2">
-        <FormField control={control} name="password" label={t('auth.reset.newPassword')} password autoComplete="new-password" textContentType="newPassword" error={msg(errors.password?.message)} />
+        <FormField
+          control={control}
+          name="password"
+          label={t('auth.reset.newPassword')}
+          password
+          autoComplete="new-password"
+          textContentType="newPassword"
+          error={msg(errors.password?.message)}
+        />
         <PasswordStrength password={pw} />
       </View>
-      <FormField control={control} name="confirm" label={t('auth.reset.confirm')} password autoComplete="new-password" textContentType="newPassword" error={msg(errors.confirm?.message)} />
+      <FormField
+        control={control}
+        name="confirm"
+        label={t('auth.reset.confirm')}
+        password
+        autoComplete="new-password"
+        textContentType="newPassword"
+        error={msg(errors.confirm?.message)}
+      />
       <View className="gap-1.5">
         <Rule ok={pw.length >= 8} label={t('auth.reset.ruleLength')} />
         <Rule ok={/[a-z]/i.test(pw) && /\d/.test(pw)} label={t('auth.reset.ruleMix')} />

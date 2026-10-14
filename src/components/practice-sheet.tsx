@@ -27,7 +27,7 @@ function Row({
   onPress: () => void;
   play?: boolean;
 }) {
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   return (
     <Pressable
       onPress={() => {
@@ -42,11 +42,11 @@ function Row({
         {icon === 'play' ? (
           <Icon as={Play} size={22} weight="fill" className="text-primary" />
         ) : (
-          <KaizenIcon name={icon} size={26} color={tokens.primary} />
+          <KaizenIcon name={icon} size={26} color={colors.primary} />
         )}
       </View>
       <View className="flex-1">
-        <Text variant="label" className="text-kz-lead">
+        <Text variant="bodyLarge" className="font-sans-semibold">
           {title}
         </Text>
         <Text variant="caption">{sub}</Text>
@@ -74,7 +74,7 @@ export function PracticeSheet() {
   };
 
   return (
-    <BottomSheet visible={open} onClose={close} title={t('practice.title')}>
+    <BottomSheet visible={open} onClose={close} title={t('practice.title')} snapPoints={[420]}>
       <View className="pb-2">
         <Row
           icon="practice"

@@ -12,6 +12,7 @@ import type { Mood } from '@/store/types';
 
 import { blush, faceInk } from '../palette';
 import { MOOD_PARAMS } from './mood-params';
+import { art } from '@/theme/illustration';
 
 export { MOOD_PARAMS };
 
@@ -144,8 +145,8 @@ export function Face({ mood, blink = false, closed = false, boost = 1, noseColor
       <AnimatedCircle animatedProps={rightEye} cx={66} cy={48} fill={faceInk} />
       {noseColor ? (
         <>
-          <AnimatedCircle animatedProps={leftShine} fill="#FFFFFF" opacity={0.9} />
-          <AnimatedCircle animatedProps={rightShine} fill="#FFFFFF" opacity={0.9} />
+          <AnimatedCircle animatedProps={leftShine} fill={art.white} opacity={0.9} />
+          <AnimatedCircle animatedProps={rightShine} fill={art.white} opacity={0.9} />
         </>
       ) : null}
       <AnimatedPath

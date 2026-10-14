@@ -15,6 +15,7 @@ import type { Mood } from '@/store/types';
 import { Face } from './engine/face';
 import { faceInk } from './palette';
 import type { KaiPose } from './types';
+import { art } from '@/theme/illustration';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -23,9 +24,9 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
  * Canvas: viewBox "0 0 160 180". Not a human: no limbs, just two leaf "hands".
  */
 export const KAI_VIEWBOX = '0 0 160 180';
-const SAGE = '#6E9C7F';
-const SAGE_LIGHT = '#8FBFA0';
-const SAGE_DARK = '#58866A';
+const SAGE = art.sage;
+const SAGE_LIGHT = art.sageLight;
+const SAGE_DARK = art.sageDark;
 
 const Sparkle = ({ x, y, color, s = 1 }: { x: number; y: number; color: string; s?: number }) => (
   <G transform={`translate(${x} ${y}) scale(${s})`}>
@@ -122,7 +123,7 @@ export function Kai({ pose, mood, animated }: Props) {
       <Path d="M80 56 C58 52 46 34 52 16 C72 20 86 36 80 56 Z" fill={SAGE_DARK} />
       <Path d="M80 56 C102 52 114 34 108 16 C88 20 74 36 80 56 Z" fill={SAGE_DARK} />
       <Path d="M80 56 C70 40 72 24 80 12 C88 24 90 40 80 56 Z" fill={SAGE_LIGHT} />
-      <Path d="M80 54 L80 22" stroke="#DCEBDF" strokeWidth={1.6} strokeLinecap="round" opacity={0.7} />
+      <Path d="M80 54 L80 22" stroke={art.mint} strokeWidth={1.6} strokeLinecap="round" opacity={0.7} />
 
       {/* face: same system as the humans */}
       <G transform="translate(40 58) scale(0.8)">
@@ -151,22 +152,22 @@ export function Kai({ pose, mood, animated }: Props) {
       {/* pose extras */}
       {celebrate ? (
         <>
-          <Sparkle x={20} y={44} color="#E98A6B" s={1.1} />
-          <Sparkle x={142} y={32} color="#EED9B7" />
-          <Sparkle x={146} y={96} color="#B9AEE0" s={0.9} />
-          <Sparkle x={14} y={100} color="#EED9B7" s={0.8} />
-          <Sparkle x={80} y={4} color="#E98A6B" s={0.8} />
+          <Sparkle x={20} y={44} color={art.coral} s={1.1} />
+          <Sparkle x={142} y={32} color={art.sand} />
+          <Sparkle x={146} y={96} color={art.lilac} s={0.9} />
+          <Sparkle x={14} y={100} color={art.sand} s={0.8} />
+          <Sparkle x={80} y={4} color={art.coral} s={0.8} />
         </>
       ) : null}
       {pose === 'bell' ? (
         <G transform="translate(132 70)">
           <Path
             d="M-10 14 C-10 4 -6 -5 0 -5 C6 -5 10 4 10 14 Z"
-            fill="#EED9B7"
-            stroke="#C9A97A"
+            fill={art.sand}
+            stroke={art.cC9A97A}
             strokeWidth={1.4}
           />
-          <Circle cx={0} cy={17.5} r={2.6} fill="#E98A6B" />
+          <Circle cx={0} cy={17.5} r={2.6} fill={art.coral} />
           <Path
             d="M16 4 Q21 10 16 16 M20 0 Q27 10 20 20"
             stroke={SAGE_DARK}

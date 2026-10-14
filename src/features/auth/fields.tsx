@@ -113,11 +113,11 @@ export function FormField<T extends FieldValues>({
 /** Four-segment bar + a word. Gentle: only the 8-character minimum is enforced. */
 export function PasswordStrength({ password, hint }: { password: string; hint?: string }) {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const score = passwordScore(password);
   if (!password) return hint ? <Text variant="caption">{hint}</Text> : null;
   const word = ['weak', 'weak', 'fair', 'good', 'strong'][score] as 'weak' | 'fair' | 'good' | 'strong';
-  const colors = [tokens.coral, tokens.coral, tokens.sand, tokens.sage, tokens.primary];
+  const bar = [colors.muted, colors.muted, colors.sky, colors.leaf, colors.primary];
   return (
     <View
       className="gap-1.5"
@@ -128,7 +128,7 @@ export function PasswordStrength({ password, hint }: { password: string; hint?: 
         {[1, 2, 3, 4].map((i) => (
           <MotiView
             key={i}
-            animate={{ backgroundColor: i <= score ? colors[score] : tokens.border }}
+            animate={{ backgroundColor: i <= score ? bar[score] : colors.hairline }}
             transition={{ type: 'timing', duration: 300 }}
             style={{ flex: 1, height: 6, borderRadius: 3 }}
           />
@@ -177,7 +177,7 @@ export function OtpInput({
                   key={i}
                   className={cn(
                     'h-14 flex-1 items-center justify-center rounded-2xl border-2 bg-card',
-                    error ? 'border-destructive' : active ? 'border-sage' : 'border-border'
+                    error ? 'border-destructive' : active ? 'border-leaf' : 'border-border'
                   )}
                 >
                   <Text variant="heading">{value[i] ?? ''}</Text>

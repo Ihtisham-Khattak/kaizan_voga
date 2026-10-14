@@ -4,6 +4,7 @@
  */
 import type { CharacterName, Pose } from '@/characters/types';
 import type { Mood } from '@/store/types';
+import { art } from '@/theme/illustration';
 
 export interface SceneCharacter {
   id: CharacterName;
@@ -45,7 +46,7 @@ export const scenes: SceneConfig[] = [
   // 0 — Welcome
   {
     id: 0,
-    ambient: { light: ['#DCEBDF', '#FAF6EE'], dark: ['#16231D', '#121A16'] },
+    ambient: { light: [art.mint, art.cream], dark: [art.c16231D, art.night] },
     characters: [{ id: 'kai', pose: 'wave', mood: 'happy', slot: 'center', enterAt: 400 }],
     props: [],
     bubbles: [],
@@ -53,7 +54,7 @@ export const scenes: SceneConfig[] = [
   // 1 — Sound familiar? (muted, desaturated)
   {
     id: 1,
-    ambient: { light: ['#C7CDC8', '#DDE1DC'], dark: ['#1A201D', '#151A18'] },
+    ambient: { light: [art.cC7CDC8, art.cDDE1DC], dark: [art.c1A201D, art.c151A18] },
     titleKey: 'story.s1.title',
     characters: [
       { id: 'ali', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 0 },
@@ -75,7 +76,7 @@ export const scenes: SceneConfig[] = [
   // 2 — You're not alone
   {
     id: 2,
-    ambient: { light: ['#D3D9D2', '#E6E4DA'], dark: ['#1B221E', '#161C19'] },
+    ambient: { light: [art.cD3D9D2, art.cE6E4DA], dark: [art.c1B221E, art.c161C19] },
     titleKey: 'story.s2.title',
     captionKey: 'story.s2.caption',
     characters: [
@@ -92,7 +93,7 @@ export const scenes: SceneConfig[] = [
   // 3 — Zara arrives (warm light enters)
   {
     id: 3,
-    ambient: { light: ['#F4E6CB', '#FAF3E3'], dark: ['#2A2418', '#1A1A14'] },
+    ambient: { light: [art.cF4E6CB, art.cFAF3E3], dark: [art.warmNight, art.c1A1A14] },
     characters: [
       { id: 'ali', pose: 'sit', mood: 'neutral', slot: 'start', enterAt: 0 },
       { id: 'hina', pose: 'sit', mood: 'neutral', slot: 'center', enterAt: 0 },
@@ -113,7 +114,7 @@ export const scenes: SceneConfig[] = [
   // 4 — Kai's 30-day journey (friends' moods improve as each milestone lights)
   {
     id: 4,
-    ambient: { light: ['#DCEBDF', '#F3F8F0'], dark: ['#183025', '#121A16'] },
+    ambient: { light: [art.mint, art.cF3F8F0], dark: [art.c183025, art.night] },
     titleKey: 'story.s4.title',
     characters: [
       { id: 'kai', pose: 'float', mood: 'happy', slot: 'center', enterAt: 0 },
@@ -127,7 +128,7 @@ export const scenes: SceneConfig[] = [
   // 5 — Zara's story (Before / Now)
   {
     id: 5,
-    ambient: { light: ['#E9E3D3', '#FAF0DC'], dark: ['#1D2320', '#2A2418'] },
+    ambient: { light: [art.cE9E3D3, art.cFAF0DC], dark: [art.c1D2320, art.warmNight] },
     titleKey: 'story.s5.title',
     characters: [
       { id: 'zara', pose: 'stand', mood: 'stressed', slot: 'start', enterAt: 0 },
@@ -139,7 +140,7 @@ export const scenes: SceneConfig[] = [
   // 6 — What brings you here?
   {
     id: 6,
-    ambient: { light: ['#FAF6EE', '#FCE9DF'], dark: ['#121A16', '#2A1E1A'] },
+    ambient: { light: [art.cream, art.cFCE9DF], dark: [art.night, art.c2A1E1A] },
     titleKey: 'story.s6.title',
     characters: [
       { id: 'ali', pose: 'stand', mood: 'happy', slot: 'start', enterAt: 0 },

@@ -18,7 +18,7 @@ const OPTIONS: { id: Experience; icon: KaizenIconName }[] = [
 /** Onboarding Q1 — experience level. Single select; Kai reacts; Skip defaults to Beginner. */
 export default function ExperienceScreen() {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const experience = usePrefsStore((s) => s.experience);
   const patch = usePrefsStore((s) => s.patch);
 
@@ -44,8 +44,8 @@ export default function ExperienceScreen() {
             selected={experience === o.id}
             onPress={() => patch({ experience: o.id })}
             leading={
-              <View className="bg-secondary size-11 items-center justify-center rounded-full">
-                <KaizenIcon name={o.icon} size={24} color={tokens.primary} />
+              <View className="size-11 items-center justify-center rounded-full bg-secondary">
+                <KaizenIcon name={o.icon} size={24} color={colors.primary} />
               </View>
             }
           />

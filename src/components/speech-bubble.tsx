@@ -84,7 +84,9 @@ export function SpeechBubble({
             'absolute -bottom-[7px] size-3.5 rotate-45 border-b border-r border-border bg-card',
             tailAt === undefined && (tail === 'start' ? 'start-6' : 'end-6')
           )}
-          style={tailAt === undefined ? undefined : { start: `${Math.round(tailAt * 100)}%`, marginStart: -7 }}
+          style={
+            tailAt === undefined ? undefined : { start: `${Math.round(tailAt * 100)}%`, marginStart: -7 }
+          }
         />
       ) : null}
     </MotiView>

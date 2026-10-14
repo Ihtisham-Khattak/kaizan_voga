@@ -16,13 +16,14 @@ import Svg, {
 
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useTheme } from '@/theme/theme-provider';
+import { art } from '@/theme/illustration';
 
 /** Story-scene props and backgrounds. Shared by scenes 0–6 and the completion celebration. */
 
 // ───────────────────────── Bench ─────────────────────────
 export function Bench({ width = 340, muted = false }: { width?: number; muted?: boolean }) {
-  const wood = muted ? '#B3A892' : '#C9A57A';
-  const dark = muted ? '#968B77' : '#A5835A';
+  const wood = muted ? art.cB3A892 : art.cC9A57A;
+  const dark = muted ? art.c968B77 : art.cA5835A;
   return (
     <Svg width={width} height={(width * 140) / 360} viewBox="0 0 360 140">
       {/* backrest */}
@@ -46,8 +47,8 @@ export type ThoughtKind = 'ali' | 'hina' | 'omar';
 
 /** Small thought bubble above a friend: Ali laptop + clock, Hina moon + swirls, Omar books + lightning. */
 export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: number }) {
-  const { tokens } = useTheme();
-  const ink = tokens.foreground;
+  const { colors } = useTheme();
+  const ink = colors.ink;
   const stroke = {
     stroke: ink,
     strokeWidth: 2.4,
@@ -57,16 +58,16 @@ export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: num
   };
   return (
     <Svg width={size} height={(size * 100) / 90} viewBox="0 0 90 100">
-      <Circle cx={45} cy={40} r={37} fill={tokens.card} stroke={tokens.border} strokeWidth={1.5} />
-      <Circle cx={32} cy={84} r={6} fill={tokens.card} stroke={tokens.border} strokeWidth={1.5} />
-      <Circle cx={24} cy={95} r={3.4} fill={tokens.card} stroke={tokens.border} strokeWidth={1.5} />
+      <Circle cx={45} cy={40} r={37} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
+      <Circle cx={32} cy={84} r={6} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
+      <Circle cx={24} cy={95} r={3.4} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
       {kind === 'ali' && (
         <G>
           {/* laptop */}
           <Rect x={16} y={30} width={34} height={22} rx={3} {...stroke} />
           <Path d="M11 58 H55" {...stroke} />
           {/* clock */}
-          <Circle cx={61} cy={28} r={11} {...stroke} fill={tokens.card} />
+          <Circle cx={61} cy={28} r={11} {...stroke} fill={colors.bgMist} />
           <Path d="M61 21 V28 L66 31" {...stroke} strokeWidth={2} />
         </G>
       )}
@@ -86,7 +87,7 @@ export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: num
           <Rect x={28} y={28} width={10} height={32} rx={2} {...stroke} />
           <Rect x={40} y={36} width={10} height={24} rx={2} {...stroke} transform="rotate(8 45 48)" />
           {/* lightning */}
-          <Path d="M66 18 L56 38 H65 L60 56 L74 32 H65 Z" {...stroke} fill="#EED9B7" />
+          <Path d="M66 18 L56 38 H65 L60 56 L74 32 H65 Z" {...stroke} fill={art.sand} />
         </G>
       )}
     </Svg>
@@ -100,8 +101,8 @@ export function LightRays({ width, height }: { width: number; height: number }) 
     <Svg width={width} height={height} style={StyleSheet.absoluteFill} pointerEvents="none">
       <Defs>
         <SvgGradient id="ray" x1="1" y1="0" x2="0" y2="1">
-          <Stop offset="0" stopColor="#FFE9B8" stopOpacity={0.75} />
-          <Stop offset="1" stopColor="#FFE9B8" stopOpacity={0} />
+          <Stop offset="0" stopColor={art.sunbeam} stopOpacity={0.75} />
+          <Stop offset="1" stopColor={art.sunbeam} stopOpacity={0} />
         </SvgGradient>
       </Defs>
       {rays.map((s, i) => (
@@ -117,13 +118,13 @@ export function LightRays({ width, height }: { width: number; height: number }) 
 }
 
 // ───────────────────────── Confetti leaves ─────────────────────────
-const LEAF_COLORS = ['#6E9C7F', '#8FBFA0', '#E98A6B', '#EED9B7', '#B9AEE0'];
+const LEAF_COLORS = [art.sage, art.sageLight, art.coral, art.sand, art.lilac];
 
 function Leaf({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path d="M3 21 C3 9 10 3 21 3 C21 14 14 21 3 21 Z" fill={color} />
-      <Path d="M3 21 L13 11" stroke="#FAF6EE" strokeWidth={1.4} strokeLinecap="round" opacity={0.6} />
+      <Path d="M3 21 L13 11" stroke={art.cream} strokeWidth={1.4} strokeLinecap="round" opacity={0.6} />
     </Svg>
   );
 }
@@ -205,13 +206,13 @@ export function SceneBackground({ colors, duration = 900 }: { colors: Pair; dura
 export function LotusLogo({ size = 96 }: { size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 120 120">
-      <Circle cx={60} cy={60} r={56} fill="#DCEBDF" />
-      <Circle cx={60} cy={60} r={56} fill="none" stroke="#6E9C7F" strokeWidth={2.5} opacity={0.5} />
-      <Path d="M60 24 C74 38 78 62 60 84 C42 62 46 38 60 24 Z" fill="#6E9C7F" />
-      <Path d="M60 84 C40 86 24 74 18 52 C38 50 54 62 60 84 Z" fill="#58866A" />
-      <Path d="M60 84 C80 86 96 74 102 52 C82 50 66 62 60 84 Z" fill="#58866A" />
-      <Path d="M60 84 C52 74 50 60 60 42 C70 60 68 74 60 84 Z" fill="#8FBFA0" />
-      <Line x1={30} y1={92} x2={90} y2={92} stroke="#1F4D3A" strokeWidth={3.5} strokeLinecap="round" />
+      <Circle cx={60} cy={60} r={56} fill={art.mint} />
+      <Circle cx={60} cy={60} r={56} fill="none" stroke={art.sage} strokeWidth={2.5} opacity={0.5} />
+      <Path d="M60 24 C74 38 78 62 60 84 C42 62 46 38 60 24 Z" fill={art.sage} />
+      <Path d="M60 84 C40 86 24 74 18 52 C38 50 54 62 60 84 Z" fill={art.sageDark} />
+      <Path d="M60 84 C80 86 96 74 102 52 C82 50 66 62 60 84 Z" fill={art.sageDark} />
+      <Path d="M60 84 C52 74 50 60 60 42 C70 60 68 74 60 84 Z" fill={art.sageLight} />
+      <Line x1={30} y1={92} x2={90} y2={92} stroke={art.forestDeep} strokeWidth={3.5} strokeLinecap="round" />
     </Svg>
   );
 }

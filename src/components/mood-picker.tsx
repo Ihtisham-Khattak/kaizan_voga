@@ -11,13 +11,13 @@ import { haptic } from '@/lib/haptics';
 import { cn } from '@/lib/utils';
 import { MOODS, type Mood } from '@/store/types';
 import { spring } from '@/theme/motion';
-import { brand } from '@/theme/tokens';
+import { art } from '@/theme/illustration';
 
 /** One round mood face – same face system as the characters. Fixed palette so it reads in both themes. */
 export function MoodFace({ mood, size = 52 }: { mood: Mood; size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Circle cx={50} cy={50} r={50} fill={brand.sand} />
+      <Circle cx={50} cy={50} r={50} fill={art.sand} />
       <Face mood={mood} />
     </Svg>
   );
@@ -61,7 +61,7 @@ function MoodOption({
         style={style}
         className={cn(
           'items-center justify-center rounded-full border-[3px] p-0.5',
-          selected ? 'border-sage' : 'border-transparent'
+          selected ? 'border-leaf' : 'border-transparent'
         )}
       >
         <MoodFace mood={mood} size={size} />

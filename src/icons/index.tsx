@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import Svg, { Circle, G, Path, Rect } from 'react-native-svg';
+import { art } from '@/theme/illustration';
 
 /**
  * ORIGINAL Kaizen icon set – brand moments only (Practice tab button, quick-relief tiles, goal cards,
@@ -229,7 +230,7 @@ interface Props {
   strokeWidth?: number;
 }
 
-export function KaizenIcon({ name, size = 24, color = '#1F4D3A', strokeWidth = STROKE }: Props) {
+export function KaizenIcon({ name, size = 24, color = art.forestDeep, strokeWidth = STROKE }: Props) {
   const draw = icons[name];
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">

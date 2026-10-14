@@ -35,7 +35,7 @@ export function Scene0({ controls, width, height }: SceneProps) {
         </FadeUp>
 
         <View style={{ width: size, height: size }} className="my-3 items-center justify-center">
-          <BreathingCircle size={size} soft tint="sand" />
+          <BreathingCircle size={size} soft tint="sunrise" />
           <MotiView
             from={{ opacity: 0, translateY: reduce ? 0 : -240 }}
             animate={{ opacity: 1, translateY: 0 }}

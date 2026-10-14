@@ -69,7 +69,7 @@ export function ScreenStub({ id, title, note, links = [] }: Props) {
           gap: 16,
         }}
       >
-        <Badge variant="sand">
+        <Badge variant="secondary">
           <Text>{`Placeholder · card ${id}`}</Text>
         </Badge>
         <Text variant="title">{title}</Text>

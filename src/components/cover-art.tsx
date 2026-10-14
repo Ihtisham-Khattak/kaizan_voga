@@ -3,6 +3,7 @@ import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 import type { CoverTint, Exercise } from '@/data/types';
 import { KaizenIcon } from '@/icons';
+import { coverColor } from '@/theme/cover';
 import { useTheme } from '@/theme/theme-provider';
 
 type Variant = 'standing' | 'seated' | 'balance' | 'lying' | 'kneeling' | 'breathing';
@@ -145,12 +146,24 @@ interface CoverProps {
   height?: number;
   width?: number | `${number}%`;
   rounded?: number;
+  /** Shift the figure/motif vertically (negative = up), e.g. to clear a glass panel laid over the bottom. */
+  figureShift?: number;
+  /** Override the figure size (px); defaults to ~80% of the height, max 110. */
+  figureSize?: number;
 }
 
 /** Tinted cover art for routines/programs/exercises. Colours come from tokens so dark mode just works. */
-export function CoverArt({ tint, figure, height = 120, width = '100%', rounded = 20 }: CoverProps) {
-  const { tokens } = useTheme();
-  const base = tokens[tint];
+export function CoverArt({
+  tint,
+  figure,
+  height = 120,
+  width = '100%',
+  rounded = 20,
+  figureShift = 0,
+  figureSize,
+}: CoverProps) {
+  const { colors } = useTheme();
+  const base = coverColor(colors, tint);
   return (
     <View
       style={{
@@ -165,18 +178,29 @@ export function CoverArt({ tint, figure, height = 120, width = '100%', rounded =
     >
       {/* Lighter + warmer blobs than the base tint so the shapes are actually visible */}
       <View style={{ position: 'absolute', end: -20, top: -24, width: height * 1.3, height: height * 1.3 }}>
-        <Blob color={tokens.card} size={height * 1.3} opacity={0.45} />
+        <Blob color={colors.bgMist} size={height * 1.3} opacity={0.45} />
       </View>
       <View
         style={{ position: 'absolute', start: -18, bottom: -26, width: height * 0.9, height: height * 0.9 }}
       >
-        <Blob color={tokens.sand} size={height * 0.9} opacity={0.5} />
+        <Blob color={colors.sunriseSoft} size={height * 0.9} opacity={0.5} />
       </View>
-      {figure ? (
-        <PoseFigure variant={figure} size={Math.min(height * 0.8, 110)} color={tokens.primary} />
-      ) : (
-        <KaizenIcon name="lotus" size={Math.min(height * 0.5, 64)} color={tokens.primary} strokeWidth={1.5} />
-      )}
+      <View style={{ transform: [{ translateY: figureShift }] }}>
+        {figure ? (
+          <PoseFigure
+            variant={figure}
+            size={figureSize ?? Math.min(height * 0.8, 110)}
+            color={colors.primary}
+          />
+        ) : (
+          <KaizenIcon
+            name="lotus"
+            size={Math.min(height * 0.5, 64)}
+            color={colors.primary}
+            strokeWidth={1.5}
+          />
+        )}
+      </View>
     </View>
   );
 }

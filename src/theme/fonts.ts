@@ -31,12 +31,4 @@ export function useAppFonts() {
   return loaded || !!error;
 }
 
-export type Weight = '400' | '500' | '600' | '700';
-
-/** Family for a given script + weight. Custom fonts need one family per weight on Android. */
-export const urduFamily: Record<Weight, string> = {
-  '400': 'NotoNastaliqUrdu_400Regular',
-  '500': 'NotoNastaliqUrdu_500Medium',
-  '600': 'NotoNastaliqUrdu_600SemiBold',
-  '700': 'NotoNastaliqUrdu_700Bold',
-};
+export { families, type Weight } from './typography';

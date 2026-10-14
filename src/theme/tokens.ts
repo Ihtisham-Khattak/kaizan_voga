@@ -1,9 +1,11 @@
 /**
- * Kaizen design tokens as plain values, for places className can't reach
- * (SVG fills, Reanimated colours, navigation theme).
- *
- * KEEP IN SYNC with the CSS variables in src/global.css – that file is what `className` reads.
+ * Compatibility layer: the semantic names (background, card, secondary, sage…) that className and older code use,
+ * derived from the new palette in colors.ts. New code should prefer `useTheme().colors` (colors.ts names).
+ * Pure data – read by the theme sync script (scripts/sync-theme.ts) to generate src/global.css.
  */
+import { extras, palettes, type Extras, type Palette, type Scheme } from './colors';
+
+export { GUTTER, MIN_TOUCH } from './spacing';
 
 export interface Tokens {
   // shadcn semantic
@@ -21,10 +23,11 @@ export interface Tokens {
   accent: string;
   accentForeground: string;
   destructive: string;
+  destructiveForeground: string;
   border: string;
   input: string;
   ring: string;
-  // Kaizen brand
+  // legacy brand names → new palette
   forest: string;
   sage: string;
   mint: string;
@@ -36,102 +39,38 @@ export interface Tokens {
   mutedText: string;
 }
 
-export const lightTokens: Tokens = {
-  background: '#FAF6EE',
-  foreground: '#24302A',
-  card: '#FFFDF8',
-  cardForeground: '#24302A',
-  popover: '#FFFDF8',
-  primary: '#1F4D3A',
-  primaryForeground: '#FAF6EE',
-  secondary: '#DCEBDF',
-  secondaryForeground: '#1F4D3A',
-  muted: '#F1ECE0',
-  mutedForeground: '#6F7A73',
-  accent: '#6E9C7F',
-  accentForeground: '#121A16',
-  destructive: '#C8463C',
-  border: '#E4DDCD',
-  input: '#E4DDCD',
-  ring: '#6E9C7F',
-  forest: '#1F4D3A',
-  sage: '#6E9C7F',
-  mint: '#DCEBDF',
-  cream: '#FAF6EE',
-  sand: '#EED9B7',
-  coral: '#E98A6B',
-  lavender: '#B9AEE0',
-  ink: '#24302A',
-  mutedText: '#6F7A73',
-};
+export function toTokens(p: Palette, e: Extras): Tokens {
+  return {
+    background: p.bg,
+    foreground: p.ink,
+    card: p.bgMist,
+    cardForeground: p.ink,
+    popover: p.bg,
+    primary: p.primary,
+    primaryForeground: p.onPrimary,
+    secondary: p.mint,
+    secondaryForeground: p.forest,
+    muted: p.bgMist,
+    mutedForeground: p.muted,
+    accent: p.leaf,
+    accentForeground: e.onLeaf,
+    destructive: p.danger,
+    destructiveForeground: e.onDanger,
+    border: p.hairline,
+    input: p.hairline,
+    ring: p.leaf,
+    forest: p.forest,
+    sage: p.leaf,
+    mint: p.mint,
+    cream: p.bg,
+    sand: p.sunriseSoft,
+    coral: p.sunrise,
+    lavender: p.lavender,
+    ink: p.ink,
+    mutedText: p.muted,
+  };
+}
 
-export const darkTokens: Tokens = {
-  background: '#121A16',
-  foreground: '#EEF0EA',
-  card: '#1C2620',
-  cardForeground: '#EEF0EA',
-  popover: '#1C2620',
-  primary: '#8FBFA0',
-  primaryForeground: '#121A16',
-  secondary: '#26352E',
-  secondaryForeground: '#DCEBDF',
-  muted: '#26322B',
-  mutedForeground: '#A0ACA4',
-  accent: '#6E9C7F',
-  accentForeground: '#EEF0EA',
-  destructive: '#E66E64',
-  border: '#2C3A32',
-  input: '#2C3A32',
-  ring: '#8FBFA0',
-  forest: '#8FBFA0',
-  sage: '#8FBFA0',
-  mint: '#26352E',
-  cream: '#121A16',
-  sand: '#5C503C',
-  coral: '#F0967A',
-  lavender: '#968CC8',
-  ink: '#EEF0EA',
-  mutedText: '#A0ACA4',
-};
-
-/** Fixed (non-theme-switching) brand colours – use for illustrations that must look identical in both modes. */
-export const brand = {
-  forest: '#1F4D3A',
-  sage: '#6E9C7F',
-  mint: '#DCEBDF',
-  cream: '#FAF6EE',
-  sand: '#EED9B7',
-  coral: '#E98A6B',
-  lavender: '#B9AEE0',
-  ink: '#24302A',
-  muted: '#6F7A73',
-  darkBg: '#121A16',
-  darkCard: '#1C2620',
-} as const;
-
-/** 8-pt grid */
-export const space = { 0: 0, 1: 4, 2: 8, 3: 12, 4: 16, 5: 24, 6: 32, 7: 40, 8: 48, 9: 64 } as const;
-export const GUTTER = 16;
-
-export const radius = { sm: 12, md: 16, card: 24, pill: 999 } as const;
-
-/** Soft, low-opacity, large-blur shadows. iOS uses shadow*, Android falls back to elevation. */
-export const shadows = {
-  soft: {
-    shadowColor: '#1F4D3A',
-    shadowOpacity: 0.08,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 3,
-  },
-  lifted: {
-    shadowColor: '#1F4D3A',
-    shadowOpacity: 0.14,
-    shadowRadius: 32,
-    shadowOffset: { width: 0, height: 12 },
-    elevation: 8,
-  },
-} as const;
-
-/** Minimum touch target (WCAG / platform guidance). */
-export const MIN_TOUCH = 44;
+export const lightTokens = toTokens(palettes.light, extras.light);
+export const darkTokens = toTokens(palettes.night, extras.night);
+export const tokensFor = (s: Scheme) => (s === 'night' ? darkTokens : lightTokens);

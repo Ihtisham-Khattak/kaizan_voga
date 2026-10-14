@@ -37,7 +37,12 @@ export default function TimeScreen() {
               patch({ minutesPerDay: m });
             }}
             leading={
-              <ProgressRing progress={m / 20} size={72} strokeWidth={8} color={minutes === m ? 'primary' : 'sage'}>
+              <ProgressRing
+                progress={m / 20}
+                size={72}
+                strokeWidth={8}
+                color={minutes === m ? 'primary' : 'leaf'}
+              >
                 <Text variant="heading">{String(m)}</Text>
               </ProgressRing>
             }

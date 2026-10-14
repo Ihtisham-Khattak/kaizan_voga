@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { Heart, Leaf, Moon, Sparkle } from 'phosphor-react-native';
 import { useState } from 'react';
 import { BottomSheet } from '@/components/bottom-sheet';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { SceneBackground } from '@/characters/props';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { EmptyState } from '@/components/empty-state';
@@ -38,7 +38,26 @@ import { useT } from '@/i18n';
 import { useAppStore } from '@/store';
 import { useTheme } from '@/theme/theme-provider';
 
-const SWATCHES = ['forest', 'sage', 'mint', 'cream', 'sand', 'coral', 'lavender', 'ink'] as const;
+const SWATCHES = [
+  'bg',
+  'bgMist',
+  'auroraMint',
+  'auroraSky',
+  'forest',
+  'ink',
+  'muted',
+  'primary',
+  'leaf',
+  'mint',
+  'sky',
+  'skySoft',
+  'lavender',
+  'lavenderSoft',
+  'sunrise',
+  'sunriseSoft',
+  'hairline',
+  'danger',
+] as const;
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -52,7 +71,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 /** Card F-08 — every primitive in one place for light / dark / RTL / 130% text review. */
 export default function UiKit() {
   const insets = useSafeAreaInsets();
-  const { tokens, scheme } = useTheme();
+  const { colors, scheme } = useTheme();
   const { t } = useT();
   const set = useAppStore((s) => s.set);
   const theme = useAppStore((s) => s.theme);
@@ -122,7 +141,7 @@ export default function UiKit() {
             <View key={name} className="items-center gap-1">
               <View
                 className="size-14 rounded-2xl border border-border"
-                style={{ backgroundColor: tokens[name] }}
+                style={{ backgroundColor: colors[name] }}
               />
               <Text variant="caption">{name}</Text>
             </View>
@@ -137,7 +156,7 @@ export default function UiKit() {
         <Button variant="secondary">
           <Text>Explore first</Text>
         </Button>
-        <Button variant="coral">
+        <Button variant="sunrise">
           <Text>Calm my anxiety</Text>
         </Button>
         <Button variant="outline">
@@ -183,13 +202,13 @@ export default function UiKit() {
           <Badge variant="secondary">
             <Text>Secondary</Text>
           </Badge>
-          <Badge variant="coral">
+          <Badge variant="sky">
             <Text>Day 5 of 30</Text>
           </Badge>
           <Badge variant="lavender">
             <Text>Sleep</Text>
           </Badge>
-          <Badge variant="sand">
+          <Badge variant="sunrise">
             <Text>Gentle</Text>
           </Badge>
           <Badge variant="outline">
@@ -202,7 +221,7 @@ export default function UiKit() {
         <Card>
           <CardHeader>
             <View className="flex-row items-center gap-2">
-              <Icon as={Leaf} weight="duotone" size={24} className="text-sage" />
+              <Icon as={Leaf} weight="duotone" size={24} className="text-leaf" />
               <CardTitle>Morning flow</CardTitle>
             </View>
             <CardDescription>10 min · Beginner · Standing</CardDescription>
@@ -268,7 +287,7 @@ export default function UiKit() {
               width: 110,
               height: 110,
               borderRadius: 55,
-              backgroundColor: tokens.coral,
+              backgroundColor: colors.sunrise,
             }}
           />
           <View
@@ -279,20 +298,20 @@ export default function UiKit() {
               width: 140,
               height: 140,
               borderRadius: 70,
-              backgroundColor: tokens.lavender,
+              backgroundColor: colors.lavender,
             }}
           />
           <View style={{ position: 'absolute', start: 14, end: 14, top: 14, gap: 10 }}>
-            <GlassView level="subtle" radius={18} contentStyle={{ padding: 12 }}>
+            <GlassCard radius={18} contentStyle={{ padding: 12 }}>
               <Text variant="label">Subtle glass</Text>
-            </GlassView>
-            <GlassView level="standard" radius={20} contentStyle={{ padding: 14 }}>
+            </GlassCard>
+            <GlassCard radius={20} contentStyle={{ padding: 14 }}>
               <Text variant="label">Standard glass</Text>
               <Text variant="caption">Blur + translucent fill + hairline border</Text>
-            </GlassView>
-            <GlassView level="strong" radius={22} contentStyle={{ padding: 16 }}>
+            </GlassCard>
+            <GlassCard strong radius={22} contentStyle={{ padding: 16 }}>
               <Text variant="label">Strong glass (sheets, pinned footers)</Text>
-            </GlassView>
+            </GlassCard>
           </View>
         </View>
       </Section>
@@ -310,7 +329,7 @@ export default function UiKit() {
           <ProgressRing progress={ring} size={96}>
             <Text variant="label">{`${Math.round(ring * 100)}%`}</Text>
           </ProgressRing>
-          <ProgressRing progress={ring} size={140} strokeWidth={12} color="coral">
+          <ProgressRing progress={ring} size={140} strokeWidth={12} color="sunrise">
             <Text variant="title">{`${Math.round(ring * 10)}:00`}</Text>
           </ProgressRing>
         </View>

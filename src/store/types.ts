@@ -75,6 +75,8 @@ export interface ReminderSettings {
   time: string; // "HH:mm"
   days: Weekday[];
   quietHours: { enabled: boolean; from: string; to: string };
+  /** Gentle chime choice. Optional so older saved state still loads. */
+  tone?: 'bell' | 'chime' | 'soft';
 }
 
 export interface AuthUser {

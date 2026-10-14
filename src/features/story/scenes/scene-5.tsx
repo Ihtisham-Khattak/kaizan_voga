@@ -14,6 +14,7 @@ import { useTheme } from '@/theme/theme-provider';
 
 import { Entrance, SceneCTA, SceneScroll, SceneTitle, stageWidth, useDelayedMood } from '../stage';
 import type { SceneProps } from '../types';
+import { art } from '@/theme/illustration';
 
 const cfg = scenes[5];
 
@@ -44,7 +45,7 @@ function Panel({
         style={{ backgroundColor: bg, flex: 1, padding: 14, gap: 8, alignItems: 'center' }}
       >
         <View style={{ backgroundColor: tint }} className="rounded-full px-3 py-1">
-          <Text variant="caption" className="font-sans-semibold text-[#24302A]">
+          <Text variant="caption" className="font-sans-semibold text-foreground">
             {label}
           </Text>
         </View>
@@ -87,8 +88,8 @@ export function Scene5({ controls, width }: SceneProps) {
           label={t('story.s5.before')}
           text={t('story.s5.beforeText')}
           mood="stressed"
-          bg={dark ? '#222A26' : '#DDE0DB'}
-          tint={dark ? '#8A948E' : '#C5CBC6'}
+          bg={dark ? art.c222A26 : art.cDDE0DB}
+          tint={dark ? art.c8A948E : art.cC5CBC6}
           from="start"
           delay={100}
           compact={!sideBySide}
@@ -97,8 +98,8 @@ export function Scene5({ controls, width }: SceneProps) {
           label={t('story.s5.now')}
           text={t('story.s5.nowText')}
           mood={nowMood === 'calm' ? 'calm' : 'stressed'}
-          bg={dark ? '#33291B' : '#FAEBD0'}
-          tint="#EED9B7"
+          bg={dark ? art.c33291B : art.cFAEBD0}
+          tint={art.sand}
           from="end"
           delay={700}
           compact={!sideBySide}

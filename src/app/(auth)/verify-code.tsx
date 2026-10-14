@@ -34,7 +34,10 @@ export default function VerifyCodeScreen() {
   };
 
   return (
-    <AuthScaffold title={t('auth.verify.title')} subtitle={t('auth.verify.subtitle', { email: maskEmail(String(email)) })}>
+    <AuthScaffold
+      title={t('auth.verify.title')}
+      subtitle={t('auth.verify.subtitle', { email: maskEmail(String(email)) })}
+    >
       <ErrorBanner message={error ? t('auth.verify.wrong') : null} />
       <OtpInput
         value={code}
@@ -52,7 +55,11 @@ export default function VerifyCodeScreen() {
       </Button>
       <View className="items-center gap-1">
         <Button variant="ghost" disabled={cooldown.left > 0} onPress={cooldown.restart}>
-          <Text>{cooldown.left > 0 ? t('auth.verify.resendIn', { seconds: cooldown.left }) : t('auth.verify.resend')}</Text>
+          <Text>
+            {cooldown.left > 0
+              ? t('auth.verify.resendIn', { seconds: cooldown.left })
+              : t('auth.verify.resend')}
+          </Text>
         </Button>
         <Button variant="ghost" onPress={() => router.back()}>
           <Text>{t('auth.verify.change')}</Text>

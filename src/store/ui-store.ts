@@ -17,3 +17,7 @@ export const useUiStore = create<UiState>((set) => ({
   guestBannerDismissed: false,
   dismissGuestBanner: () => set({ guestBannerDismissed: true }),
 }));
+
+// dev-only handle for browser tests (.tools/*.js)
+if (__DEV__ && typeof window !== 'undefined')
+  (window as unknown as { __ui?: typeof useUiStore }).__ui = useUiStore;

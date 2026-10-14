@@ -22,7 +22,7 @@ const ITEMS: { id: Equipment; icon?: KaizenIconName }[] = [
 /** Onboarding Q5 — equipment. Multi-select; "None" clears the rest (and picking anything clears "None"). */
 export default function EquipmentScreen() {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const equipment = usePrefsStore((s) => s.equipment);
   const patch = usePrefsStore((s) => s.patch);
 
@@ -57,9 +57,9 @@ export default function EquipmentScreen() {
             selected={equipment.includes(it.id)}
             onPress={() => toggle(it.id)}
             leading={
-              <View className="bg-secondary size-14 items-center justify-center rounded-full">
+              <View className="size-14 items-center justify-center rounded-full bg-secondary">
                 {it.icon ? (
-                  <KaizenIcon name={it.icon} size={30} color={tokens.primary} />
+                  <KaizenIcon name={it.icon} size={30} color={colors.primary} />
                 ) : (
                   <Icon as={Hand} size={28} weight="duotone" className="text-primary" />
                 )}

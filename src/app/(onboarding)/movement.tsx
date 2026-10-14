@@ -21,7 +21,7 @@ const OPTIONS: { id: Movement; icon?: KaizenIconName }[] = [
 /** Onboarding Q4 — movement preference. Choosing "Seated" also switches chair mode on by default. */
 export default function MovementScreen() {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const movement = usePrefsStore((s) => s.movement);
   const patch = usePrefsStore((s) => s.patch);
 
@@ -43,9 +43,9 @@ export default function MovementScreen() {
             selected={movement === o.id}
             onPress={() => patch({ movement: o.id, chairMode: o.id === 'seated' })}
             leading={
-              <View className="bg-secondary size-11 items-center justify-center rounded-full">
+              <View className="size-11 items-center justify-center rounded-full bg-secondary">
                 {o.icon ? (
-                  <KaizenIcon name={o.icon} size={26} color={tokens.primary} />
+                  <KaizenIcon name={o.icon} size={26} color={colors.primary} />
                 ) : (
                   <Icon as={Shuffle} size={24} weight="duotone" className="text-primary" />
                 )}

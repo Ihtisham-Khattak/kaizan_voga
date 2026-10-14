@@ -19,10 +19,10 @@ export const GOALS: { id: Goal; character?: CharacterName; icon: KaizenIconName 
 ];
 
 function IconBubble({ name }: { name: KaizenIconName }) {
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   return (
     <View className="size-11 items-center justify-center rounded-full bg-secondary">
-      <KaizenIcon name={name} size={24} color={tokens.primary} />
+      <KaizenIcon name={name} size={24} color={colors.primary} />
     </View>
   );
 }

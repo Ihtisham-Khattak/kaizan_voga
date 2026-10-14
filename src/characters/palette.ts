@@ -1,4 +1,4 @@
-import { brand } from '@/theme/tokens';
+import { art } from '@/theme/illustration';
 
 /**
  * Character art is fixed-palette: Zara/Ali/Hina/Omar/Kai must look IDENTICAL in light and dark mode,
@@ -8,28 +8,28 @@ export type CharacterName = 'zara' | 'ali' | 'hina' | 'omar' | 'kai';
 
 /** One signature colour per character – never changes. */
 export const signature: Record<CharacterName, string> = {
-  zara: '#2FA4A0', // teal top
-  ali: '#E2B13C', // mustard hoodie
-  hina: brand.lavender, // lavender scarf / dupatta
-  omar: brand.coral, // coral t-shirt
-  kai: brand.sage, // lotus-leaf sprite
+  zara: art.teal, // teal top
+  ali: art.mustard, // mustard hoodie
+  hina: art.lilac, // lavender scarf / dupatta
+  omar: art.coral, // coral t-shirt
+  kai: art.sage, // lotus-leaf sprite
 };
 
 /** Warm, harmonious skin-tone family shared by all humans. */
 export const skin = {
-  zara: '#E8B48F',
-  ali: '#C98F68',
-  hina: '#D9A27B',
-  omar: '#F0C3A0',
+  zara: art.skinZara,
+  ali: art.skinAli,
+  hina: art.skinHina,
+  omar: art.skinOmar,
 } as const;
 
 export const hair = {
-  zara: '#3B2A22',
-  ali: '#2B2420',
-  hina: '#2F2420',
-  omar: '#4A3226',
+  zara: art.hairZara,
+  ali: art.hairAli,
+  hina: art.hairHina,
+  omar: art.hairOmar,
 } as const;
 
 /** Face features – same system for everyone. */
-export const faceInk = '#24302A';
-export const blush = '#E98A6B';
+export const faceInk = art.ink;
+export const blush = art.coral;

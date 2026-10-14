@@ -1,5 +1,6 @@
 import { shade, tint } from './color';
 import type { Prim, Pt } from './types';
+import { art } from '@/theme/illustration';
 
 /**
  * Semi-realistic editorial human figure (≈5 heads tall), drawn as plain data.
@@ -215,7 +216,7 @@ export function leg(pts: Pt[], s: HumanStyle): Prim[] {
     stroke(line(lerp(hip, knee, 0.2), lerp(knee, ankle, 0.9)), pantsShade, 5, { op: 0.35 }),
     // shoe: soft rounded sneaker with a pale sole
     { k: 'rect', x: ankle[0] - 15, y: ankle[1] - 1, w: 30, h: 14, rx: 7, fill: s.shoes },
-    { k: 'rect', x: ankle[0] - 15, y: ankle[1] + 10, w: 30, h: 5, rx: 2.5, fill: '#CFC7B6' },
+    { k: 'rect', x: ankle[0] - 15, y: ankle[1] + 10, w: 30, h: 5, rx: 2.5, fill: art.cCFC7B6 },
   ];
 }
 
@@ -294,7 +295,7 @@ export function buildHuman(s: HumanStyle, pose: HumanPose): Layers {
     behind: s.behind?.(c) ?? [],
     legs: [
       // soft contact shadow so the figure stands on the ground
-      { k: 'ellipse', cx: 100, cy: footY, rx: 44, ry: 5, fill: '#000000', op: 0.12 } as Prim,
+      { k: 'ellipse', cx: 100, cy: footY, rx: 44, ry: 5, fill: art.black, op: 0.12 } as Prim,
       ...leg(rig.legL, s),
       ...leg(rig.legR, s),
     ],

@@ -39,7 +39,7 @@ function FavoriteButton({ active, onPress }: { active: boolean; onPress?: () => 
         as={Heart}
         size={22}
         weight={active ? 'fill' : 'regular'}
-        className={active ? 'text-coral' : 'text-muted-foreground'}
+        className={active ? 'text-primary' : 'text-muted-foreground'}
       />
     </Pressable>
   );
@@ -120,7 +120,7 @@ export function ExerciseCard({
               <Text>{duration}</Text>
             </Badge>
             {chair ? (
-              <Badge variant="sand" accessibilityLabel={t('cards.chairFriendly')}>
+              <Badge variant="secondary" accessibilityLabel={t('cards.chairFriendly')}>
                 <Icon as={Armchair} size={14} />
               </Badge>
             ) : null}

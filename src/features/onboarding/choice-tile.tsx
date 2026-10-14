@@ -53,13 +53,13 @@ export function ChoiceTile({
           }}
           className={cn(
             'min-h-[132px] items-center justify-center gap-2 rounded-card border-2 px-3 py-4 active:opacity-90',
-            selected ? 'border-sage bg-secondary' : 'border-border bg-card'
+            selected ? 'border-leaf bg-secondary' : 'border-border bg-card'
           )}
         >
           <View className="h-[72px] items-center justify-center">{leading}</View>
           <Text
-            variant="label"
-            className={cn('text-center text-kz-lead', selected && 'text-secondary-foreground')}
+            variant="bodyLarge"
+            className={cn('text-center font-sans-semibold', selected && 'text-secondary-foreground')}
           >
             {label}
           </Text>
@@ -69,8 +69,8 @@ export function ChoiceTile({
             </Text>
           ) : null}
           {selected ? (
-            <View className="absolute end-2 top-2 size-6 items-center justify-center rounded-full bg-sage">
-              <Icon as={Check} size={14} weight="bold" className="text-[#121A16]" />
+            <View className="absolute end-2 top-2 size-6 items-center justify-center rounded-full bg-leaf">
+              <Icon as={Check} size={14} weight="bold" className="text-onLeaf" />
             </View>
           ) : null}
         </Pressable>

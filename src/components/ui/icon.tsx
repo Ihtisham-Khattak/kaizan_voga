@@ -26,14 +26,14 @@ cssInterop(IconImpl, {
 /**
  * Phosphor icon with NativeWind `className` support.
  * Use `weight="regular"` for UI icons and `weight="duotone"` for feature cards.
- * Decorative – put the accessibility label on the pressable parent.
+ * An explicit `color` prop wins over class-based colour. Decorative – put the accessibility label on the pressable parent.
  */
 function Icon({ as: IconComponent, className, size = 20, weight = 'regular', ...props }: IconProps) {
   const textClass = React.useContext(TextClassContext);
   return (
     <IconImpl
       as={IconComponent}
-      className={cn('text-foreground', textClass, className)}
+      className={props.color ? className : cn('text-foreground', textClass, className)}
       size={size}
       weight={weight}
       {...props}

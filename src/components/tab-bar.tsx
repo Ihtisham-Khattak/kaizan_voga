@@ -5,7 +5,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
@@ -31,7 +31,7 @@ export const TAB_BAR_CLEARANCE = 104;
  */
 export function TabBar({ state, descriptors, navigation }: TabBarProps) {
   const insets = useSafeAreaInsets();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const { t } = useT();
   const reduce = useReduceMotion();
 
@@ -74,11 +74,11 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
         />
         <Text
           variant="caption"
-          className={cn('text-kz-caption', focused && 'font-sans-semibold text-foreground')}
+          className={cn('text-kz-footnote', focused && 'font-sans-semibold text-foreground')}
         >
           {label}
         </Text>
-        <View className={cn('size-1 rounded-full', focused ? 'bg-sage' : 'bg-transparent')} />
+        <View className={cn('size-1 rounded-full', focused ? 'bg-leaf' : 'bg-transparent')} />
       </Pressable>
     );
   });
@@ -119,23 +119,23 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
                 height: 64,
                 borderRadius: 32,
                 borderWidth: 4,
-                borderColor: tokens.card,
-                backgroundColor: tokens.primary,
+                borderColor: colors.bgMist,
+                backgroundColor: colors.primary,
                 alignItems: 'center',
                 justifyContent: 'center',
-                shadowColor: tokens.forest,
+                shadowColor: colors.forest,
                 shadowOpacity: 0.3,
                 shadowRadius: 18,
                 shadowOffset: { width: 0, height: 8 },
                 elevation: 8,
               }}
             >
-              <KaizenIcon name="practice" size={30} color={tokens.primaryForeground} />
+              <KaizenIcon name="practice" size={30} color={colors.onPrimary} />
             </View>
           </MotiView>
           <Text
             variant="caption"
-            className={cn('text-kz-caption', focused && 'font-sans-semibold text-foreground')}
+            className={cn('text-kz-footnote', focused && 'font-sans-semibold text-foreground')}
           >
             {label}
           </Text>
@@ -149,8 +149,7 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
       pointerEvents="box-none"
       style={{ position: 'absolute', start: 12, end: 12, bottom: Math.max(insets.bottom, 10) + 4 }}
     >
-      <GlassView
-        level="standard"
+      <GlassCard
         radius={30}
         contentStyle={{
           flexDirection: 'row',
@@ -160,7 +159,7 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
         }}
       >
         {items}
-      </GlassView>
+      </GlassCard>
       {practice}
     </View>
   );

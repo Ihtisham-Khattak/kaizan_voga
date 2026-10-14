@@ -1,4 +1,12 @@
-import { CloudRain, Microphone, MicrophoneSlash, MusicNotes, Play, SpeakerSlash, Tree } from 'phosphor-react-native';
+import {
+  CloudRain,
+  Microphone,
+  MicrophoneSlash,
+  MusicNotes,
+  Play,
+  SpeakerSlash,
+  Tree,
+} from 'phosphor-react-native';
 import { MotiView } from 'moti';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -12,6 +20,7 @@ import { ChoiceTile } from '@/features/onboarding/choice-tile';
 import { PersonalizationShell } from '@/features/onboarding/shell';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
+import { useTheme } from '@/theme/theme-provider';
 import { usePrefsStore } from '@/store/prefs-store';
 import type { Ambience, VoicePreference } from '@/store/types';
 
@@ -30,6 +39,7 @@ const AMBIENCES: { id: Ambience; key: 'rain' | 'forest' | 'piano' | 'silence'; i
 /** Little equaliser bars for the (UI-only) sound preview. */
 function Bars({ playing }: { playing: boolean }) {
   const reduce = useReduceMotion();
+  const { colors } = useTheme();
   return (
     <View className="h-5 flex-row items-end gap-[3px]">
       {[0, 1, 2, 3].map((i) => (
@@ -37,7 +47,7 @@ function Bars({ playing }: { playing: boolean }) {
           key={i}
           animate={{ height: playing && !reduce ? [6, 18, 9, 16, 6] : 6 }}
           transition={{ type: 'timing', duration: 900 + i * 140, loop: playing && !reduce }}
-          style={{ width: 4, borderRadius: 2, backgroundColor: '#6E9C7F' }}
+          style={{ width: 4, borderRadius: 2, backgroundColor: colors.leaf }}
         />
       ))}
     </View>
@@ -85,7 +95,7 @@ export default function VoiceScreen() {
                 patch({ voice: v.id });
               }}
               leading={
-                <View className="bg-secondary size-14 items-center justify-center rounded-full">
+                <View className="size-14 items-center justify-center rounded-full bg-secondary">
                   <Icon as={v.icon} size={28} weight="duotone" className="text-primary" />
                 </View>
               }
@@ -96,7 +106,7 @@ export default function VoiceScreen() {
 
       <FadeUp delay={300} className="gap-3">
         <Text variant="heading">{t('onboardingR.voice.musicTitle')}</Text>
-        <View className="bg-card border-border min-h-16 flex-row items-center gap-3 rounded-card border px-4 py-3">
+        <View className="min-h-16 flex-row items-center gap-3 rounded-card border border-border bg-card px-4 py-3">
           <Icon as={MusicNotes} size={24} weight="duotone" className="text-primary" />
           <Text variant="body" className="flex-1">
             {t('onboardingR.voice.musicLabel')}
@@ -128,7 +138,7 @@ export default function VoiceScreen() {
                 patch({ ambience: a.id });
               }}
               leading={
-                <View className="bg-secondary size-14 items-center justify-center rounded-full">
+                <View className="size-14 items-center justify-center rounded-full bg-secondary">
                   <Icon as={a.icon} size={28} weight="duotone" className="text-primary" />
                 </View>
               }
@@ -137,9 +147,9 @@ export default function VoiceScreen() {
         </View>
         {/* UI-only preview of the selected sound, with a text alternative */}
         {ambience !== 'none' ? (
-          <View className="bg-secondary flex-row items-center gap-3 rounded-card px-4 py-3">
+          <View className="flex-row items-center gap-3 rounded-card bg-secondary px-4 py-3">
             <Bars playing={playing} />
-            <Text variant="caption" className="text-secondary-foreground flex-1">
+            <Text variant="caption" className="flex-1 text-secondary-foreground">
               {t(`onboardingR.voice.${current.key}.caption`)}
             </Text>
             <Button size="sm" variant="outline" onPress={() => setPlaying((p) => !p)}>

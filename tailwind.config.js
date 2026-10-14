@@ -1,6 +1,6 @@
 const { hairlineWidth } = require('nativewind/theme');
-
-const rgb = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+// Colours, type scale, font families and radii are generated from src/theme/*.ts – run `npm run theme:sync`.
+const theme = require('./src/theme/tailwind.generated');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -10,51 +10,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // shadcn / React Native Reusables semantic tokens
-        border: rgb('border'),
-        input: rgb('input'),
-        ring: rgb('ring'),
-        background: rgb('background'),
-        foreground: rgb('foreground'),
-        primary: { DEFAULT: rgb('primary'), foreground: rgb('primary-foreground') },
-        secondary: { DEFAULT: rgb('secondary'), foreground: rgb('secondary-foreground') },
-        destructive: { DEFAULT: rgb('destructive'), foreground: rgb('destructive-foreground') },
-        muted: { DEFAULT: rgb('muted'), foreground: rgb('muted-foreground') },
-        accent: { DEFAULT: rgb('accent'), foreground: rgb('accent-foreground') },
-        card: { DEFAULT: rgb('card'), foreground: rgb('card-foreground') },
-        popover: { DEFAULT: rgb('popover'), foreground: rgb('popover-foreground') },
-        // Kaizen brand palette (dark-mode aware via CSS variables)
-        forest: rgb('forest'),
-        sage: rgb('sage'),
-        mint: rgb('mint'),
-        cream: rgb('cream'),
-        sand: rgb('sand'),
-        coral: rgb('coral'),
-        lavender: rgb('lavender'),
-        ink: rgb('ink'),
-        muted_text: rgb('muted-text'),
+        // shadcn / React Native Reusables semantic tokens (generated, with -foreground pairs)
+        border: theme.colors.border,
+        input: theme.colors.input,
+        ring: theme.colors.ring,
+        background: theme.colors.background,
+        foreground: theme.colors.foreground,
+        primary: { DEFAULT: theme.colors.primary, foreground: theme.colors['primary-foreground'] },
+        secondary: { DEFAULT: theme.colors.secondary, foreground: theme.colors['secondary-foreground'] },
+        destructive: { DEFAULT: theme.colors.destructive, foreground: theme.colors['destructive-foreground'] },
+        muted: { DEFAULT: theme.colors.muted, foreground: theme.colors['muted-foreground'] },
+        accent: { DEFAULT: theme.colors.accent, foreground: theme.colors['accent-foreground'] },
+        card: { DEFAULT: theme.colors.card, foreground: theme.colors['card-foreground'] },
+        popover: { DEFAULT: theme.colors.popover, foreground: theme.colors['popover-foreground'] },
+        // Kaizen palette names (colors.ts) as classes: bg-leaf, text-sky, bg-skySoft …
+        bg: theme.colors.bg,
+        bgMist: theme.colors['bg-mist'],
+        forest: theme.colors.forest,
+        ink: theme.colors.ink,
+        mint: theme.colors.mint,
+        leaf: theme.colors.leaf,
+        sky: theme.colors.sky,
+        skySoft: theme.colors['sky-soft'],
+        lavender: theme.colors.lavender,
+        lavenderSoft: theme.colors['lavender-soft'],
+        sunrise: theme.colors.sunrise,
+        sunriseSoft: theme.colors['sunrise-soft'],
+        sunriseInk: theme.colors['sunrise-ink'],
+        hairline: theme.colors.hairline,
+        danger: theme.colors.danger,
+        onPrimary: theme.colors['on-primary'],
+        onLeaf: theme.colors['on-leaf'],
+        onDanger: theme.colors['on-danger'],
       },
-      fontFamily: {
-        display: ['Fraunces_600SemiBold'],
-        'display-medium': ['Fraunces_500Medium'],
-        sans: ['PlusJakartaSans_400Regular'],
-        'sans-medium': ['PlusJakartaSans_500Medium'],
-        'sans-semibold': ['PlusJakartaSans_600SemiBold'],
-        'sans-bold': ['PlusJakartaSans_700Bold'],
-      },
-      fontSize: {
-        // 32 / 24 / 20 / 17 / 15 / 13, line-height >= 1.4
-        'kz-display': ['32px', { lineHeight: '45px' }],
-        'kz-title': ['24px', { lineHeight: '34px' }],
-        'kz-heading': ['20px', { lineHeight: '28px' }],
-        'kz-lead': ['17px', { lineHeight: '25px' }],
-        'kz-body': ['15px', { lineHeight: '22px' }],
-        'kz-caption': ['13px', { lineHeight: '19px' }],
-      },
-      borderRadius: {
-        card: '24px',
-        pill: '999px',
-      },
+      fontFamily: theme.fontFamily,
+      fontSize: theme.fontSize,
+      borderRadius: theme.borderRadius,
       borderWidth: { hairline: hairlineWidth() },
       keyframes: {
         'accordion-down': { from: { height: '0' }, to: { height: 'var(--radix-accordion-content-height)' } },

@@ -8,7 +8,7 @@ import Animated, { runOnJS, useAnimatedStyle, withSpring } from 'react-native-re
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SceneBackground } from '@/characters/props';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { scenes } from '@/data/story';
@@ -27,17 +27,14 @@ interface Props {
 }
 
 function Dot({ active }: { active: boolean }) {
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const style = useAnimatedStyle(() => ({
     width: withSpring(active ? 26 : 8, spring.gentle),
     opacity: withSpring(active ? 1 : 0.45, spring.gentle),
   }));
   return (
     <Animated.View
-      style={[
-        { height: 8, borderRadius: 4, backgroundColor: active ? tokens.primary : tokens.mutedText },
-        style,
-      ]}
+      style={[{ height: 8, borderRadius: 4, backgroundColor: active ? colors.primary : colors.muted }, style]}
     />
   );
 }
@@ -125,11 +122,7 @@ export function StoryShell({ scenes: SceneList }: Props) {
 
       {/* Back (scenes 1+) */}
       {index > 0 ? (
-        <GlassView
-          level="subtle"
-          radius={22}
-          style={{ position: 'absolute', top: insets.top + 8, start: 12 }}
-        >
+        <GlassCard radius={22} style={{ position: 'absolute', top: insets.top + 8, start: 12 }}>
           <Pressable
             onPress={controls.prev}
             accessibilityRole="button"
@@ -143,11 +136,11 @@ export function StoryShell({ scenes: SceneList }: Props) {
               style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
             />
           </Pressable>
-        </GlassView>
+        </GlassCard>
       ) : null}
 
       {/* Skip – visible on every scene */}
-      <GlassView level="subtle" radius={22} style={{ position: 'absolute', top: insets.top + 8, end: 12 }}>
+      <GlassCard radius="pill" style={{ position: 'absolute', top: insets.top + 8, end: 12 }}>
         <Pressable
           onPress={controls.skip}
           accessibilityRole="button"
@@ -156,7 +149,7 @@ export function StoryShell({ scenes: SceneList }: Props) {
         >
           <Text variant="label">{t('common.skip')}</Text>
         </Pressable>
-      </GlassView>
+      </GlassCard>
 
       {/* Progress dots */}
       <View
@@ -169,8 +162,7 @@ export function StoryShell({ scenes: SceneList }: Props) {
           alignItems: 'center',
         }}
       >
-        <GlassView
-          level="subtle"
+        <GlassCard
           radius={16}
           shadow={false}
           contentStyle={{
@@ -190,7 +182,7 @@ export function StoryShell({ scenes: SceneList }: Props) {
               <Dot key={i} active={i === index} />
             ))}
           </View>
-        </GlassView>
+        </GlassCard>
       </View>
     </View>
   );

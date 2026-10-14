@@ -4,15 +4,15 @@ import { View } from 'react-native';
 import { Text, TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
-/** Radius 24, soft low-opacity shadow with a large blur. */
+/** Radius 20 (cards), soft low-opacity shadow with a large blur. For frosted panels use <GlassCard>. */
 const cardVariants = cva('flex flex-col gap-4 rounded-card py-5', {
   variants: {
     variant: {
-      default: 'border border-border bg-card shadow-lg shadow-forest/10',
-      mint: 'bg-secondary',
-      sand: 'bg-sand/40',
-      lavender: 'bg-lavender/30',
-      outline: 'border border-border bg-transparent',
+      default: 'border border-hairline bg-card shadow-lg shadow-forest/10',
+      mint: 'bg-mint',
+      sunrise: 'bg-sunriseSoft',
+      lavender: 'bg-lavenderSoft',
+      outline: 'border border-hairline bg-transparent',
       flat: 'bg-card',
     },
   },

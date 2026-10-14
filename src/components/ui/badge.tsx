@@ -13,28 +13,29 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary',
-        secondary: 'bg-secondary',
-        coral: 'bg-coral/25',
-        lavender: 'bg-lavender/35',
-        sand: 'bg-sand/60',
-        destructive: 'bg-destructive/10',
-        outline: 'border border-border',
+        secondary: 'bg-mint',
+        sky: 'bg-skySoft',
+        lavender: 'bg-lavenderSoft',
+        // celebration / achievements only
+        sunrise: 'bg-sunriseSoft',
+        destructive: 'bg-danger/10',
+        outline: 'border border-hairline',
       },
     },
     defaultVariants: { variant: 'secondary' },
   }
 );
 
-const badgeTextVariants = cva('font-sans-medium text-kz-caption', {
+const badgeTextVariants = cva('font-sans-medium text-kz-footnote', {
   variants: {
     variant: {
-      default: 'text-primary-foreground',
-      secondary: 'text-secondary-foreground',
-      coral: 'text-foreground',
-      lavender: 'text-foreground',
-      sand: 'text-foreground',
-      destructive: 'text-destructive',
-      outline: 'text-foreground',
+      default: 'text-onPrimary',
+      secondary: 'text-forest',
+      sky: 'text-sky',
+      lavender: 'text-lavender',
+      sunrise: 'text-sunriseInk',
+      destructive: 'text-danger',
+      outline: 'text-ink',
     },
   },
   defaultVariants: { variant: 'secondary' },

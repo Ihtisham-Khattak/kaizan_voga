@@ -34,7 +34,7 @@ const SIGNATURE: Record<CharacterName, string> = {
 /** Card C-07 – design-review sheet: every character × pose × mood, with theme / size / RTL toggles. */
 export default function CharacterSheet() {
   const insets = useSafeAreaInsets();
-  const { tokens, scheme } = useTheme();
+  const { colors, scheme } = useTheme();
   const set = useAppStore((s) => s.set);
   const theme = useAppStore((s) => s.theme);
   const [size, setSize] = useState(170);
@@ -149,9 +149,7 @@ export default function CharacterSheet() {
           <Bench width={300} muted />
           <LotusLogo size={88} />
         </View>
-        <View
-          style={{ height: 180, borderRadius: 24, overflow: 'hidden', backgroundColor: tokens.secondary }}
-        >
+        <View style={{ height: 180, borderRadius: 24, overflow: 'hidden', backgroundColor: colors.mint }}>
           <SceneBackground colors={scheme === 'dark' ? ['#2A2418', '#1A1A14'] : ['#F4E6CB', '#FAF3E3']} />
           <LightRays width={340} height={180} />
           <ConfettiLeaves width={340} height={180} count={10} />

@@ -2,6 +2,7 @@ import type { Mood } from '@/store/types';
 
 import { MOOD_PARAMS } from '../engine/mood-params';
 import type { Prim } from './types';
+import { art } from '@/theme/illustration';
 
 /**
  * Static (non-animated) face in the 0–100 face box – the reference the animated <Face> follows,
@@ -11,7 +12,7 @@ export function faceStatic(
   mood: Mood,
   opts: { boost?: number; ink?: string; blush?: string; nose?: string } = {}
 ): Prim[] {
-  const { boost = 1, ink = '#24302A', blush = '#E98A6B', nose } = opts;
+  const { boost = 1, ink = art.ink, blush = art.coral, nose } = opts;
   const p = MOOD_PARAMS[mood];
   const base = 33 + p.lift;
   const outer = base + p.tilt * 3;
@@ -44,7 +45,7 @@ export function faceStatic(
       cx: 34 + eyeR * 0.35,
       cy: 48 - eyeR * 0.35,
       r: Math.max(0.8, eyeR * 0.28),
-      fill: '#FFFFFF',
+      fill: art.white,
       op: 0.9,
     },
     {
@@ -52,7 +53,7 @@ export function faceStatic(
       cx: 66 + eyeR * 0.35,
       cy: 48 - eyeR * 0.35,
       r: Math.max(0.8, eyeR * 0.28),
-      fill: '#FFFFFF',
+      fill: art.white,
       op: 0.9,
     },
     {

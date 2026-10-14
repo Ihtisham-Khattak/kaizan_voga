@@ -19,13 +19,18 @@ import { useTheme } from '@/theme/theme-provider';
 const TIMES: PreferredTime[] = ['morning', 'afternoon', 'evening', 'varies'];
 
 function TimeIcon({ id }: { id: PreferredTime }) {
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   return (
-    <View className="bg-secondary size-14 items-center justify-center rounded-full">
+    <View className="size-14 items-center justify-center rounded-full bg-secondary">
       {id === 'morning' ? (
-        <KaizenIcon name="sunrise" size={30} color={tokens.primary} />
+        <KaizenIcon name="sunrise" size={30} color={colors.primary} />
       ) : (
-        <Icon as={id === 'afternoon' ? Sun : id === 'evening' ? Moon : Shuffle} size={30} weight="duotone" className="text-primary" />
+        <Icon
+          as={id === 'afternoon' ? Sun : id === 'evening' ? Moon : Shuffle}
+          size={30}
+          weight="duotone"
+          className="text-primary"
+        />
       )}
     </View>
   );

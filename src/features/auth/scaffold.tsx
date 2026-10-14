@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Character } from '@/characters/character';
 import { Blob } from '@/components/cover-art';
 import { FadeUp } from '@/components/fade-up';
-import { GlassView } from '@/components/glass-view';
+import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
@@ -32,23 +32,19 @@ interface Props {
  */
 export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, children, footer }: Props) {
   const { t } = useT();
-  const { tokens } = useTheme();
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   return (
     <View className="flex-1 bg-background">
       <View style={{ position: 'absolute', end: -70, top: -50 }} pointerEvents="none">
-        <Blob color={tokens.sage} size={280} opacity={0.14} />
+        <Blob color={colors.leaf} size={280} opacity={0.14} />
       </View>
       <View style={{ position: 'absolute', start: -80, bottom: 60 }} pointerEvents="none">
-        <Blob color={tokens.sand} size={240} opacity={0.25} />
+        <Blob color={colors.sunriseSoft} size={240} opacity={0.25} />
       </View>
 
       {!hideBack && router.canGoBack() ? (
-        <GlassView
-          level="subtle"
-          radius={22}
-          style={{ position: 'absolute', top: insets.top + 8, start: 12, zIndex: 5 }}
-        >
+        <GlassCard radius={22} style={{ position: 'absolute', top: insets.top + 8, start: 12, zIndex: 5 }}>
           <Pressable
             onPress={() => router.back()}
             accessibilityRole="button"
@@ -62,7 +58,7 @@ export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, childre
               style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
             />
           </Pressable>
-        </GlassView>
+        </GlassCard>
       ) : null}
 
       <KeyboardAwareScrollView
@@ -80,7 +76,7 @@ export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, childre
           <Character name="kai" pose="float" mood={mood} size={104} />
         </View>
         <FadeUp className="gap-1.5">
-          <Text variant="display" className="text-center text-kz-title">
+          <Text variant="title1" className="text-center">
             {title}
           </Text>
           {subtitle ? (

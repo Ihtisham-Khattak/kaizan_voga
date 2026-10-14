@@ -22,8 +22,16 @@ interface AppState {
   motion: MotionPreference;
   captions: boolean;
   haptics: boolean;
-  largerText: boolean;
+  /** App-wide text size multiplier. */
+  textScale: 1 | 1.15 | 1.3;
+  highContrast: boolean;
   units: 'metric' | 'imperial';
+  /** Offline downloads only over Wi-Fi. */
+  wifiOnly: boolean;
+  /** Anonymous usage stats – opt-in, off by default. */
+  analytics: boolean;
+  /** Share mindful minutes with Apple Health / Health Connect (UI only for now). */
+  healthSync: boolean;
 
   setHasSeenStory: (v: boolean) => void;
   setOnboardingStep: (step: string | null) => void;
@@ -33,11 +41,26 @@ interface AppState {
   setPostGateRoute: (r: string | null) => void;
   set: (
     patch: Partial<
-      Pick<AppState, 'language' | 'theme' | 'motion' | 'captions' | 'haptics' | 'largerText' | 'units'>
+      Pick<
+        AppState,
+        | 'language'
+        | 'theme'
+        | 'motion'
+        | 'captions'
+        | 'haptics'
+        | 'textScale'
+        | 'highContrast'
+        | 'units'
+        | 'wifiOnly'
+        | 'analytics'
+        | 'healthSync'
+      >
     >
   ) => void;
   /** "Replay intro" – re-shows the story without touching any user data. */
   replayIntro: () => void;
+  /** Start the 30-day path again from day 1 (history is kept). */
+  restartJourney: () => void;
   reset: () => void;
 }
 
@@ -54,8 +77,12 @@ const initial = {
   motion: 'system' as MotionPreference,
   captions: true,
   haptics: true,
-  largerText: false,
+  textScale: 1 as 1 | 1.15 | 1.3,
+  highContrast: false,
   units: 'metric' as const,
+  wifiOnly: true,
+  analytics: false,
+  healthSync: false,
 };
 
 export const useAppStore = register(
@@ -76,6 +103,7 @@ export const useAppStore = register(
         setPostGateRoute: (postGateRoute) => set({ postGateRoute }),
         set: (patch) => set(patch),
         replayIntro: () => set({ hasSeenStory: false }),
+        restartJourney: () => set({ journeyStartedAt: new Date().toISOString() }),
         reset: () => set(initial),
       }),
       { name: 'kz-app', version: 1, storage }
