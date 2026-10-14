@@ -19,6 +19,8 @@ interface Props {
   tint?: keyof Pick<Tokens, 'sage' | 'lavender' | 'coral' | 'sand' | 'primary'>;
   /** Show "Inhale… / Hold… / Exhale…" in the middle. */
   showCue?: boolean;
+  /** Softer, more transparent rings – for use as a background behind characters. */
+  soft?: boolean;
   onPhaseChange?: (phase: BreathPhase, index: number) => void;
   /** Extra content centred in the circle (replaces the cue). */
   children?: React.ReactNode;
@@ -34,6 +36,7 @@ export function BreathingCircle({
   running = true,
   tint = 'sage',
   showCue = false,
+  soft = false,
   onPhaseChange,
   children,
 }: Props) {
@@ -68,15 +71,15 @@ export function BreathingCircle({
 
   const outer = useAnimatedStyle(() => ({
     transform: [{ scale: reduce ? 0.9 : scale.value }],
-    opacity: reduce ? 0.12 + glow.value * 0.3 : 0.2 + glow.value * 0.1,
+    opacity: (reduce ? 0.12 + glow.value * 0.3 : 0.2 + glow.value * 0.1) * (soft ? 0.7 : 1),
   }));
   const mid = useAnimatedStyle(() => ({
     transform: [{ scale: reduce ? 0.78 : 0.82 * scale.value + 0.1 }],
-    opacity: reduce ? 0.2 + glow.value * 0.35 : 0.35,
+    opacity: (reduce ? 0.2 + glow.value * 0.35 : 0.35) * (soft ? 0.7 : 1),
   }));
   const core = useAnimatedStyle(() => ({
     transform: [{ scale: reduce ? 0.62 : 0.62 * scale.value + 0.12 }],
-    opacity: 0.9,
+    opacity: soft ? 0.5 : 0.9,
   }));
 
   const color = tokens[tint];

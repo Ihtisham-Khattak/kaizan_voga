@@ -24,6 +24,8 @@ interface Props {
   visible?: boolean;
   /** Which side the tail sits on. Uses start/end so it mirrors in RTL. */
   tail?: 'start' | 'end' | 'none';
+  /** Horizontal tail position as a fraction (0–1) of the bubble width from the start edge – points at the speaker. */
+  tailAt?: number;
   /** Show the speaker's name above the text. */
   showName?: boolean;
   className?: string;
@@ -39,6 +41,7 @@ export function SpeechBubble({
   delay = 0,
   visible = true,
   tail = 'start',
+  tailAt,
   showName = true,
   className,
 }: Props) {
@@ -79,8 +82,9 @@ export function SpeechBubble({
         <View
           className={cn(
             'absolute -bottom-[7px] size-3.5 rotate-45 border-b border-r border-border bg-card',
-            tail === 'start' ? 'start-6' : 'end-6'
+            tailAt === undefined && (tail === 'start' ? 'start-6' : 'end-6')
           )}
+          style={tailAt === undefined ? undefined : { start: `${Math.round(tailAt * 100)}%`, marginStart: -7 }}
         />
       ) : null}
     </MotiView>

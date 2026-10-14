@@ -1,31 +1,38 @@
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
+import { Character } from '@/characters/character';
+import type { KaiPose } from '@/characters/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import { KaizenIcon } from '@/icons';
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/theme/theme-provider';
+import type { Mood } from '@/store/types';
 
 interface Props {
   title: string;
   body?: string;
   cta?: { label: string; onPress: () => void };
-  /** Replace the default illustration. The Kai character is plugged in here once C-06 lands. */
+  /** Kai's mood for this situation (e.g. 'tired' for errors, 'calm' for nothing-here-yet). */
+  mood?: Mood;
+  pose?: KaiPose;
+  /** Replace Kai with something else. */
   illustration?: ReactNode;
   className?: string;
 }
 
-/** Friendly empty state: illustration + warm copy + optional action. */
-export function EmptyState({ title, body, cta, illustration, className }: Props) {
-  const { tokens } = useTheme();
+/** Friendly empty state: Kai + warm copy + optional action. */
+export function EmptyState({
+  title,
+  body,
+  cta,
+  mood = 'calm',
+  pose = 'float',
+  illustration,
+  className,
+}: Props) {
   return (
-    <View className={cn('items-center gap-4 px-8 py-10', className)}>
-      {illustration ?? (
-        <View className="size-28 items-center justify-center rounded-full bg-secondary">
-          <KaizenIcon name="leaf" size={48} color={tokens.sage} />
-        </View>
-      )}
+    <View className={cn('items-center gap-4 px-8 py-8', className)}>
+      {illustration ?? <Character name="kai" pose={pose} mood={mood} size={150} />}
       <View className="items-center gap-1.5">
         <Text variant="title" className="text-center">
           {title}

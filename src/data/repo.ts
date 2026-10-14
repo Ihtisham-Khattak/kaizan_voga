@@ -2,14 +2,14 @@
  * The ONLY module screens import content from. Today it reads local mock data synchronously;
  * a backend can replace the bodies with async fetches without changing any screen's layout.
  */
-import type { Goal } from '@/store/types';
+import type { Equipment, Goal } from '@/store/types';
 
 import { breathingById, breathingSessions } from './breathing';
 import { exerciseById, exercises } from './exercises';
 import { achievements, challenges, helplines, styles } from './misc';
 import { programById, programs } from './programs';
 import { routineById, routines } from './routines';
-import type { Exercise, ExerciseCategory, Level, Routine } from './types';
+import type { Exercise, ExerciseCategory, Level, Position, Routine } from './types';
 
 export * from './types';
 
@@ -28,6 +28,8 @@ export const listBreathing = () => breathingSessions;
 export const listAchievements = () => achievements;
 export const listChallenges = () => challenges;
 export const listStyles = () => styles;
+export const getStyle = (id: string) => styles.find((s) => s.id === id);
+export const routinesByStyle = (id: string) => routines.filter((r) => r.style === id);
 export const listHelplines = () => helplines;
 
 export const exercisesByCategory = (c: ExerciseCategory) => exercises.filter((e) => e.category === c);
@@ -42,6 +44,8 @@ export interface SearchFilters {
   goal?: Goal;
   maxSec?: number;
   chairFriendly?: boolean;
+  position?: Position;
+  equipment?: Equipment;
 }
 
 const norm = (s: string) => s.toLowerCase().normalize('NFKD');
@@ -55,16 +59,19 @@ export function search(f: SearchFilters): { exercises: Exercise[]; routines: Rou
     (!f.level || e.level === f.level) &&
     (!f.goal || e.tags.goal.includes(f.goal)) &&
     (!f.maxSec || e.durationSec <= f.maxSec) &&
-    (!f.chairFriendly || e.tags.accessibility.includes('chair-friendly'));
+    (!f.chairFriendly || e.tags.accessibility.includes('chair-friendly')) &&
+    (!f.position || e.tags.position === f.position) &&
+    (!f.equipment || e.tags.equipment.includes(f.equipment));
   const matchRt = (r: Routine) =>
     (!q || norm(`${r.title} ${r.subtitle} ${r.style}`).includes(q)) &&
     (!f.level || r.level === f.level) &&
     (!f.goal || r.goals.includes(f.goal)) &&
     (!f.maxSec || r.totalSec <= f.maxSec) &&
-    (!f.chairFriendly || r.chairFriendly);
+    (!f.chairFriendly || r.chairFriendly) &&
+    (!f.equipment || r.equipment.includes(f.equipment));
   return {
     exercises: exercises.filter(matchEx),
     // Category only applies to poses.
-    routines: f.category ? [] : routines.filter(matchRt),
+    routines: f.category || f.position ? [] : routines.filter(matchRt),
   };
 }

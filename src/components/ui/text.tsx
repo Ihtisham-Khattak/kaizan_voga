@@ -55,6 +55,25 @@ const HEADING_LEVEL: Partial<Record<TextVariant, string>> = {
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
+const URDU_LINE_HEIGHT: Partial<Record<TextVariant, number>> = {
+  display: 64,
+  h1: 64,
+  title: 52,
+  h2: 52,
+  heading: 44,
+  h3: 44,
+  lead: 46,
+  body: 42,
+  p: 42,
+  default: 42,
+  label: 42,
+  h4: 46,
+  large: 46,
+  caption: 36,
+  small: 36,
+  muted: 36,
+};
+
 function weightFromClass(cls: string): Weight {
   if (/font-(sans|display)-bold/.test(cls)) return '700';
   if (/font-(sans|display)-semibold|font-display(?!-)/.test(cls)) return '600';
@@ -83,10 +102,14 @@ function Text({
     className
   );
 
-  // Urdu: swap every family for Noto Nastaliq at the matching weight.
+  // Urdu: swap every family for Noto Nastaliq at the matching weight. Nastaliq is tall, so it needs generous line-height.
   const urduStyle: TextStyle | undefined =
     language === 'ur'
-      ? { fontFamily: urduFamily[weightFromClass(resolved)], writingDirection: 'rtl' }
+      ? {
+          fontFamily: urduFamily[weightFromClass(resolved)],
+          writingDirection: 'rtl',
+          lineHeight: URDU_LINE_HEIGHT[variant ?? 'body'] ?? 40,
+        }
       : undefined;
 
   return (

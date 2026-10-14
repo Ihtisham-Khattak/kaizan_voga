@@ -6,11 +6,11 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GlassView } from '@/components/glass-view';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { haptic } from '@/lib/haptics';
-import { cn } from '@/lib/utils';
 
 type ToastKind = 'success' | 'info' | 'gentle';
 interface ToastItem {
@@ -37,10 +37,10 @@ export const toast = {
 };
 
 const ICON = { success: CheckCircle, info: Info, gentle: Leaf } as const;
-const TONE: Record<ToastKind, string> = {
-  success: 'bg-secondary border-sage',
-  info: 'bg-card border-border',
-  gentle: 'bg-sand/60 border-sand',
+const TINT: Record<ToastKind, string | undefined> = {
+  success: 'rgba(110,156,127,0.22)',
+  info: undefined,
+  gentle: 'rgba(238,217,183,0.35)',
 };
 
 const DURATION = 3000;
@@ -83,15 +83,24 @@ export function ToastHost() {
           accessibilityLiveRegion="polite"
           accessible
           accessibilityLabel={item.message}
-          className={cn(
-            'flex-row items-center gap-3 rounded-2xl border px-4 py-3 shadow-lg shadow-forest/15',
-            TONE[item.kind]
-          )}
         >
-          <Icon as={IconCmp} size={22} weight="duotone" className="text-primary" />
-          <Text variant="body" className="flex-1">
-            {item.message}
-          </Text>
+          <GlassView
+            level="standard"
+            radius={20}
+            tint={TINT[item.kind]}
+            contentStyle={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+            }}
+          >
+            <Icon as={IconCmp} size={22} weight="duotone" className="text-primary" />
+            <Text variant="body" className="flex-1">
+              {item.message}
+            </Text>
+          </GlassView>
         </MotiView>
       </GestureDetector>
     </View>

@@ -12,6 +12,10 @@ interface AppState {
   onboardingComplete: boolean;
   ageConfirmed: boolean;
   safetyAcknowledgedAt: string | null;
+  /** Where to go once the account gate is answered (set by the plan reveal). */
+  postGateRoute: string | null;
+  /** ISO date the 30-day journey began (set when onboarding completes). */
+  journeyStartedAt: string | null;
 
   language: Language;
   theme: ThemePreference;
@@ -26,6 +30,7 @@ interface AppState {
   completeOnboarding: () => void;
   confirmAge: () => void;
   acknowledgeSafety: () => void;
+  setPostGateRoute: (r: string | null) => void;
   set: (
     patch: Partial<
       Pick<AppState, 'language' | 'theme' | 'motion' | 'captions' | 'haptics' | 'largerText' | 'units'>
@@ -42,6 +47,8 @@ const initial = {
   onboardingComplete: false,
   ageConfirmed: false,
   safetyAcknowledgedAt: null,
+  postGateRoute: null as string | null,
+  journeyStartedAt: null as string | null,
   language: 'en' as Language,
   theme: 'system' as ThemePreference,
   motion: 'system' as MotionPreference,
@@ -58,9 +65,15 @@ export const useAppStore = register(
         ...initial,
         setHasSeenStory: (hasSeenStory) => set({ hasSeenStory }),
         setOnboardingStep: (onboardingStep) => set({ onboardingStep }),
-        completeOnboarding: () => set({ onboardingComplete: true, onboardingStep: null }),
+        completeOnboarding: () =>
+          set((s) => ({
+            onboardingComplete: true,
+            onboardingStep: null,
+            journeyStartedAt: s.journeyStartedAt ?? new Date().toISOString(),
+          })),
         confirmAge: () => set({ ageConfirmed: true }),
         acknowledgeSafety: () => set({ safetyAcknowledgedAt: new Date().toISOString() }),
+        setPostGateRoute: (postGateRoute) => set({ postGateRoute }),
         set: (patch) => set(patch),
         replayIntro: () => set({ hasSeenStory: false }),
         reset: () => set(initial),

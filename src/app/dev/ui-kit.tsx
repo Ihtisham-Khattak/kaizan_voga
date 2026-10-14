@@ -2,6 +2,8 @@ import { router } from 'expo-router';
 import { Heart, Leaf, Moon, Sparkle } from 'phosphor-react-native';
 import { useState } from 'react';
 import { BottomSheet } from '@/components/bottom-sheet';
+import { GlassView } from '@/components/glass-view';
+import { SceneBackground } from '@/characters/props';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { EmptyState } from '@/components/empty-state';
 import { ExerciseCard } from '@/components/exercise-card';
@@ -252,6 +254,46 @@ export default function UiKit() {
         <View className="gap-2">
           <Skeleton className="h-6 w-2/3" />
           <Skeleton className="h-24 w-full" />
+        </View>
+      </Section>
+
+      <Section title="Glass surfaces">
+        <View style={{ height: 230, borderRadius: 24, overflow: 'hidden' }}>
+          <SceneBackground colors={scheme === 'dark' ? ['#183025', '#2A2418'] : ['#BFE3CB', '#F6D9B8']} />
+          <View
+            style={{
+              position: 'absolute',
+              top: 18,
+              start: 24,
+              width: 110,
+              height: 110,
+              borderRadius: 55,
+              backgroundColor: tokens.coral,
+            }}
+          />
+          <View
+            style={{
+              position: 'absolute',
+              top: 70,
+              end: 30,
+              width: 140,
+              height: 140,
+              borderRadius: 70,
+              backgroundColor: tokens.lavender,
+            }}
+          />
+          <View style={{ position: 'absolute', start: 14, end: 14, top: 14, gap: 10 }}>
+            <GlassView level="subtle" radius={18} contentStyle={{ padding: 12 }}>
+              <Text variant="label">Subtle glass</Text>
+            </GlassView>
+            <GlassView level="standard" radius={20} contentStyle={{ padding: 14 }}>
+              <Text variant="label">Standard glass</Text>
+              <Text variant="caption">Blur + translucent fill + hairline border</Text>
+            </GlassView>
+            <GlassView level="strong" radius={22} contentStyle={{ padding: 16 }}>
+              <Text variant="label">Strong glass (sheets, pinned footers)</Text>
+            </GlassView>
+          </View>
         </View>
       </Section>
 

@@ -14,6 +14,7 @@ interface ProgressState {
   /** Mood chosen on Home check-in today (used for before → after). */
   addSession: (s: SessionRecord) => void;
   logMood: (mood: Mood, context: MoodLog['context'], sessionId?: string) => MoodLog;
+  removeMood: (id: string) => void;
   addReflection: (r: MonthlyReflection) => void;
   unlock: (achievementId: string) => void;
   joinChallenge: (id: string) => void;
@@ -41,6 +42,7 @@ export const useProgressStore = register(
           set((st) => ({ moodLogs: [log, ...st.moodLogs] }));
           return log;
         },
+        removeMood: (id) => set((st) => ({ moodLogs: st.moodLogs.filter((m) => m.id !== id) })),
         addReflection: (r) => set((st) => ({ reflections: [r, ...st.reflections] })),
         unlock: (id) =>
           set((st) =>

@@ -3,16 +3,31 @@ import {
   BottomSheetModal,
   BottomSheetView,
   type BottomSheetBackdropProps,
+  type BottomSheetBackgroundProps,
 } from '@gorhom/bottom-sheet';
 import { X } from 'phosphor-react-native';
 import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GlassView } from '@/components/glass-view';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
 import { useTheme } from '@/theme/theme-provider';
+
+/** Frosted-glass sheet surface; page content dims and blurs behind it. */
+function SheetBackground({ style }: BottomSheetBackgroundProps) {
+  return (
+    <GlassView
+      level="strong"
+      radii={{ tl: 28, tr: 28 }}
+      shadow={false}
+      style={style}
+      contentStyle={{ flex: 1 }}
+    />
+  );
+}
 
 interface Props {
   visible: boolean;
@@ -63,7 +78,7 @@ export function BottomSheet({ visible, onClose, title, snapPoints, hideClose, ch
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       android_keyboardInputMode="adjustResize"
-      backgroundStyle={{ backgroundColor: tokens.card, borderTopLeftRadius: 28, borderTopRightRadius: 28 }}
+      backgroundComponent={SheetBackground}
       handleIndicatorStyle={{ backgroundColor: tokens.border, width: 44 }}
     >
       <BottomSheetView style={{ paddingHorizontal: 20, paddingBottom: insets.bottom + 20, gap: 16 }}>

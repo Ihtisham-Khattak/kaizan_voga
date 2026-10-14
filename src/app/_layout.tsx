@@ -1,4 +1,5 @@
 import '@/global.css';
+import '@/lib/nativewind-interop';
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalHost } from '@rn-primitives/portal';

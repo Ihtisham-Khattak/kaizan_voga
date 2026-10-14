@@ -1,12 +1,70 @@
-import { ScreenStub } from '@/components/screen-stub';
+import { Heartbeat, HandPalm, Stethoscope } from 'phosphor-react-native';
+import { useState } from 'react';
+import { Pressable, View } from 'react-native';
 
-export default function Screen() {
+import { Character } from '@/characters/character';
+import { FadeUp } from '@/components/fade-up';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
+import { PersonalizationShell } from '@/features/onboarding/shell';
+import { goNext } from '@/features/onboarding/steps';
+import { useT } from '@/i18n';
+import { useAppStore } from '@/store/app-store';
+
+const ROWS = [
+  { key: 'stop', icon: HandPalm },
+  { key: 'professional', icon: Stethoscope },
+  { key: 'notMedical', icon: Heartbeat },
+] as const;
+
+/** Onboarding Q9 — safety notice. Required: Continue stays disabled until "I understand" is ticked. */
+export default function SafetyScreen() {
+  const { t } = useT();
+  const [checked, setChecked] = useState(() => !!useAppStore.getState().safetyAcknowledgedAt);
+
   return (
-    <ScreenStub
-      id="P-09"
-      title="Q9 Safety notice"
-      note="Personalization step"
-      links={[{ label: 'Continue', href: '/reminders' }]}
-    />
+    <PersonalizationShell
+      step="safety"
+      title={t('onboardingR.safety.title')}
+      subtitle={t('onboardingR.safety.subtitle')}
+      canContinue={checked}
+      onContinue={() => {
+        useAppStore.getState().acknowledgeSafety();
+        goNext('safety');
+      }}
+    >
+      <View className="items-center">
+        <Character name="kai" pose="float" mood="calm" size={120} />
+      </View>
+
+      <View className="border-sand bg-sand/40 gap-4 rounded-card border p-5">
+        {ROWS.map((r, i) => (
+          <FadeUp key={r.key} delay={150 + i * 120} distance={10} className="flex-row items-start gap-3">
+            <View className="bg-card size-10 items-center justify-center rounded-full">
+              <Icon as={r.icon} size={22} weight="duotone" className="text-primary" />
+            </View>
+            <Text variant="body" className="flex-1">
+              {t(`onboardingR.safety.${r.key}`)}
+            </Text>
+          </FadeUp>
+        ))}
+      </View>
+
+      <View className="flex-row items-center gap-3">
+        <Checkbox
+          checked={checked}
+          onCheckedChange={setChecked}
+          accessibilityLabel={t('onboardingR.safety.understand')}
+          accessibilityHint={t('onboardingR.safety.hint')}
+        />
+        <Pressable onPress={() => setChecked((c) => !c)} className="min-h-11 flex-1 justify-center" accessibilityRole="button">
+          <Text variant="label" className="text-kz-lead">
+            {t('onboardingR.safety.understand')}
+          </Text>
+        </Pressable>
+      </View>
+      {!checked ? <Text variant="caption">{t('onboardingR.safety.hint')}</Text> : null}
+    </PersonalizationShell>
   );
 }

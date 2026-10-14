@@ -1,12 +1,22 @@
-import { ScreenStub } from '@/components/screen-stub';
+import { GoalsPicker } from '@/features/onboarding/goals-picker';
+import { PersonalizationShell } from '@/features/onboarding/shell';
+import { useT } from '@/i18n';
+import { usePrefsStore } from '@/store/prefs-store';
 
-export default function Screen() {
+/** Landing for Skip from the story: the same goals question as Scene 6, in the personalization shell. */
+export default function GoalsScreen() {
+  const { t } = useT();
+  const count = usePrefsStore((s) => s.goals.length);
   return (
-    <ScreenStub
-      id="P-00"
-      title="What brings you here? (goals)"
-      note="Personalization step"
-      links={[{ label: 'Continue', href: '/experience' }]}
-    />
+    <PersonalizationShell
+      step="goals"
+      hideBack
+      title={t('onboarding.goals.title')}
+      subtitle={t('onboarding.goals.subtitle')}
+      canContinue={count > 0}
+      reaction={count > 0 ? t('onboarding.goals.reaction') : null}
+    >
+      <GoalsPicker />
+    </PersonalizationShell>
   );
 }

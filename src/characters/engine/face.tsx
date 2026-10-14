@@ -1,11 +1,19 @@
-import { useEffect } from 'react';
-import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useEffect, useMemo } from 'react';
+import Animated, {
+  useAnimatedProps,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { Circle, G, Path } from 'react-native-svg';
 
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import type { Mood } from '@/store/types';
 
 import { blush, faceInk } from '../palette';
+import { MOOD_PARAMS } from './mood-params';
+
+export { MOOD_PARAMS };
 
 /**
  * The shared face system (viewBox 0 0 100 100): two dot eyes, a small curved-line mouth, tiny blush circles.
@@ -13,43 +21,35 @@ import { blush, faceInk } from '../palette';
  * Used by every human character AND by the MoodPicker faces, so moods always read the same.
  */
 
-interface FaceParams {
-  /** Mouth curve: -1 frown … 0 flat … +1 broad smile */
-  mouth: number;
-  /** Brow tilt: +1 worried (inner ends raised) … -1 relaxed arch (outer ends raised) */
-  tilt: number;
-  /** Brow height: + lowers, − raises */
-  lift: number;
-  /** Eye openness 0.2 … 1 */
-  eye: number;
-  /** Brow arch */
-  arch: number;
-}
-
-export const MOOD_PARAMS: Record<Mood, FaceParams> = {
-  stressed: { mouth: -0.55, tilt: 1, lift: -1, eye: 1, arch: 0 },
-  tired: { mouth: -0.15, tilt: 0.35, lift: 3, eye: 0.55, arch: 0 },
-  neutral: { mouth: 0, tilt: 0, lift: 0, eye: 1, arch: 1 },
-  calm: { mouth: 0.5, tilt: -0.25, lift: 0, eye: 0.7, arch: 2 },
-  happy: { mouth: 0.95, tilt: -0.35, lift: -3, eye: 1, arch: 2.5 },
-};
-
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 interface Props {
   mood: Mood;
+  /** Occasional soft blink (skipped with Reduce Motion). */
+  blink?: boolean;
+  /** Eyes gently shut with a small smile – used for Kai's sleep pose. */
+  closed?: boolean;
+  /** Thickens strokes + eyes (for smaller heads). Default 1. */
+  boost?: number;
+  /** When set, draws a subtle nose in this colour and little highlights in the eyes (semi-realistic humans). */
+  noseColor?: string;
 }
 
 /** Render inside an <Svg viewBox="0 0 100 100"> (or any <G> already scaled to that box). */
-export function Face({ mood }: Props) {
+export function Face({ mood, blink = false, closed = false, boost = 1, noseColor }: Props) {
   const reduce = useReduceMotion();
-  const p = MOOD_PARAMS[mood];
+  const base = MOOD_PARAMS[mood];
+  const p = useMemo(
+    () => (closed ? { ...base, eye: 0.1, mouth: Math.max(base.mouth, 0.35) } : base),
+    [closed, base]
+  );
   const mouth = useSharedValue(p.mouth);
   const tilt = useSharedValue(p.tilt);
   const lift = useSharedValue(p.lift);
   const eye = useSharedValue(p.eye);
   const arch = useSharedValue(p.arch);
+  const blinkScale = useSharedValue(1);
 
   // Mood changes morph slowly – a friend's face relaxing, not snapping.
   useEffect(() => {
@@ -59,7 +59,27 @@ export function Face({ mood }: Props) {
     lift.value = withTiming(p.lift, cfg);
     eye.value = withTiming(p.eye, cfg);
     arch.value = withTiming(p.arch, cfg);
-  }, [mood, reduce, p, mouth, tilt, lift, eye, arch]);
+  }, [mood, closed, reduce, p, mouth, tilt, lift, eye, arch]);
+
+  // A slow, irregular blink every 3.5–6 s makes characters feel alive without being busy.
+  useEffect(() => {
+    if (!blink || reduce || closed) return;
+    let id: ReturnType<typeof setTimeout>;
+    const schedule = () => {
+      id = setTimeout(
+        () => {
+          blinkScale.value = withSequence(
+            withTiming(0.08, { duration: 90 }),
+            withTiming(1, { duration: 150 })
+          );
+          schedule();
+        },
+        3500 + Math.random() * 2500
+      );
+    };
+    schedule();
+    return () => clearTimeout(id);
+  }, [blink, reduce, closed, blinkScale]);
 
   const mouthProps = useAnimatedProps(() => {
     const w = 14 + Math.max(0, mouth.value) * 4; // broader when happy
@@ -77,34 +97,61 @@ export function Face({ mood }: Props) {
     const inner = base - tilt.value * 3;
     return { d: `M76 ${outer} Q67 ${(outer + inner) / 2 - arch.value} 58 ${inner}` };
   });
-  // Eyes are dots; squinting is a vertical shrink done by moving the centre of a smaller circle.
-  const leftEye = useAnimatedProps(() => ({ r: 4.4 * (0.55 + 0.45 * eye.value) }));
-  const rightEye = useAnimatedProps(() => ({ r: 4.4 * (0.55 + 0.45 * eye.value) }));
+  // Eyes are dots; squinting is a vertical shrink done by a smaller circle. `boost` makes them bolder on small heads.
+  const eyeBoost = 1 + (boost - 1) * 0.6;
+  const eyeR = (v: number, b: number) => Math.max(0.6, 4.4 * (0.55 + 0.45 * v) * b * eyeBoost);
+  const leftEye = useAnimatedProps(() => ({ r: eyeR(eye.value, blinkScale.value) }));
+  const rightEye = useAnimatedProps(() => ({ r: eyeR(eye.value, blinkScale.value) }));
+  // little catch-lights (semi-realistic humans only)
+  const leftShine = useAnimatedProps(() => {
+    const r = eyeR(eye.value, blinkScale.value);
+    return { cx: 34 + r * 0.35, cy: 48 - r * 0.35, r: Math.max(0.5, r * 0.28) };
+  });
+  const rightShine = useAnimatedProps(() => {
+    const r = eyeR(eye.value, blinkScale.value);
+    return { cx: 66 + r * 0.35, cy: 48 - r * 0.35, r: Math.max(0.5, r * 0.28) };
+  });
 
   return (
     <G>
-      <Circle cx={21} cy={61} r={6.5} fill={blush} opacity={0.32} />
-      <Circle cx={79} cy={61} r={6.5} fill={blush} opacity={0.32} />
+      <Circle cx={21} cy={61} r={6.5} fill={blush} opacity={0.3} />
+      <Circle cx={79} cy={61} r={6.5} fill={blush} opacity={0.3} />
+      {noseColor ? (
+        <Path
+          d="M49 52 Q47.5 58 51.5 58.5"
+          stroke={noseColor}
+          strokeWidth={1.8 * boost}
+          strokeLinecap="round"
+          fill="none"
+          opacity={0.8}
+        />
+      ) : null}
       <AnimatedPath
         animatedProps={leftBrow}
         stroke={faceInk}
-        strokeWidth={2.6}
+        strokeWidth={2.6 * boost}
         strokeLinecap="round"
         fill="none"
       />
       <AnimatedPath
         animatedProps={rightBrow}
         stroke={faceInk}
-        strokeWidth={2.6}
+        strokeWidth={2.6 * boost}
         strokeLinecap="round"
         fill="none"
       />
       <AnimatedCircle animatedProps={leftEye} cx={34} cy={48} fill={faceInk} />
       <AnimatedCircle animatedProps={rightEye} cx={66} cy={48} fill={faceInk} />
+      {noseColor ? (
+        <>
+          <AnimatedCircle animatedProps={leftShine} fill="#FFFFFF" opacity={0.9} />
+          <AnimatedCircle animatedProps={rightShine} fill="#FFFFFF" opacity={0.9} />
+        </>
+      ) : null}
       <AnimatedPath
         animatedProps={mouthProps}
         stroke={faceInk}
-        strokeWidth={2.8}
+        strokeWidth={2.8 * boost}
         strokeLinecap="round"
         fill="none"
       />

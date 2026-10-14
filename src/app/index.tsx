@@ -9,7 +9,7 @@ export default function Index() {
   const onboardingStep = useAppStore((s) => s.onboardingStep);
   const authStatus = useAuthStore((s) => s.status);
 
-  if (!hasSeenStory) return <Redirect href="/scene-0" />;
+  if (!hasSeenStory) return <Redirect href={'/story' as Href} />;
   if (!onboardingComplete) return <Redirect href={(onboardingStep ?? '/goals') as Href} />;
   if (authStatus === 'none') return <Redirect href="/gate" />;
   return <Redirect href="/home" />;
