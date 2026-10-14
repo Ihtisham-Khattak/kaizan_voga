@@ -68,7 +68,7 @@ export function MoodCheckin() {
       ) : null}
       {today ? null : (
         <>
-          <View className="gap-0.5">
+          <View className="gap-1">
             <Text variant="heading">{t('home.moodTitle')}</Text>
             <Text variant="caption">{t('home.moodHint')}</Text>
           </View>
@@ -108,7 +108,7 @@ export function TodayHero({ routine, day, total, practicedToday, onStart, onOpen
         </Badge>
       </View>
       <View style={{ position: 'absolute', start: 10, end: 10, bottom: 10 }}>
-        <GlassCard strong radius={22} contentStyle={{ padding: 14, gap: 10 }}>
+        <GlassCard strong radius={22} contentStyle={{ padding: 16, gap: 12 }}>
           {/* title opens the routine; Start is a sibling button (never nested buttons) */}
           <Pressable
             onPress={onOpen}
@@ -123,7 +123,7 @@ export function TodayHero({ routine, day, total, practicedToday, onStart, onOpen
             </Text>
           </Pressable>
           <View className="flex-row items-center justify-between gap-3">
-            <View className="flex-row flex-wrap gap-1.5">
+            <View className="flex-row flex-wrap gap-2">
               <Badge variant="secondary">
                 <Text>{t('common.minutes', { count: minutesOf(routine.totalSec) })}</Text>
               </Badge>
@@ -144,9 +144,9 @@ export function TodayHero({ routine, day, total, practicedToday, onStart, onOpen
 /** Rest day: calm, never a failure. */
 export function RestCard({ onBreathe }: { onBreathe: () => void }) {
   const { t } = useT();
-  const { colors, extras } = useTheme();
+  const { colors } = useTheme();
   return (
-    <View className="gap-3 rounded-card bg-lavender/30 p-5">
+    <View className="gap-3 rounded-card bg-lavenderSoft p-6">
       <View className="flex-row items-center gap-3">
         <View className="size-12 items-center justify-center rounded-full bg-card">
           <KaizenIcon name="rest-moon" size={26} color={colors.primary} />
@@ -245,7 +245,7 @@ export function WeekStrip({ sessions }: { sessions: SessionRecord[] }) {
               key={iso}
               accessible
               accessibilityLabel={`${weekdayLabel(iso, 'long', i18n.language)}${state ? ', ' + state : ''}`}
-              className="items-center gap-1.5"
+              className="items-center gap-2"
             >
               <Text variant="caption">{weekdayLabel(iso, 'narrow', i18n.language)}</Text>
               <View
@@ -275,9 +275,9 @@ export function GuestBanner({ onCreate, onDismiss }: { onCreate: () => void; onD
   return (
     <GlassCard
       radius={20}
-      contentStyle={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 }}
+      contentStyle={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: 16 }}
     >
-      <View className="flex-1">
+      <View className="min-w-[160px] flex-1">
         <Text variant="label">{t('home.guestTitle')}</Text>
         <Text variant="caption">{t('home.guestBody')}</Text>
       </View>

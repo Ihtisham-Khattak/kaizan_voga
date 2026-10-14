@@ -5,7 +5,8 @@ import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character } from '@/characters/character';
-import { ConfettiLeaves, SceneBackground } from '@/characters/props';
+import { ConfettiLeaves } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -19,7 +20,6 @@ import { weekdayLabel, weekdayOrder } from '@/lib/weekdays';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/auth-store';
 import { usePrefsStore } from '@/store/prefs-store';
-import { useTheme } from '@/theme/theme-provider';
 import { cn } from '@/lib/utils';
 
 const LINES = ['line1', 'line2', 'line3'] as const;
@@ -37,7 +37,7 @@ function Loader() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ type: 'timing', duration: 400 }}
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 28 }}
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 32 }}
     >
       <View style={{ width: 240, height: 240 }} className="items-center justify-center">
         <BreathingCircle size={240} soft tint="leaf" />
@@ -67,7 +67,7 @@ function Loader() {
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <View className="gap-1.5">
+    <View className="gap-2">
       <Text variant="caption" className="font-sans-semibold uppercase tracking-wide">
         {label}
       </Text>
@@ -109,7 +109,7 @@ function Summary() {
       </FadeUp>
 
       <FadeUp delay={200}>
-        <GlassCard strong radius={28} contentStyle={{ padding: 20, gap: 18 }}>
+        <GlassCard strong radius={28} contentStyle={{ padding: 24, gap: 16 }}>
           <Row label={t('onboardingR.plan.focus')}>
             <View className="flex-row flex-wrap gap-2">
               {(prefs.goals.length ? prefs.goals : (['gentle'] as const)).map((g) => (
@@ -130,7 +130,7 @@ function Summary() {
             </Row>
           </View>
           <Row label={t('onboardingR.plan.days')}>
-            <View className="flex-row gap-1.5">
+            <View className="flex-row gap-2">
               {order.map((d) => {
                 const on = prefs.practiceDays.includes(d);
                 return (
@@ -181,7 +181,6 @@ function Summary() {
 
 /** Onboarding Q11 — plan reveal: a breathing loader, then a glass summary of the 30-day journey. */
 export default function PlanScreen() {
-  const { scheme } = useTheme();
   const { width, height } = useWindowDimensions();
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -191,7 +190,7 @@ export default function PlanScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : ['#CFE6D6', '#FAF6EE']} />
+      <AuroraBackground />
       <ConfettiLeaves width={width} height={height} count={ready ? 9 : 4} />
       <AnimatePresence exitBeforeEnter>{ready ? <Summary key="s" /> : <Loader key="l" />}</AnimatePresence>
     </View>

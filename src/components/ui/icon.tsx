@@ -4,6 +4,8 @@ import * as React from 'react';
 
 import { TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
+import { resolveClassColor } from '@/theme/class-colors';
+import { useTheme } from '@/theme/theme-provider';
 
 type IconProps = PhosphorProps & {
   /** Any Phosphor icon component, e.g. `as={Leaf}`. */
@@ -30,14 +32,12 @@ cssInterop(IconImpl, {
  */
 function Icon({ as: IconComponent, className, size = 20, weight = 'regular', ...props }: IconProps) {
   const textClass = React.useContext(TextClassContext);
+  const { colors, extras } = useTheme();
+  const classes = props.color ? (className ?? '') : cn('text-foreground', textClass, className);
+  // Real colour value from the palette (see resolveClassColor) – className alone does not colour SVG icons on web.
+  const color = props.color ?? resolveClassColor(classes, colors, extras);
   return (
-    <IconImpl
-      as={IconComponent}
-      className={props.color ? className : cn('text-foreground', textClass, className)}
-      size={size}
-      weight={weight}
-      {...props}
-    />
+    <IconImpl as={IconComponent} className={classes} color={color} size={size} weight={weight} {...props} />
   );
 }
 

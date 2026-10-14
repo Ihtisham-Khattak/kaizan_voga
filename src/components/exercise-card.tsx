@@ -73,7 +73,7 @@ export function ExerciseCard({
           className="gap-2 active:opacity-90"
         >
           <CoverArt tint="mint" figure={variantFor(e)} height={120} />
-          <View className="gap-0.5 px-1">
+          <View className="gap-1 px-1">
             <Text variant="label" numberOfLines={2}>
               {e.name}
             </Text>
@@ -101,7 +101,7 @@ export function ExerciseCard({
         className="flex-row items-center gap-3 p-3 pe-14 active:opacity-90"
       >
         <View className="size-[72px] overflow-hidden rounded-2xl">
-          <CoverArt tint="mint" figure={variantFor(e)} height={72} width={72} rounded={16} />
+          <CoverArt tint="mint" figure={variantFor(e)} height={72} width={72} rounded={12} />
         </View>
         <View className="flex-1 gap-1">
           <Text variant="label" numberOfLines={2}>
@@ -112,7 +112,7 @@ export function ExerciseCard({
               {e.altName}
             </Text>
           ) : null}
-          <View className="flex-row flex-wrap items-center gap-1.5">
+          <View className="flex-row flex-wrap items-center gap-2">
             <Badge variant="secondary">
               <Text>{t(`level.${e.level}`)}</Text>
             </Badge>

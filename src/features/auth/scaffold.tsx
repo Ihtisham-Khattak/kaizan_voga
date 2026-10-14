@@ -68,14 +68,14 @@ export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, childre
         contentContainerStyle={{
           paddingTop: insets.top + 56,
           paddingBottom: insets.bottom + 32,
-          paddingHorizontal: 20,
-          gap: 20,
+          paddingHorizontal: 24,
+          gap: 24,
         }}
       >
         <View className="items-center">
           <Character name="kai" pose="float" mood={mood} size={104} />
         </View>
-        <FadeUp className="gap-1.5">
+        <FadeUp className="gap-2">
           <Text variant="title1" className="text-center">
             {title}
           </Text>

@@ -25,9 +25,9 @@ const toggleVariants = cva(
         ),
       },
       size: {
-        default: 'h-10 min-w-10 px-2.5 sm:h-9 sm:min-w-9 sm:px-2',
-        sm: 'h-9 min-w-9 px-2 sm:h-8 sm:min-w-8 sm:px-1.5',
-        lg: 'h-11 min-w-11 px-3 sm:h-10 sm:min-w-10 sm:px-2.5',
+        default: 'h-10 min-w-10 px-3 sm:h-9 sm:min-w-9 sm:px-2',
+        sm: 'h-9 min-w-9 px-2 sm:h-8 sm:min-w-8 sm:px-2',
+        lg: 'h-11 min-w-11 px-3 sm:h-10 sm:min-w-10 sm:px-3',
       },
     },
     defaultVariants: {

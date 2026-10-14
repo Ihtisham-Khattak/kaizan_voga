@@ -33,7 +33,7 @@ export default function ContactScreen() {
   return (
     <SettingsScreen title={t('pf.info.contactTitle')} subtitle={t('pf.info.contactSubtitle')} keyboard>
       <View className="gap-4 px-4">
-        <View className="gap-1.5">
+        <View className="gap-2">
           <Text variant="label">{t('pf.info.contactName')}</Text>
           <Input
             value={name}
@@ -42,7 +42,7 @@ export default function ContactScreen() {
             accessibilityLabel={t('pf.info.contactName')}
           />
         </View>
-        <View className="gap-1.5">
+        <View className="gap-2">
           <Text variant="label">{t('pf.info.contactEmail')}</Text>
           <Input
             value={email}
@@ -53,11 +53,11 @@ export default function ContactScreen() {
             accessibilityLabel={t('pf.info.contactEmail')}
           />
         </View>
-        <View className="gap-1.5">
+        <View className="gap-2">
           <Text variant="label">{t('pf.info.contactSubject')}</Text>
           <Input value={subject} onChangeText={setSubject} accessibilityLabel={t('pf.info.contactSubject')} />
         </View>
-        <View className="gap-1.5">
+        <View className="gap-2">
           <Text variant="label">{t('pf.info.contactMessage')}</Text>
           <Input
             value={message}

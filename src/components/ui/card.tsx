@@ -5,7 +5,7 @@ import { Text, TextClassContext } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 /** Radius 20 (cards), soft low-opacity shadow with a large blur. For frosted panels use <GlassCard>. */
-const cardVariants = cva('flex flex-col gap-4 rounded-card py-5', {
+const cardVariants = cva('flex flex-col gap-4 rounded-card py-6', {
   variants: {
     variant: {
       default: 'border border-hairline bg-card shadow-lg shadow-forest/10',
@@ -32,7 +32,7 @@ function Card({
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<typeof View> & React.RefAttributes<View>) {
-  return <View className={cn('flex flex-col gap-1.5 px-5', className)} {...props} />;
+  return <View className={cn('flex flex-col gap-2 px-6', className)} {...props} />;
 }
 
 function CardTitle({
@@ -50,11 +50,11 @@ function CardDescription({
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<typeof View> & React.RefAttributes<View>) {
-  return <View className={cn('px-5', className)} {...props} />;
+  return <View className={cn('px-6', className)} {...props} />;
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<typeof View> & React.RefAttributes<View>) {
-  return <View className={cn('flex flex-row items-center px-5', className)} {...props} />;
+  return <View className={cn('flex flex-row items-center px-6', className)} {...props} />;
 }
 
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, cardVariants };

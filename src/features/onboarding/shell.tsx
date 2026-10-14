@@ -4,6 +4,7 @@ import { useEffect, type ReactNode } from 'react';
 import { I18nManager, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground } from '@/components/aurora-background';
 import { Blob } from '@/components/cover-art';
 import { GlassCard } from '@/components/glass-card';
 import { FadeUp } from '@/components/fade-up';
@@ -69,6 +70,7 @@ export function PersonalizationShell({
 
   return (
     <View className="flex-1 bg-background">
+      <AuroraBackground />
       {/* soft organic backdrop */}
       <View style={{ position: 'absolute', end: -60, top: -40 }} pointerEvents="none">
         <Blob color={colors.leaf} size={260} opacity={0.12} />
@@ -132,10 +134,10 @@ export function PersonalizationShell({
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingTop: 20,
+          paddingHorizontal: 24,
+          paddingTop: 24,
           paddingBottom: footerH + 40,
-          gap: 20,
+          gap: 24,
         }}
       >
         <View className="gap-2">
@@ -158,7 +160,7 @@ export function PersonalizationShell({
         strong
         radii={{ tl: 28, tr: 28 }}
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
-        contentStyle={{ paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(insets.bottom, 16) }}
+        contentStyle={{ paddingHorizontal: 24, paddingTop: 12, paddingBottom: Math.max(insets.bottom, 16) }}
       >
         {/* screens that never react (age, safety) omit the prop, so no empty space is reserved */}
         {reaction !== undefined ? <KaiReaction text={reaction} /> : null}

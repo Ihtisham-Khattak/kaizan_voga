@@ -33,7 +33,7 @@ export function EmptyState({
   return (
     <View className={cn('items-center gap-4 px-8 py-8', className)}>
       {illustration ?? <Character name="kai" pose={pose} mood={mood} size={150} />}
-      <View className="items-center gap-1.5">
+      <View className="items-center gap-2">
         <Text variant="title" className="text-center">
           {title}
         </Text>

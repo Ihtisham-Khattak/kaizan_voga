@@ -169,8 +169,8 @@ export function StoryShell({ scenes: SceneList }: Props) {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 8,
-            paddingHorizontal: 14,
-            paddingVertical: 9,
+            paddingHorizontal: 16,
+            paddingVertical: 8,
           }}
         >
           <View

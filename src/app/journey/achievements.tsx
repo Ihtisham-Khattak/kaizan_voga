@@ -38,7 +38,7 @@ export default function AchievementsScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 20 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 24 }}>
         <ScreenHeader title={t('prog.ach.title')} subtitle={t('prog.ach.subtitle')} />
 
         <View className="gap-3 px-4">
@@ -115,7 +115,7 @@ export default function AchievementsScreen() {
                   >
                     <Text variant="label">{done}</Text>
                   </ProgressRing>
-                  <View className="flex-1 gap-0.5">
+                  <View className="flex-1 gap-1">
                     <Text variant="heading">{c.title}</Text>
                     <Text variant="caption">{c.description}</Text>
                   </View>

@@ -164,7 +164,7 @@ export default function CalendarScreen() {
             })}
           </View>
 
-          <View className="flex-row flex-wrap justify-center gap-x-5 gap-y-2 pt-1">
+          <View className="flex-row flex-wrap justify-center gap-x-6 gap-y-2 pt-1">
             <Legend label={t('prog.calendar.legendPracticed')}>
               <View className="size-5 items-center justify-center rounded-full bg-leaf">
                 <KaizenIcon name="leaf" size={11} color={extras.onLeaf} strokeWidth={2} />

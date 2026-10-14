@@ -31,7 +31,7 @@ export const TAB_BAR_CLEARANCE = 104;
  */
 export function TabBar({ state, descriptors, navigation }: TabBarProps) {
   const insets = useSafeAreaInsets();
-  const { colors } = useTheme();
+  const { colors, shadows } = useTheme();
   const { t } = useT();
   const reduce = useReduceMotion();
 
@@ -64,7 +64,7 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
         accessibilityRole="tab"
         accessibilityLabel={options.tabBarAccessibilityLabel ?? label}
         accessibilityState={{ selected: focused }}
-        className="min-h-14 flex-1 items-center justify-center gap-0.5"
+        className="min-h-14 flex-1 items-center justify-center gap-1"
       >
         <Icon
           as={IconCmp}
@@ -73,8 +73,12 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
           className={focused ? 'text-primary' : 'text-muted-foreground'}
         />
         <Text
-          variant="caption"
-          className={cn('text-kz-footnote', focused && 'font-sans-semibold text-foreground')}
+          variant="footnote"
+          numberOfLines={1}
+          maxScale={1.15}
+          adjustsFontSizeToFit
+          minimumFontScale={0.8}
+          className={cn(focused && 'font-sans-bold text-foreground')}
         >
           {label}
         </Text>
@@ -119,23 +123,23 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
                 height: 64,
                 borderRadius: 32,
                 borderWidth: 4,
-                borderColor: colors.bgMist,
+                borderColor: colors.bg,
                 backgroundColor: colors.primary,
                 alignItems: 'center',
                 justifyContent: 'center',
-                shadowColor: colors.forest,
-                shadowOpacity: 0.3,
-                shadowRadius: 18,
-                shadowOffset: { width: 0, height: 8 },
-                elevation: 8,
+                ...shadows.glow, // soft green glow under the centre Practice button
               }}
             >
               <KaizenIcon name="practice" size={30} color={colors.onPrimary} />
             </View>
           </MotiView>
           <Text
-            variant="caption"
-            className={cn('text-kz-footnote', focused && 'font-sans-semibold text-foreground')}
+            variant="footnote"
+            numberOfLines={1}
+            maxScale={1.15}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
+            className={cn(focused && 'font-sans-bold text-foreground')}
           >
             {label}
           </Text>
@@ -150,7 +154,8 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
       style={{ position: 'absolute', start: 12, end: 12, bottom: Math.max(insets.bottom, 10) + 4 }}
     >
       <GlassCard
-        radius={30}
+        strong
+        radius="hero"
         contentStyle={{
           flexDirection: 'row',
           alignItems: 'center',

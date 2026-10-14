@@ -4,13 +4,12 @@ import type { ReactNode } from 'react';
 import { I18nManager, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SceneBackground } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
-import { useTheme } from '@/theme/theme-provider';
 
 /** Shared layout for stack screens that list things: soft backdrop, glass back button, big title, scrolling body. */
 export function CollectionScaffold({
@@ -25,16 +24,10 @@ export function CollectionScaffold({
   children: ReactNode;
 }) {
   const { t } = useT();
-  const { scheme } = useTheme();
   const insets = useSafeAreaInsets();
-  const light = {
-    mint: ['#D6EBDC', '#FAF6EE'],
-    lavender: ['#E9E3F6', '#FAF6EE'],
-    sand: ['#F4E6CB', '#FAF6EE'],
-  }[tint] as [string, string];
   return (
     <View className="flex-1 bg-background">
-      <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : light} />
+      <AuroraBackground variant={tint === 'lavender' ? 'evening' : 'day'} />
       <GlassCard radius={22} style={{ position: 'absolute', top: insets.top + 8, start: 12, zIndex: 5 }}>
         <Pressable
           onPress={() => router.back()}
@@ -56,7 +49,7 @@ export function CollectionScaffold({
           paddingTop: insets.top + 68,
           paddingBottom: insets.bottom + 32,
           paddingHorizontal: 16,
-          gap: 14,
+          gap: 16,
         }}
       >
         <FadeUp className="gap-1 pb-2">

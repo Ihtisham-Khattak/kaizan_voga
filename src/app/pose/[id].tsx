@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { I18nManager, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground } from '@/components/aurora-background';
 import { CoverArt, variantFor } from '@/components/cover-art';
 import { EmptyState } from '@/components/empty-state';
 import { GlassCard } from '@/components/glass-card';
@@ -77,6 +78,7 @@ export default function PoseDetail() {
 
   return (
     <View className="flex-1 bg-background">
+      <AuroraBackground />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
@@ -88,14 +90,14 @@ export default function PoseDetail() {
             <GlassCard
               radius={14}
               shadow={false}
-              contentStyle={{ paddingHorizontal: 10, paddingVertical: 4 }}
+              contentStyle={{ paddingHorizontal: 12, paddingVertical: 4 }}
             >
               <Text variant="caption">{t('pose.placeholder')}</Text>
             </GlassCard>
           </View>
         </View>
 
-        <View className="gap-4 px-4 pt-5">
+        <View className="gap-4 px-4 pt-6">
           <View className="gap-1">
             <Text variant="title1" accessibilityRole="header">
               {e.name}
@@ -266,7 +268,7 @@ export default function PoseDetail() {
         contentStyle={{
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 10,
+          gap: 12,
           paddingHorizontal: 16,
           paddingTop: 12,
           paddingBottom: Math.max(insets.bottom, 12),

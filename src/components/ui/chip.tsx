@@ -33,7 +33,7 @@ function Chip({ label, selected = false, icon, className, onPress, ...props }: C
           onPress?.(e);
         }}
         className={cn(
-          'min-h-11 flex-row items-center justify-center gap-1.5 rounded-pill border-2 px-4 py-2',
+          'min-h-11 flex-row items-center justify-center gap-2 rounded-pill border-2 px-4 py-2',
           selected ? 'border-leaf bg-secondary' : 'border-transparent bg-secondary/60 active:bg-secondary',
           className
         )}

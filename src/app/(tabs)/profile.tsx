@@ -25,6 +25,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { signature } from '@/characters/palette';
+import { AuroraBackground } from '@/components/aurora-background';
 import { BottomSheet } from '@/components/bottom-sheet';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
@@ -65,11 +66,12 @@ export default function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-background">
+      <AuroraBackground />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 16,
           paddingBottom: TAB_BAR_CLEARANCE + 24,
-          gap: 20,
+          gap: 24,
         }}
       >
         <FadeUp>
@@ -120,10 +122,7 @@ export default function ProfileScreen() {
               {prefs.goals.length ? (
                 <View className="flex-row flex-wrap gap-2">
                   {prefs.goals.map((g) => (
-                    <View
-                      key={g}
-                      className="flex-row items-center gap-1.5 rounded-pill bg-secondary px-3 py-1.5"
-                    >
+                    <View key={g} className="flex-row items-center gap-2 rounded-pill bg-secondary px-3 py-2">
                       <Icon as={Leaf} size={14} weight="fill" className="text-primary" />
                       <Text variant="caption" className="font-sans-semibold text-secondary-foreground">
                         {t(`story.s6.goals.${g}`)}
@@ -136,13 +135,13 @@ export default function ProfileScreen() {
               )}
               <View className="h-px bg-border" />
               <View className="flex-row items-center justify-between gap-3">
-                <View className="flex-1 gap-0.5">
+                <View className="flex-1 gap-1">
                   <Text variant="label">{t('pf.profile.plan')}</Text>
                   <Text variant="caption">
                     {`${t('pf.profile.planLine', { minutes: prefs.minutesPerDay, days: prefs.practiceDays.length })} · ${t(`pf.profile.timeOf.${prefs.preferredTime ?? 'varies'}`)}`}
                   </Text>
                 </View>
-                <View className="rounded-pill bg-leaf/30 px-3 py-1.5">
+                <View className="rounded-pill bg-leaf/30 px-3 py-2">
                   <Text variant="caption" className="font-sans-semibold text-foreground">
                     {t('pf.profile.planDay', { day, total: JOURNEY_DAYS })}
                   </Text>
@@ -191,7 +190,7 @@ export default function ProfileScreen() {
               <GlassCard
                 radius={24}
                 tone="leaf"
-                contentStyle={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}
+                contentStyle={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16 }}
               >
                 <View className="size-12 items-center justify-center rounded-full bg-mint">
                   <Icon as={Crown} size={26} weight="duotone" className="text-foreground" />
@@ -277,7 +276,7 @@ export default function ProfileScreen() {
                   borderColor: draftAvatar === a ? signature[a] : 'transparent',
                   borderWidth: 3,
                   borderRadius: 40,
-                  padding: 2,
+                  padding: 4,
                 }}
               >
                 <CharacterAvatar name={a} size={64} mood="happy" />

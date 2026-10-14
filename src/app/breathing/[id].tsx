@@ -6,6 +6,7 @@ import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character } from '@/characters/character';
+import { AuroraBackground } from '@/components/aurora-background';
 import { BottomSheet } from '@/components/bottom-sheet';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { GlassCard } from '@/components/glass-card';
@@ -17,7 +18,6 @@ import { getBreathing } from '@/data/repo';
 import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
 import { useSessionStore } from '@/store/session-store';
-import { coverColor } from '@/theme/cover';
 import { useTheme } from '@/theme/theme-provider';
 
 const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
@@ -111,17 +111,17 @@ export default function BreathingPlayer() {
     ? regions[Math.min(regions.length - 1, Math.floor((elapsed / total) * regions.length))]
     : null;
   const size = Math.min(300, Math.round(height * 0.36));
-  const tint = coverColor(colors, session.cover);
 
   if (!started) {
     return (
       <View className="flex-1 bg-background">
+        <AuroraBackground />
         <ScrollView
           contentContainerStyle={{
             paddingTop: insets.top + 8,
             paddingBottom: insets.bottom + 24,
-            paddingHorizontal: 20,
-            gap: 18,
+            paddingHorizontal: 24,
+            gap: 16,
             alignItems: 'center',
           }}
         >
@@ -150,7 +150,7 @@ export default function BreathingPlayer() {
           </View>
           <View className="w-full items-center gap-2">
             <Text variant="label">{t('breathingUi.custom')}</Text>
-            <View className="flex-row items-center gap-5">
+            <View className="flex-row items-center gap-6">
               <Pressable
                 onPress={() => {
                   haptic.select();
@@ -200,10 +200,7 @@ export default function BreathingPlayer() {
 
   return (
     <View className="flex-1 bg-background">
-      <View
-        pointerEvents="none"
-        style={{ position: 'absolute', inset: 0, backgroundColor: tint, opacity: 0.2 }}
-      />
+      <AuroraBackground />
       <View
         style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}
         className="flex-row items-center justify-between"
@@ -218,7 +215,7 @@ export default function BreathingPlayer() {
             <Icon as={X} size={22} weight="bold" className="text-foreground" />
           </Pressable>
         </GlassCard>
-        <GlassCard radius={20} shadow={false} contentStyle={{ paddingHorizontal: 14, paddingVertical: 8 }}>
+        <GlassCard radius={20} shadow={false} contentStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}>
           <Text variant="caption" className="font-sans-semibold">
             {t('breathingUi.cycles', { count: cycles })}
           </Text>

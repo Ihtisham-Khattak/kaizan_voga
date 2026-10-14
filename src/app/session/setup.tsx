@@ -102,7 +102,7 @@ export default function SessionSetup() {
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ padding: 20, paddingBottom: 12, gap: 18 }}
+          contentContainerStyle={{ padding: 24, paddingBottom: 12, gap: 16 }}
         >
           <View className="flex-row items-center gap-3">
             <View className="size-16 overflow-hidden rounded-2xl">
@@ -111,7 +111,7 @@ export default function SessionSetup() {
                 figure={variantFor(getExercise(first.exerciseId))}
                 height={64}
                 width={64}
-                rounded={16}
+                rounded={12}
               />
             </View>
             <View className="flex-1">
@@ -216,8 +216,8 @@ export default function SessionSetup() {
 
         <View
           style={{
-            paddingHorizontal: 20,
-            paddingTop: 10,
+            paddingHorizontal: 24,
+            paddingTop: 12,
             paddingBottom: Math.max(insets.bottom, 14),
             gap: 8,
           }}

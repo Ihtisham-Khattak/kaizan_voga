@@ -104,7 +104,7 @@ function MilestoneRow({
         transition={{ type: 'timing', duration: 500 }}
         style={{ flex: 1 }}
       >
-        <View className={cn('self-start rounded-full bg-secondary px-2.5 py-0.5')}>
+        <View className={cn('self-start rounded-full bg-secondary px-3 py-1')}>
           <Text variant="caption" className="font-sans-semibold text-secondary-foreground">
             {t('story.s4.week', { n: m.week })}
           </Text>

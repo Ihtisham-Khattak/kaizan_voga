@@ -39,7 +39,7 @@ export function SessionRow({ session, onPress, showDate }: Props) {
       accessibilityLabel={`${session.title}, ${duration}, ${stamp}${mood ? ', ' + mood : ''}`}
       className="min-h-16 flex-row items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 active:opacity-80"
     >
-      <View className="flex-1 gap-0.5">
+      <View className="flex-1 gap-1">
         <Text variant="label" numberOfLines={1}>
           {session.title}
         </Text>

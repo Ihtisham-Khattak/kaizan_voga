@@ -20,6 +20,7 @@ import { openPose, openRoutine } from '@/lib/nav';
 import { useLibraryStore } from '@/store/library-store';
 import type { Equipment, Goal } from '@/store/types';
 import { useTheme } from '@/theme/theme-provider';
+import { families, typography } from '@/theme/typography';
 
 const CATEGORIES: ExerciseCategory[] = [
   'standing',
@@ -52,7 +53,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 /** Search: debounce-free instant results across poses + routines, recent searches, removable filter chips, filter sheet. */
 export default function SearchScreen() {
   const { t } = useT();
-  const { scheme, colors } = useTheme();
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ filter?: string }>();
   const [query, setQuery] = useState('');
@@ -102,7 +103,7 @@ export default function SearchScreen() {
             />
           </Pressable>
         </GlassCard>
-        <View className="min-h-[46px] flex-1 flex-row items-center gap-2 rounded-full border border-border bg-card px-3.5">
+        <View className="min-h-[46px] flex-1 flex-row items-center gap-2 rounded-full border border-border bg-card px-4">
           <Icon as={MagnifyingGlass} size={18} />
           <TextInput
             value={query}
@@ -116,7 +117,8 @@ export default function SearchScreen() {
             style={
               {
                 flex: 1,
-                fontSize: 16,
+                fontSize: typography.body.size,
+                fontFamily: families.sans['400'],
                 color: colors.ink,
                 paddingVertical: 8,
                 outlineStyle: 'none',
@@ -157,7 +159,7 @@ export default function SearchScreen() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8, paddingHorizontal: 12, paddingVertical: 6 }}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 12, paddingVertical: 8 }}
           style={{ flexGrow: 0 }}
         >
           {active.map((a) => (
@@ -175,7 +177,7 @@ export default function SearchScreen() {
 
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32, gap: 14 }}
+        contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32, gap: 16 }}
       >
         {!hasInput ? (
           <>

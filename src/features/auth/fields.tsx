@@ -23,7 +23,7 @@ export function FieldError({ message }: { message?: string }) {
       animate={{ opacity: 1, translateY: 0 }}
       transition={{ type: 'timing', duration: 250 }}
       accessibilityLiveRegion="polite"
-      className="flex-row items-center gap-1.5"
+      className="flex-row items-center gap-2"
     >
       <Icon as={WarningCircle} size={16} weight="fill" className="text-destructive" />
       <Text variant="caption" className="flex-1 text-destructive">
@@ -42,7 +42,7 @@ export function ErrorBanner({ message }: { message?: string | null }) {
       accessibilityRole="alert"
       className="flex-row items-start gap-2 rounded-2xl bg-destructive/10 px-4 py-3"
     >
-      <Icon as={WarningCircle} size={20} weight="fill" className="mt-0.5 text-destructive" />
+      <Icon as={WarningCircle} size={20} weight="fill" className="mt-1 text-destructive" />
       <Text variant="body" className="flex-1 text-destructive">
         {message}
       </Text>
@@ -120,11 +120,11 @@ export function PasswordStrength({ password, hint }: { password: string; hint?: 
   const bar = [colors.muted, colors.muted, colors.sky, colors.leaf, colors.primary];
   return (
     <View
-      className="gap-1.5"
+      className="gap-2"
       accessible
       accessibilityLabel={`${t('auth.password')}: ${t(`auth.strength.${word}`)}`}
     >
-      <View className="flex-row gap-1.5">
+      <View className="flex-row gap-2">
         {[1, 2, 3, 4].map((i) => (
           <MotiView
             key={i}

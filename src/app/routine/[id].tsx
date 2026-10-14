@@ -83,7 +83,7 @@ export default function RoutineDetail() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 4,
-                  paddingHorizontal: 10,
+                  paddingHorizontal: 12,
                   paddingVertical: 4,
                 }}
               >
@@ -96,7 +96,7 @@ export default function RoutineDetail() {
           ) : null}
         </View>
 
-        <View className="gap-4 px-4 pt-5">
+        <View className="gap-4 px-4 pt-6">
           <View className="gap-1">
             <Text variant="title1" accessibilityRole="header">
               {r.title}
@@ -194,7 +194,7 @@ export default function RoutineDetail() {
                     onPress={() => openPose(e.id)}
                     accessibilityRole="button"
                     accessibilityLabel={`${e.name}, ${formatDuration(s.durationSec, t)}`}
-                    className="flex-row items-center gap-3 rounded-2xl border border-border bg-card p-2.5 active:opacity-90"
+                    className="flex-row items-center gap-3 rounded-2xl border border-border bg-card p-3 active:opacity-90"
                   >
                     <View className="size-14 overflow-hidden rounded-xl">
                       <CoverArt tint="mint" figure={variantFor(e)} height={56} width={56} rounded={12} />

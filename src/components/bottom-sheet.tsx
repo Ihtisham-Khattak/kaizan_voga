@@ -15,6 +15,7 @@ import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
+import { alpha } from '@/theme/colors';
 import { useTheme } from '@/theme/theme-provider';
 
 function ScrollBody({ style, children }: { style: object; children: ReactNode }) {
@@ -90,9 +91,9 @@ export function BottomSheet({ visible, onClose, title, snapPoints, hideClose, sc
       keyboardBlurBehavior="restore"
       android_keyboardInputMode="adjustResize"
       backgroundComponent={SheetBackground}
-      handleIndicatorStyle={{ backgroundColor: colors.hairline, width: 44 }}
+      handleIndicatorStyle={{ backgroundColor: alpha(colors.muted, 0.45), width: 44 }}
     >
-      <Body style={{ paddingHorizontal: 20, paddingBottom: insets.bottom + 20, gap: 16 }}>
+      <Body style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 20, gap: 16 }}>
         {title || !hideClose ? (
           <View className="flex-row items-center justify-between gap-3">
             <Text variant="heading" className="flex-1" accessibilityRole="header">

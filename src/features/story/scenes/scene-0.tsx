@@ -26,7 +26,26 @@ export function Scene0({ controls, width, height }: SceneProps) {
     <>
       {/* a few leaves drift down, slowly */}
       <ConfettiLeaves width={width} height={height} count={7} />
-      <SceneScroll top={72}>
+      <SceneScroll
+        top={72}
+        cta={
+          <FadeUp delay={2200} className="w-full max-w-[380px] gap-1">
+            <Button size="lg" onPress={controls.next}>
+              <Text>{t('story.s0.begin')}</Text>
+              <Icon
+                as={CaretRight}
+                size={18}
+                weight="bold"
+                className="text-primary-foreground"
+                style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
+              />
+            </Button>
+            <Button variant="ghost" onPress={controls.goSignIn}>
+              <Text>{t('story.s0.haveAccount')}</Text>
+            </Button>
+          </FadeUp>
+        }
+      >
         <FadeUp className="items-center gap-2">
           <LotusLogo size={64} />
           <Text variant="label" className="uppercase tracking-[3px]">
@@ -62,22 +81,6 @@ export function Scene0({ controls, width, height }: SceneProps) {
             </Text>
           </FadeUp>
         </View>
-
-        <FadeUp delay={2200} className="w-full max-w-[380px] gap-1 pt-6">
-          <Button size="lg" onPress={controls.next}>
-            <Text>{t('story.s0.begin')}</Text>
-            <Icon
-              as={CaretRight}
-              size={18}
-              weight="bold"
-              className="text-primary-foreground"
-              style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
-            />
-          </Button>
-          <Button variant="ghost" onPress={controls.goSignIn}>
-            <Text>{t('story.s0.haveAccount')}</Text>
-          </Button>
-        </FadeUp>
       </SceneScroll>
     </>
   );

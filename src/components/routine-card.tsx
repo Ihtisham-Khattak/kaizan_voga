@@ -28,7 +28,7 @@ export function RoutineCard({ routine: r, variant = 'tile', downloaded, onPress,
   const label = t('cards.routine', { title: r.title, duration: minutes, level: t(`level.${r.level}`) });
 
   const meta = (
-    <View className="flex-row flex-wrap items-center gap-1.5">
+    <View className="flex-row flex-wrap items-center gap-2">
       <Badge variant="secondary">
         <Text>{minutes}</Text>
       </Badge>
@@ -69,7 +69,7 @@ export function RoutineCard({ routine: r, variant = 'tile', downloaded, onPress,
         )}
       >
         <View className="size-[72px] overflow-hidden rounded-2xl">
-          <CoverArt tint={r.cover} figure={figure} height={72} width={72} rounded={16} />
+          <CoverArt tint={r.cover} figure={figure} height={72} width={72} rounded={12} />
         </View>
         <View className="flex-1 gap-1">
           <Text variant="label" numberOfLines={2}>
@@ -95,7 +95,7 @@ export function RoutineCard({ routine: r, variant = 'tile', downloaded, onPress,
         <CoverArt tint={r.cover} figure={figure} height={140} />
         {premium}
       </View>
-      <View className="gap-1.5 px-1">
+      <View className="gap-2 px-1">
         <Text variant="heading" numberOfLines={2}>
           {r.title}
         </Text>

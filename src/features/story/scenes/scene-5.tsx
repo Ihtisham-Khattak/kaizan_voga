@@ -42,7 +42,7 @@ function Panel({
       <View
         accessible
         accessibilityLabel={`${label}. ${text}`}
-        style={{ backgroundColor: bg, flex: 1, padding: 14, gap: 8, alignItems: 'center' }}
+        style={{ backgroundColor: bg, flex: 1, padding: 16, gap: 8, alignItems: 'center' }}
       >
         <View style={{ backgroundColor: tint }} className="rounded-full px-3 py-1">
           <Text variant="caption" className="font-sans-semibold text-foreground">
@@ -79,7 +79,7 @@ export function Scene5({ controls, width }: SceneProps) {
         style={{
           width: w,
           flexDirection: sideBySide ? 'row' : 'column',
-          borderRadius: 24,
+          borderRadius: 20,
           overflow: 'hidden',
         }}
         className="mt-4"
@@ -120,7 +120,7 @@ export function Scene5({ controls, width }: SceneProps) {
         ) : null}
       </View>
 
-      <View style={{ width: w }} className="pt-5">
+      <View style={{ width: w }} className="pt-6">
         <SpeechBubble
           speaker={bubble.speaker}
           text={t(bubble.textKey)}

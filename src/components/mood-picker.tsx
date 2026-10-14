@@ -55,12 +55,12 @@ function MoodOption({
         haptic.select();
         onSelect(mood);
       }}
-      className="min-h-11 min-w-11 flex-1 items-center gap-1.5 py-1"
+      className="min-h-11 min-w-11 flex-1 items-center gap-2 py-1"
     >
       <Animated.View
         style={style}
         className={cn(
-          'items-center justify-center rounded-full border-[3px] p-0.5',
+          'items-center justify-center rounded-full border-[3px] p-1',
           selected ? 'border-leaf' : 'border-transparent'
         )}
       >

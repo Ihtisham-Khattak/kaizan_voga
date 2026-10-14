@@ -38,7 +38,7 @@ export default function BreathingHub() {
   return (
     <View className="flex-1 bg-background">
       <ScrollView
-        contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 32, gap: 20 }}
+        contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: insets.bottom + 32, gap: 24 }}
       >
         <View className="flex-row items-center gap-2 px-2">
           <Pressable
@@ -103,7 +103,7 @@ export default function BreathingHub() {
                 className="flex-row items-center gap-3 rounded-3xl bg-card p-3 active:opacity-80"
               >
                 <CoverArt tint={b.cover} figure="breathing" height={84} width={84} rounded={20} />
-                <View className="flex-1 gap-0.5">
+                <View className="flex-1 gap-1">
                   <Text variant="heading" numberOfLines={1}>
                     {b.title}
                   </Text>

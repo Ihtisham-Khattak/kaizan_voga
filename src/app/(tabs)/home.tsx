@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SceneBackground } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { EmptyState } from '@/components/empty-state';
 import { ExerciseCard } from '@/components/exercise-card';
@@ -30,14 +30,12 @@ import { useLibraryStore } from '@/store/library-store';
 import { usePrefsStore } from '@/store/prefs-store';
 import { useProgressStore } from '@/store/progress-store';
 import { useUiStore } from '@/store/ui-store';
-import { useTheme } from '@/theme/theme-provider';
 
 const px = { paddingHorizontal: 16 };
 
 /** Home (Today): greeting, optional mood check-in, today's session, quick relief, recommendations, favourites, week. */
 export default function HomeScreen() {
   const { t, i18n } = useT();
-  const { scheme } = useTheme();
   const insets = useSafeAreaInsets();
   const plan = useTodayPlan();
   const prefs = usePrefsStore();
@@ -76,7 +74,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : ['#D6EBDC', '#FAF6EE']} />
+      <AuroraBackground variant={partOfDay() === 'evening' ? 'evening' : 'day'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -154,7 +152,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+            contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
           >
             {recommended.map((r) => (
               <RoutineCard key={r.id} routine={r} onPress={() => openRoutine(r.id)} />
@@ -178,7 +176,7 @@ export default function HomeScreen() {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+              contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
             >
               {favRoutines.map((r) => (
                 <RoutineCard key={r!.id} routine={r!} onPress={() => openRoutine(r!.id)} />

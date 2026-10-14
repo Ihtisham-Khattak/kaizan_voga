@@ -16,7 +16,7 @@ export function SectionHeader({ title, subtitle, onSeeAll }: Props) {
   const { t } = useT();
   return (
     <View className="flex-row items-end justify-between gap-3 px-4">
-      <View className="flex-1 gap-0.5">
+      <View className="flex-1 gap-1">
         <Text variant="title" accessibilityRole="header">
           {title}
         </Text>
@@ -27,7 +27,7 @@ export function SectionHeader({ title, subtitle, onSeeAll }: Props) {
           onPress={onSeeAll}
           accessibilityRole="link"
           accessibilityLabel={`${t('common.seeAll')}: ${title}`}
-          className="min-h-11 flex-row items-center gap-0.5"
+          className="min-h-11 flex-row items-center gap-1"
         >
           <Text variant="label" className="text-primary">
             {t('common.seeAll')}

@@ -27,7 +27,7 @@ export function SafetyNotice({ variant = 'inline', title, lines = [], children, 
       accessibilityRole="summary"
       className={cn(
         'rounded-card border border-danger/30 bg-bgMist',
-        full ? 'gap-3 p-5' : 'gap-1.5 p-4',
+        full ? 'gap-3 p-6' : 'gap-2 p-4',
         className
       )}
     >

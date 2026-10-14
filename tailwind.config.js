@@ -6,6 +6,8 @@ const theme = require('./src/theme/tailwind.generated');
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  // Text builds `text-kz-<style>` dynamically, so Tailwind can't see these names in the source.
+  safelist: Object.keys(theme.fontSize).map((k) => `text-${k}`),
   presets: [require('nativewind/preset')],
   theme: {
     extend: {

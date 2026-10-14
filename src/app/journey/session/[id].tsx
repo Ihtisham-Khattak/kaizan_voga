@@ -14,7 +14,7 @@ import { useProgressStore } from '@/store/progress-store';
 
 function Fact({ label, value }: { label: string; value: string }) {
   return (
-    <View className="flex-1 items-center gap-0.5 rounded-2xl border border-border bg-card px-2 py-3">
+    <View className="flex-1 items-center gap-1 rounded-2xl border border-border bg-card px-2 py-3">
       <Text variant="title">{value}</Text>
       <Text variant="caption" className="text-center">
         {label}

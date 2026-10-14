@@ -34,7 +34,7 @@ export function Scene6({ width, height }: SceneProps) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           alignItems: 'center',
-          paddingTop: 72,
+          paddingTop: 48,
           paddingBottom: bottom + 130,
           paddingHorizontal: 16,
         }}
@@ -78,10 +78,10 @@ export function Scene6({ width, height }: SceneProps) {
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{
           paddingHorizontal: 16,
-          paddingTop: 14,
+          paddingTop: 16,
           paddingBottom: bottom,
           alignItems: 'center',
-          gap: 10,
+          gap: 12,
         }}
       >
         <View style={{ width: w }}>

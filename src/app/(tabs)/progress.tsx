@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AuroraBackground } from '@/components/aurora-background';
 import { EmptyState } from '@/components/empty-state';
 import { FadeUp } from '@/components/fade-up';
 import { TAB_BAR_CLEARANCE } from '@/components/tab-bar';
@@ -35,7 +36,7 @@ const LINKS = [
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <View className="flex-1 items-center gap-0.5 rounded-2xl border border-border bg-card px-2 py-3">
+    <View className="flex-1 items-center gap-1 rounded-2xl border border-border bg-card px-2 py-3">
       <Text variant="title" numberOfLines={1} adjustsFontSizeToFit>
         {value}
       </Text>
@@ -68,12 +69,13 @@ export default function ProgressScreen() {
 
   return (
     <View className="flex-1 bg-background">
+      <AuroraBackground />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 16,
           paddingBottom: TAB_BAR_CLEARANCE + 24,
           paddingHorizontal: 16,
-          gap: 20,
+          gap: 24,
         }}
       >
         <View className="gap-1">

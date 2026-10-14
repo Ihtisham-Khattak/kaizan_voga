@@ -69,7 +69,7 @@ export function SpeechBubble({
     >
       <View className="gap-1 rounded-[20px] border border-border bg-card px-4 py-3 shadow-lg shadow-forest/10">
         {showName ? (
-          <View className="flex-row items-center gap-1.5">
+          <View className="flex-row items-center gap-2">
             <View style={{ backgroundColor: signature[speaker] }} className="size-2.5 rounded-full" />
             <Text variant="caption" className="font-sans-semibold text-foreground">
               {name}

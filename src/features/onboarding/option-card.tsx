@@ -51,7 +51,7 @@ export function OptionCard({ title, subtitle, selected, onPress, leading, multi,
           )}
         >
           {leading ? <View className="size-12 items-center justify-center">{leading}</View> : null}
-          <View className="flex-1 gap-0.5">
+          <View className="flex-1 gap-1">
             <Text
               variant="bodyLarge"
               className={cn('font-sans-semibold', selected && 'text-secondary-foreground')}

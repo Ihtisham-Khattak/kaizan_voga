@@ -144,7 +144,7 @@ export default function MoodScreen() {
                       before: t(`mood.${s.moodBefore!}`),
                       after: t(`mood.${s.moodAfter!}`),
                     })}
-                    className="flex-row border-t border-border px-4 py-2.5"
+                    className="flex-row border-t border-border px-4 py-3"
                   >
                     <Text variant="caption" className="flex-1">
                       {fmt(s.at)}

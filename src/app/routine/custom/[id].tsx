@@ -86,7 +86,7 @@ export default function CustomRoutineScreen() {
           paddingTop: insets.top + 64,
           paddingBottom: insets.bottom + 130,
           paddingHorizontal: 16,
-          gap: 14,
+          gap: 16,
         }}
       >
         <Text variant="title1">{t('custom.title')}</Text>
@@ -176,7 +176,7 @@ export default function CustomRoutineScreen() {
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{
           flexDirection: 'row',
-          gap: 10,
+          gap: 12,
           paddingHorizontal: 16,
           paddingTop: 12,
           paddingBottom: Math.max(insets.bottom, 12),

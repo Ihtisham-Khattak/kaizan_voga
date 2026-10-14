@@ -46,11 +46,11 @@ export function ProgramCard({ program: p, completedDays = 0, onPress, className 
         ) : null}
       </View>
       <View className="flex-row items-center gap-3 px-1 pb-1">
-        <View className="flex-1 gap-1.5">
+        <View className="flex-1 gap-2">
           <Text variant="heading" numberOfLines={2}>
             {p.title}
           </Text>
-          <View className="flex-row flex-wrap gap-1.5">
+          <View className="flex-row flex-wrap gap-2">
             <Badge variant="secondary">
               <Text>{weeks}</Text>
             </Badge>

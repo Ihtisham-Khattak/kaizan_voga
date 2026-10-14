@@ -94,7 +94,7 @@ export default function RemindersScreen() {
         />
       </Group>
 
-      <View className={enabled ? 'gap-5' : 'gap-5 opacity-50'} pointerEvents={enabled ? 'auto' : 'none'}>
+      <View className={enabled ? 'gap-6' : 'gap-6 opacity-50'} pointerEvents={enabled ? 'auto' : 'none'}>
         <Group>
           <TimeStepper
             first
@@ -157,7 +157,7 @@ export default function RemindersScreen() {
           <View className="size-11 items-center justify-center rounded-2xl bg-primary">
             <Icon as={Leaf} size={24} weight="fill" className="text-primary-foreground" />
           </View>
-          <View className="flex-1 gap-0.5">
+          <View className="flex-1 gap-1">
             <View className="flex-row justify-between">
               <Text variant="label">{t('common.appName')}</Text>
               <Text variant="caption">{t('pf.rem.now')}</Text>

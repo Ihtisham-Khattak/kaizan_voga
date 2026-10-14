@@ -34,7 +34,7 @@ export function SettingsScreen({
     <View className="flex-1 bg-background">
       <ScrollView
         keyboardShouldPersistTaps={keyboard ? 'handled' : undefined}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: 20 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: 24 }}
       >
         <ScreenHeader title={title} subtitle={subtitle} />
         {children}

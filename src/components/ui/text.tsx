@@ -113,12 +113,19 @@ function Text({
   variant = 'body',
   style,
   maxFontSizeMultiplier = 1.3, // Dynamic Type up to 130% without breaking layouts
+  maxScale,
   ...props
 }: React.ComponentProps<typeof RNText> &
-  React.RefAttributes<RNText> & { variant?: Variant; asChild?: boolean }) {
+  React.RefAttributes<RNText> & {
+    variant?: Variant;
+    asChild?: boolean;
+    /** Cap the in-app Text size setting for fixed-width labels (e.g. tab labels). */
+    maxScale?: number;
+  }) {
   const textClass = React.useContext(TextClassContext);
   const language = useAppStore((s) => s.language);
-  const scale = useAppStore((s) => s.textScale);
+  const setting = useAppStore((s) => s.textScale);
+  const scale = maxScale ? Math.min(setting, maxScale) : setting;
   const Component = asChild ? Slot : RNText;
 
   const name: TypeName =

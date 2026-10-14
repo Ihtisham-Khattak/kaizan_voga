@@ -17,6 +17,7 @@ import { Pressable, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character } from '@/characters/character';
+import { AuroraBackground } from '@/components/aurora-background';
 import { BottomSheet } from '@/components/bottom-sheet';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { CoverArt, variantFor } from '@/components/cover-art';
@@ -35,7 +36,6 @@ import { buildPlan, planTotalSec } from '@/lib/session-plan';
 import type { BreathPhase } from '@/lib/breath';
 import { useLibraryStore } from '@/store/library-store';
 import { useSessionStore } from '@/store/session-store';
-import { coverColor } from '@/theme/cover';
 import { useTheme } from '@/theme/theme-provider';
 
 const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
@@ -53,7 +53,7 @@ function RoundButton({
   size?: number;
   primary?: boolean;
 }) {
-  const { colors, extras } = useTheme();
+  const { colors } = useTheme();
   return (
     <Pressable
       onPress={() => {
@@ -82,7 +82,7 @@ export default function SessionPlayer() {
   const { t } = useT();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
-  const { colors, extras } = useTheme();
+  const { extras } = useTheme();
   const config = useSessionStore((s) => s.config);
   const setSummary = useSessionStore((s) => s.setSummary);
   const setLastSession = useLibraryStore((s) => s.setLastSession);
@@ -202,7 +202,6 @@ export default function SessionPlayer() {
 
   const ring = Math.min(264, Math.round(height * 0.31));
   const progress = 1 - remaining / step.durationSec;
-  const tint = coverColor(colors, routine.cover);
   const stepText = exercise.steps.length
     ? exercise.steps[Math.min(exercise.steps.length - 1, Math.floor(progress * exercise.steps.length))]
     : '';
@@ -213,11 +212,7 @@ export default function SessionPlayer() {
 
   return (
     <View className="flex-1 bg-background">
-      {/* soft tinted wash so each routine feels a little different */}
-      <View
-        pointerEvents="none"
-        style={{ position: 'absolute', inset: 0, backgroundColor: tint, opacity: 0.18 }}
-      />
+      <AuroraBackground variant={routine.kind === 'sleep' ? 'evening' : 'day'} />
 
       <View
         style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}
@@ -233,7 +228,7 @@ export default function SessionPlayer() {
             <Icon as={X} size={22} weight="bold" className="text-foreground" />
           </Pressable>
         </GlassCard>
-        <GlassCard radius={20} shadow={false} contentStyle={{ paddingHorizontal: 14, paddingVertical: 8 }}>
+        <GlassCard radius={20} shadow={false} contentStyle={{ paddingHorizontal: 16, paddingVertical: 8 }}>
           <Text variant="caption" className="font-sans-semibold">
             {t('session.player.poseOf', { n: index + 1, total: plan.length })}
           </Text>
@@ -314,7 +309,7 @@ export default function SessionPlayer() {
         </View>
 
         {nextExercise ? (
-          <GlassCard radius={18} shadow={false} contentStyle={{ paddingHorizontal: 14, paddingVertical: 10 }}>
+          <GlassCard radius={18} shadow={false} contentStyle={{ paddingHorizontal: 16, paddingVertical: 12 }}>
             <Text variant="caption" numberOfLines={1}>
               <Text variant="caption" className="font-sans-semibold">{`${t('session.player.next')}: `}</Text>
               {nextExercise.name}
@@ -332,7 +327,7 @@ export default function SessionPlayer() {
         style={{
           paddingBottom: Math.max(insets.bottom, 12) + 4,
           paddingHorizontal: 16,
-          gap: 10,
+          gap: 12,
           alignItems: 'center',
         }}
       >
@@ -341,7 +336,7 @@ export default function SessionPlayer() {
           contentStyle={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 6,
+            gap: 8,
             paddingHorizontal: 12,
             paddingVertical: 8,
           }}
@@ -398,7 +393,7 @@ export default function SessionPlayer() {
             backgroundColor: extras.scrim,
           }}
         >
-          <GlassCard strong radius={32} contentStyle={{ padding: 22, gap: 12, alignItems: 'center' }}>
+          <GlassCard strong radius={32} contentStyle={{ padding: 24, gap: 12, alignItems: 'center' }}>
             <Character name="kai" pose="float" mood="calm" size={96} />
             <Text variant="title" accessibilityRole="header">
               {t('session.player.paused')}

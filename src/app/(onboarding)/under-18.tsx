@@ -14,7 +14,7 @@ export default function Under18Screen() {
   const insets = useSafeAreaInsets();
   return (
     <View
-      className="flex-1 items-center justify-center gap-5 bg-background px-8"
+      className="flex-1 items-center justify-center gap-6 bg-background px-8"
       style={{ paddingBottom: insets.bottom + 24 }}
     >
       <Character name="kai" pose="float" mood="tired" size={190} />

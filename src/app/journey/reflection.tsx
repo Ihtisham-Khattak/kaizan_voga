@@ -70,7 +70,7 @@ export default function ReflectionScreen() {
   return (
     <View className="flex-1 bg-background">
       <ScrollView
-        contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 18 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 16 }}
         keyboardShouldPersistTaps="handled"
       >
         <ScreenHeader title={t('prog.reflection.title')} subtitle={t('prog.reflection.subtitle')} />

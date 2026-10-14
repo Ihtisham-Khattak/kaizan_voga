@@ -90,7 +90,7 @@ export default function ResetPasswordScreen() {
         textContentType="newPassword"
         error={msg(errors.confirm?.message)}
       />
-      <View className="gap-1.5">
+      <View className="gap-2">
         <Rule ok={pw.length >= 8} label={t('auth.reset.ruleLength')} />
         <Rule ok={/[a-z]/i.test(pw) && /\d/.test(pw)} label={t('auth.reset.ruleMix')} />
         <Rule ok={pw.length > 0 && pw === confirm} label={t('auth.reset.ruleMatch')} />

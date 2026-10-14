@@ -278,7 +278,7 @@ export default function UiKit() {
 
       <Section title="Glass surfaces">
         <View style={{ height: 230, borderRadius: 24, overflow: 'hidden' }}>
-          <SceneBackground colors={scheme === 'dark' ? ['#183025', '#2A2418'] : ['#BFE3CB', '#F6D9B8']} />
+          <SceneBackground colors={[colors.auroraMint, colors.sunriseSoft]} />
           <View
             style={{
               position: 'absolute',

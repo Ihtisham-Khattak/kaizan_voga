@@ -25,7 +25,7 @@ export default function TermsScreen() {
           ]}
         />
       </Group>
-      <View className="mx-4 gap-3 rounded-3xl border border-border bg-card p-5">
+      <View className="mx-4 gap-3 rounded-3xl border border-border bg-card p-6">
         <Text variant="title" accessibilityRole="header">
           {t(`pf.info.${doc}`)}
         </Text>

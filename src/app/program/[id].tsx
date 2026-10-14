@@ -36,10 +36,7 @@ function DayRow({ d, state }: { d: ProgramDay; state: State }) {
       disabled={!routine}
       accessibilityRole="button"
       accessibilityLabel={`${t('program.week', { n: Math.ceil(d.day / 7) })}, ${d.day}: ${d.title}`}
-      className={cn(
-        'flex-row items-center gap-3 rounded-2xl px-3 py-2.5',
-        state === 'today' && 'bg-secondary'
-      )}
+      className={cn('flex-row items-center gap-3 rounded-2xl px-3 py-3', state === 'today' && 'bg-secondary')}
     >
       <View
         className={cn(
@@ -138,7 +135,7 @@ export default function ProgramDetail() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 4,
-                  paddingHorizontal: 10,
+                  paddingHorizontal: 12,
                   paddingVertical: 4,
                 }}
               >
@@ -151,7 +148,7 @@ export default function ProgramDetail() {
           ) : null}
         </View>
 
-        <View className="gap-4 px-4 pt-5">
+        <View className="gap-4 px-4 pt-6">
           <View className="flex-row items-center gap-4">
             <View className="flex-1 gap-1">
               <Text variant="title1" accessibilityRole="header">

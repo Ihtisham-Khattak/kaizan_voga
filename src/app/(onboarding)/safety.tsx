@@ -38,7 +38,7 @@ export default function SafetyScreen() {
         <Character name="kai" pose="float" mood="calm" size={120} />
       </View>
 
-      <View className="gap-4 rounded-card border border-danger/30 bg-bgMist p-5">
+      <View className="gap-4 rounded-card border border-danger/30 bg-bgMist p-6">
         {ROWS.map((r, i) => (
           <FadeUp key={r.key} delay={150 + i * 120} distance={10} className="flex-row items-start gap-3">
             <View className="size-10 items-center justify-center rounded-full bg-card">

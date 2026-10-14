@@ -5,6 +5,7 @@ import { MOOD_LEVEL } from '@/lib/stats';
 import { useT } from '@/i18n';
 import { MOODS, type SessionRecord } from '@/store/types';
 import { useTheme } from '@/theme/theme-provider';
+import { families, typography } from '@/theme/typography';
 
 const H = 220;
 const PAD_L = 62;
@@ -51,7 +52,8 @@ export function MoodChart({ data, width }: Props) {
             <SvgText
               x={PAD_L - 8}
               y={y(MOOD_LEVEL[m]) + 4}
-              fontSize={11}
+              fontSize={typography.footnote.size}
+              fontFamily={families.sans['500']}
               fill={colors.muted}
               textAnchor="end"
             >

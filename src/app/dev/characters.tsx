@@ -150,7 +150,7 @@ export default function CharacterSheet() {
           <LotusLogo size={88} />
         </View>
         <View style={{ height: 180, borderRadius: 24, overflow: 'hidden', backgroundColor: colors.mint }}>
-          <SceneBackground colors={scheme === 'dark' ? ['#2A2418', '#1A1A14'] : ['#F4E6CB', '#FAF3E3']} />
+          <SceneBackground colors={[colors.sunriseSoft, colors.bg]} />
           <LightRays width={340} height={180} />
           <ConfettiLeaves width={340} height={180} count={10} />
           <View className="items-center justify-end pt-4" style={{ flex: 1 }}>

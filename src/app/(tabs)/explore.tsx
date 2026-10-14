@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SceneBackground } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { CoverArt, variantFor } from '@/components/cover-art';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -30,7 +30,6 @@ import { customToRoutine } from '@/lib/routines';
 import { useLibraryStore } from '@/store/library-store';
 import { usePrefsStore } from '@/store/prefs-store';
 import type { Goal } from '@/store/types';
-import { useTheme } from '@/theme/theme-provider';
 
 const CATEGORIES: ExerciseCategory[] = [
   'standing',
@@ -51,7 +50,6 @@ const px = { paddingHorizontal: 16 };
 /** Explore / Library: search, filter chips, programs, routines by goal, styles, pose library, sleep. */
 export default function ExploreScreen() {
   const { t } = useT();
-  const { scheme } = useTheme();
   const insets = useSafeAreaInsets();
   const myGoals = usePrefsStore((s) => s.goals);
   const [goal, setGoal] = useState<Goal>(myGoals[0] ?? 'stress');
@@ -60,13 +58,13 @@ export default function ExploreScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : ['#E9E3F6', '#FAF6EE']} />
+      <AuroraBackground />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: insets.top + 12,
           paddingBottom: TAB_BAR_CLEARANCE + insets.bottom + 32,
-          gap: 26,
+          gap: 24,
         }}
       >
         <FadeUp style={px} className="gap-3">
@@ -84,7 +82,7 @@ export default function ExploreScreen() {
               contentStyle={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 10,
+                gap: 12,
                 paddingHorizontal: 16,
                 minHeight: 52,
               }}
@@ -117,7 +115,7 @@ export default function ExploreScreen() {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+              contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
             >
               {custom.map((c) => (
                 <RoutineCard
@@ -135,7 +133,7 @@ export default function ExploreScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+            contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
           >
             {listPrograms().map((p) => (
               <View key={p.id} style={{ width: 310 }}>
@@ -162,7 +160,7 @@ export default function ExploreScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+            contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
           >
             {byGoal.map((r) => (
               <RoutineCard key={r.id} routine={r} onPress={() => openRoutine(r.id)} />
@@ -183,7 +181,7 @@ export default function ExploreScreen() {
                 onPress={() => openCollection('style', s.id)}
                 accessibilityRole="button"
                 accessibilityLabel={`${s.name}. ${s.explainer}`}
-                className="w-[250px] gap-1.5 rounded-card border border-border bg-card p-4 active:opacity-90"
+                className="w-[250px] gap-2 rounded-card border border-border bg-card p-4 active:opacity-90"
               >
                 <Text variant="heading">{s.name}</Text>
                 <Text variant="caption" numberOfLines={4}>
@@ -206,7 +204,7 @@ export default function ExploreScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={`${t(`explore.categoryName.${c}`)}, ${t('explore.poseCount', { count: list.length })}`}
                   style={{ width: '48%' }}
-                  className="gap-1.5 active:opacity-90"
+                  className="gap-2 active:opacity-90"
                 >
                   <CoverArt tint="mint" figure={variantFor(getExercise(list[0].id))} height={104} />
                   <Text variant="label">{t(`explore.categoryName.${c}`)}</Text>
@@ -222,7 +220,7 @@ export default function ExploreScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 14, paddingHorizontal: 16 }}
+            contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
           >
             {listSleep().map((r) => (
               <RoutineCard key={r.id} routine={r} onPress={() => openRoutine(r.id)} />

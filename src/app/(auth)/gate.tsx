@@ -5,7 +5,8 @@ import { ScrollView, Text as RNText, useWindowDimensions, View } from 'react-nat
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character } from '@/characters/character';
-import { ConfettiLeaves, SceneBackground } from '@/characters/props';
+import { ConfettiLeaves } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,6 @@ import { finishAuth } from '@/features/auth/flow';
 import { useT } from '@/i18n';
 import { signInWithProvider } from '@/lib/auth';
 import { usePrefsStore } from '@/store/prefs-store';
-import { useTheme } from '@/theme/theme-provider';
 
 /**
  * Account gate — "Save your journey". Shown once after the plan reveal: value first, then the ask.
@@ -24,7 +24,6 @@ import { useTheme } from '@/theme/theme-provider';
  */
 export default function GateScreen() {
   const { t } = useT();
-  const { scheme } = useTheme();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const minutes = usePrefsStore((s) => s.minutesPerDay);
@@ -37,7 +36,7 @@ export default function GateScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <SceneBackground colors={scheme === 'dark' ? ['#183025', '#121A16'] : ['#CFE6D6', '#FAF6EE']} />
+      <AuroraBackground />
       <ConfettiLeaves width={width} height={height} count={7} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -68,7 +67,7 @@ export default function GateScreen() {
           </GlassCard>
         </FadeUp>
 
-        <FadeUp delay={150} className="gap-1.5 px-2">
+        <FadeUp delay={150} className="gap-2 px-2">
           <Text variant="title1" className="text-center">
             {t('auth.gate.title')}
           </Text>
@@ -78,7 +77,7 @@ export default function GateScreen() {
         </FadeUp>
 
         <FadeUp delay={300}>
-          <GlassCard strong radius={28} contentStyle={{ padding: 18, gap: 12 }}>
+          <GlassCard strong radius={28} contentStyle={{ padding: 16, gap: 12 }}>
             <Button size="lg" onPress={() => router.push('/sign-up')}>
               <Text>{t('auth.gate.signUp')}</Text>
             </Button>

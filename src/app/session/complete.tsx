@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character } from '@/characters/character';
 import { ConfettiLeaves, LightRays } from '@/characters/props';
+import { AuroraBackground } from '@/components/aurora-background';
 import { GlassCard } from '@/components/glass-card';
 import { MoodFace, MoodPicker } from '@/components/mood-picker';
 import { Button } from '@/components/ui/button';
@@ -30,7 +31,7 @@ function Stat({ label, value }: { label: string; value: string }) {
       radius={20}
       shadow={false}
       style={{ flex: 1 }}
-      contentStyle={{ padding: 14, alignItems: 'center', gap: 2 }}
+      contentStyle={{ padding: 16, alignItems: 'center', gap: 4 }}
     >
       <Text variant="title">{value}</Text>
       <Text variant="caption">{label}</Text>
@@ -101,14 +102,15 @@ export default function SessionComplete() {
 
   return (
     <View className="flex-1 bg-background">
+      <AuroraBackground />
       <LightRays width={width} height={320} />
       {full ? <ConfettiLeaves width={width} height={420} /> : null}
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 24,
-          paddingBottom: 140,
-          paddingHorizontal: 20,
-          gap: 18,
+          paddingBottom: 48,
+          paddingHorizontal: 24,
+          gap: 16,
           alignItems: 'center',
         }}
         keyboardShouldPersistTaps="handled"
@@ -151,7 +153,7 @@ export default function SessionComplete() {
             <GlassCard
               radius={24}
               tone="leaf"
-              contentStyle={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}
+              contentStyle={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16 }}
             >
               <View className="size-14 items-center justify-center rounded-full bg-secondary">
                 <KaizenIcon name={achievement.icon as KaizenIconName} size={30} color={colors.leaf} />
@@ -197,8 +199,8 @@ export default function SessionComplete() {
         shadow={false}
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{
-          paddingHorizontal: 20,
-          paddingTop: 14,
+          paddingHorizontal: 24,
+          paddingTop: 16,
           paddingBottom: Math.max(insets.bottom, 14),
           flexDirection: 'row',
           gap: 12,
