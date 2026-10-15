@@ -340,7 +340,7 @@ export default function UiKit() {
 
       <Section title="Speech bubbles">
         <SpeechBubble
-          speaker="ali"
+          speaker="hamid"
           text="Eight hours at the desk… my neck and back feel so stiff."
           tail="start"
         />
@@ -351,7 +351,7 @@ export default function UiKit() {
           tail="end"
         />
         <SpeechBubble
-          speaker="zara"
+          speaker="arfa"
           text="It didn't change overnight. It changed one small step at a time — that's Kaizen."
           delay={1200}
         />

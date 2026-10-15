@@ -13,6 +13,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getExercise, type RoutinePhase } from '@/data/repo';
 import { HeroActions } from '@/features/pose/hero-actions';
+import { CompanionPick } from '@/components/companion-pick';
 import { PremiumBadge } from '@/components/premium-badge';
 import { gate } from '@/lib/entitlement';
 import { DetailSkeleton } from '@/features/states/skeletons';
@@ -98,6 +99,7 @@ export default function RoutineDetail() {
             ) : null}
           </View>
           {r.description ? <Text variant="body">{r.description}</Text> : null}
+          <CompanionPick id={r.id} />
 
           <View className="flex-row flex-wrap gap-2">
             <Badge variant="secondary">

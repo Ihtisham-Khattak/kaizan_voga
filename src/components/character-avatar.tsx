@@ -1,7 +1,11 @@
 import { View } from 'react-native';
 
 import { Character } from '@/characters/character';
+import { PHOTOS } from '@/characters/photos';
 import { signature, type CharacterName } from '@/characters/palette';
+import type { Person } from '@/data/companions';
+
+import { PersonPhoto } from './person-photo';
 import type { Pose } from '@/characters/types';
 import type { Mood } from '@/store/types';
 
@@ -15,7 +19,7 @@ interface Props {
   animated?: boolean;
 }
 
-/** Circular head-and-shoulders crop of the shared Character – tiny icons on cards, headers, tab bars. */
+/** Circular head crop – Hina, Arfa, Hamid and Sierra use their portraits; Kai uses the illustrated Character. */
 export function CharacterAvatar({
   name,
   mood = 'happy',
@@ -25,6 +29,30 @@ export function CharacterAvatar({
   animated = false,
 }: Props) {
   const color = signature[name];
+  if (name !== 'kai') {
+    const inner = size - (ring ? 4 : 0);
+    return (
+      <View
+        style={{
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: color + '33',
+          borderWidth: ring ? 2 : 0,
+          borderColor: color,
+          overflow: 'hidden',
+        }}
+      >
+        <PersonPhoto
+          person={name as Person}
+          width={inner}
+          height={inner}
+          zoom={PHOTOS[name as Person].hairy ? 1.9 : 2.3}
+          faceAt={0.46}
+        />
+      </View>
+    );
+  }
   return (
     <View
       style={{

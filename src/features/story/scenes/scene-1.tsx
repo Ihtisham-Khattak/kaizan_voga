@@ -16,7 +16,7 @@ import {
 import type { SceneProps } from '../types';
 
 const cfg = scenes[1];
-const mood = (id: 'ali' | 'hina' | 'omar') => cfg.characters.find((c) => c.id === id)!.mood;
+const mood = (id: 'hamid' | 'hina' | 'sierra') => cfg.characters.find((c) => c.id === id)!.mood;
 
 /** Scene 1 — "Sound familiar?" Muted palette. Three friends on a bench, each with a worry above them. */
 export function Scene1({ controls, width }: SceneProps) {
@@ -36,7 +36,7 @@ export function Scene1({ controls, width }: SceneProps) {
             speaker={b.speaker}
             text={t(b.textKey)}
             delay={b.delayMs}
-            tailAt={centers[['ali', 'hina', 'omar'].indexOf(b.speaker)] / w}
+            tailAt={centers[['hamid', 'hina', 'sierra'].indexOf(b.speaker)] / w}
           />
         ))}
       </View>
@@ -46,7 +46,7 @@ export function Scene1({ controls, width }: SceneProps) {
           width={w}
           muted
           thoughts="in"
-          moods={{ ali: mood('ali'), hina: mood('hina'), omar: mood('omar') }}
+          moods={{ hamid: mood('hamid'), hina: mood('hina'), sierra: mood('sierra') }}
         />
       </View>
     </SceneScroll>

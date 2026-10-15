@@ -11,6 +11,7 @@ import { ScaleInput } from '@/features/progress/scale-input';
 import { useT } from '@/i18n';
 import { journeyDay } from '@/lib/journey';
 import { useAppStore } from '@/store/app-store';
+import { usePrefsStore } from '@/store/prefs-store';
 import { useProgressStore } from '@/store/progress-store';
 import type { MonthlyReflection, Mood, Score } from '@/store/types';
 
@@ -21,20 +22,21 @@ const LOWER_IS_BETTER: Record<Key, boolean> = { stress: true, sleep: false, ener
 
 const wellbeing = (r: MonthlyReflection) =>
   KEYS.reduce((n, k) => n + (LOWER_IS_BETTER[k] ? 6 - r[k] : r[k]), 0) / KEYS.length;
-const zaraMood = (r: MonthlyReflection): Mood => {
+const companionMood = (r: MonthlyReflection): Mood => {
   const w = wellbeing(r);
   return w >= 4 ? 'happy' : w >= 3.2 ? 'calm' : w >= 2.4 ? 'neutral' : 'stressed';
 };
 
 function Half({ title, r, day }: { title: string; r: MonthlyReflection; day: string }) {
   const { t } = useT();
+  const companion = usePrefsStore((s) => s.avatar);
   return (
     <View className="flex-1 items-center gap-1 p-3">
       <Text variant="label" className="uppercase tracking-wide">
         {title}
       </Text>
       <Text variant="caption">{day}</Text>
-      <Character name="zara" crop="bust" mood={zaraMood(r)} size={96} animated={false} />
+      <Character name={companion} crop="bust" mood={companionMood(r)} size={96} animated={false} />
       {KEYS.map((k) => (
         <Text key={k} variant="caption" className="text-center">
           {`${t(`prog.reflection.short.${k}`)}: ${r[k]} / 5`}

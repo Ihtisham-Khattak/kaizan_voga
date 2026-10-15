@@ -69,4 +69,11 @@ export const art = {
   teal: '#2FA4A0',
   warmNight: '#2A2418',
   white: '#FFFFFF',
+  skinArfa: '#E9BE9C',
+  skinHamid: '#B67C56',
+  skinSierra: '#8C5A3E',
+  hairArfa: '#3A2A22',
+  hairHamid: '#2B2420',
+  hairSierra: '#3B2318',
+  greyTemple: '#8A8580',
 } as const;

@@ -20,7 +20,7 @@ import type { SceneProps } from '../types';
 
 const prev = scenes[1];
 const cfg = scenes[2];
-const m = (s: typeof cfg, id: 'ali' | 'hina' | 'omar') => s.characters.find((c) => c.id === id)!.mood;
+const m = (s: typeof cfg, id: 'hamid' | 'hina' | 'sierra') => s.characters.find((c) => c.id === id)!.mood;
 
 /** Scene 2 — "You're not alone". They turn toward each other and their expressions soften. */
 export function Scene2({ controls, width }: SceneProps) {
@@ -28,9 +28,9 @@ export function Scene2({ controls, width }: SceneProps) {
   const w = stageWidth(width);
   const { centers } = friendsLayout(w, FRIEND_H);
   const moods = {
-    ali: useDelayedMood(m(prev, 'ali'), m(cfg, 'ali'), 900),
+    hamid: useDelayedMood(m(prev, 'hamid'), m(cfg, 'hamid'), 900),
     hina: useDelayedMood(m(prev, 'hina'), m(cfg, 'hina'), 700),
-    omar: useDelayedMood(m(prev, 'omar'), m(cfg, 'omar'), 1100),
+    sierra: useDelayedMood(m(prev, 'sierra'), m(cfg, 'sierra'), 1100),
   };
 
   return (
@@ -44,7 +44,7 @@ export function Scene2({ controls, width }: SceneProps) {
             speaker={b.speaker}
             text={t(b.textKey)}
             delay={b.delayMs}
-            tailAt={centers[['ali', 'hina', 'omar'].indexOf(b.speaker)] / w}
+            tailAt={centers[['hamid', 'hina', 'sierra'].indexOf(b.speaker)] / w}
           />
         ))}
       </View>
@@ -56,7 +56,7 @@ export function Scene2({ controls, width }: SceneProps) {
           muted
           thoughts="out"
           moods={moods}
-          turn={{ ali: 5, hina: -3, omar: -5 }}
+          turn={{ hamid: 5, hina: -3, sierra: -5 }}
           turnDelay={500}
         />
       </View>

@@ -15,6 +15,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getProgram, getRoutine, type ProgramDay } from '@/data/repo';
 import { HeroActions } from '@/features/pose/hero-actions';
+import { CompanionPick } from '@/components/companion-pick';
 import { PremiumBadge } from '@/components/premium-badge';
 import { gate } from '@/lib/entitlement';
 import { useT } from '@/i18n';
@@ -158,6 +159,7 @@ export default function ProgramDetail() {
             </ProgressRing>
           </View>
           <Text variant="body">{p.description}</Text>
+          <CompanionPick id={p.id} />
           <Text variant="caption">{t('program.daysDone', { done, total: p.days.length })}</Text>
 
           {/* weeks */}

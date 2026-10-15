@@ -45,8 +45,8 @@ import { useAuthStore } from '@/store/auth-store';
 import { usePrefsStore } from '@/store/prefs-store';
 import { useSubscriptionStore } from '@/store/subscription-store';
 
-type Avatar = 'zara' | 'ali' | 'hina' | 'omar';
-const AVATARS: Avatar[] = ['zara', 'ali', 'hina', 'omar'];
+type Avatar = 'arfa' | 'hamid' | 'hina' | 'sierra';
+const AVATARS: Avatar[] = ['arfa', 'hamid', 'hina', 'sierra'];
 const go = (href: string) => () => router.push(href as Href);
 
 /** Profile: who you are, your plan, your account, and every setting in one calm list. */

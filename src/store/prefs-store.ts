@@ -18,7 +18,7 @@ import type {
 export interface Prefs {
   name: string;
   /** Which illustrated companion shows on the Profile. */
-  avatar: 'zara' | 'ali' | 'hina' | 'omar';
+  avatar: 'arfa' | 'hamid' | 'hina' | 'sierra';
   goals: Goal[];
   experience: Experience | null;
   minutesPerDay: 5 | 10 | 15 | 20;
@@ -43,7 +43,7 @@ interface PrefsState extends Prefs {
 
 export const defaultPrefs: Prefs = {
   name: '',
-  avatar: 'zara',
+  avatar: 'arfa',
   goals: [],
   experience: null,
   minutesPerDay: 10,
@@ -75,7 +75,18 @@ export const usePrefsStore = register(
           set((s) => ({ goals: s.goals.includes(g) ? s.goals.filter((x) => x !== g) : [...s.goals, g] })),
         reset: () => set(defaultPrefs),
       }),
-      { name: 'kz-prefs', version: 1, storage }
+      {
+        name: 'kz-prefs',
+        version: 2,
+        storage,
+        // v2: the cast changed (Zara/Ali/Omar became Arfa/Hamid/Sierra) – keep each person's saved companion
+        migrate: (persisted) => {
+          const p = persisted as { avatar?: string } | null;
+          const map: Record<string, string> = { zara: 'arfa', ali: 'hamid', omar: 'sierra' };
+          if (p && p.avatar && map[p.avatar]) p.avatar = map[p.avatar];
+          return p as never;
+        },
+      }
     )
   )
 );

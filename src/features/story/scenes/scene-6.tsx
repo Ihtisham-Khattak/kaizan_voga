@@ -1,12 +1,10 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollView, View } from 'react-native';
 
-import { Character } from '@/characters/character';
-import { GlassCard } from '@/components/glass-card';
+import { CharacterAvatar } from '@/components/character-avatar';
 import { ConfettiLeaves } from '@/characters/props';
 import { FadeUp } from '@/components/fade-up';
 import { SpeechBubble } from '@/components/speech-bubble';
-import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { scenes } from '@/data/story';
 import { GoalsPicker } from '@/features/onboarding/goals-picker';
@@ -14,7 +12,8 @@ import { useT } from '@/i18n';
 import { usePrefsStore } from '@/store/prefs-store';
 
 import { leaveStory } from '../leave';
-import { Entrance, stageWidth } from '../stage';
+import { Entrance, SceneCTA, stageWidth } from '../stage';
+import { useStoryColors } from '@/theme/story';
 import type { SceneProps } from '../types';
 
 const cfg = scenes[6];
@@ -25,7 +24,8 @@ export function Scene6({ width, height }: SceneProps) {
   const insets = useSafeAreaInsets();
   const w = stageWidth(width);
   const goals = usePrefsStore((s) => s.goals);
-  const bottom = Math.max(insets.bottom, 12) + 36;
+  const sc = useStoryColors();
+  const bottom = Math.max(insets.bottom, 12) + 44;
 
   return (
     <>
@@ -34,28 +34,28 @@ export function Scene6({ width, height }: SceneProps) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           alignItems: 'center',
-          paddingTop: 48,
+          paddingTop: insets.top + 56,
           paddingBottom: bottom + 130,
           paddingHorizontal: 16,
         }}
       >
         <FadeUp>
-          <Text variant="title" className="px-2 text-center">
+          <Text variant="title1" className="px-2 text-center" style={{ color: sc.title }}>
             {t('story.s6.title')}
           </Text>
         </FadeUp>
 
         {/* everyone's here, and happy */}
-        <View style={{ width: w }} className="flex-row items-end justify-center pt-3">
-          {cfg.characters.map((c, i) => (
+        <View style={{ width: w }} className="flex-row items-center justify-center pb-1 pt-4">
+          {cfg.characters.map((c) => (
             <Entrance
               key={c.id}
               from="bottom"
               delay={c.enterAt + 100}
-              distance={50}
-              style={{ marginHorizontal: -4 }}
+              distance={40}
+              style={{ marginHorizontal: -6 }}
             >
-              <Character name={c.id} pose={i === 2 ? 'wave' : 'stand'} mood="happy" size={150} />
+              <CharacterAvatar name={c.id} size={84} ring />
             </Entrance>
           ))}
         </View>
@@ -71,12 +71,18 @@ export function Scene6({ width, height }: SceneProps) {
         </View>
       </ScrollView>
 
-      {/* Kai's reaction + Continue: a glass footer the goal list scrolls beneath */}
-      <GlassCard
-        strong
-        radii={{ tl: 28, tr: 28 }}
-        style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
-        contentStyle={{
+      {/* Kai's reaction + Continue: a solid cream footer the goal list scrolls beneath */}
+      <View
+        style={{
+          position: 'absolute',
+          start: 0,
+          end: 0,
+          bottom: 0,
+          backgroundColor: sc.bg,
+          borderTopLeftRadius: 28,
+          borderTopRightRadius: 28,
+          borderTopWidth: 1,
+          borderColor: sc.cardBorder,
           paddingHorizontal: 16,
           paddingTop: 16,
           paddingBottom: bottom,
@@ -87,12 +93,14 @@ export function Scene6({ width, height }: SceneProps) {
         <View style={{ width: w }}>
           <SpeechBubble speaker="kai" text={t('story.s6.kai')} visible={goals.length > 0} tail="none" />
         </View>
-        <View style={{ width: w }}>
-          <Button size="lg" disabled={goals.length === 0} onPress={() => leaveStory({ goalsDone: true })}>
-            <Text>{t('common.continue')}</Text>
-          </Button>
+        <View style={{ width: w, alignItems: 'center' }}>
+          <SceneCTA
+            label={t('common.continue')}
+            disabled={goals.length === 0}
+            onPress={() => leaveStory({ goalsDone: true })}
+          />
         </View>
-      </GlassCard>
+      </View>
     </>
   );
 }

@@ -43,9 +43,9 @@ export function Bench({ width = 340, muted = false }: { width?: number; muted?: 
 }
 
 // ───────────────────────── Thought icons ─────────────────────────
-export type ThoughtKind = 'ali' | 'hina' | 'omar';
+export type ThoughtKind = 'hamid' | 'hina' | 'sierra';
 
-/** Small thought bubble above a friend: Ali laptop + clock, Hina moon + swirls, Omar books + lightning. */
+/** Small thought bubble above a person: Hamid laptop + clock, Hina a packed calendar + clock, Sierra moon + swirls. */
 export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: number }) {
   const { colors } = useTheme();
   const ink = colors.ink;
@@ -61,7 +61,7 @@ export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: num
       <Circle cx={45} cy={40} r={37} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
       <Circle cx={32} cy={84} r={6} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
       <Circle cx={24} cy={95} r={3.4} fill={colors.bgMist} stroke={colors.hairline} strokeWidth={1.5} />
-      {kind === 'ali' && (
+      {kind === 'hamid' && (
         <G>
           {/* laptop */}
           <Rect x={16} y={30} width={34} height={22} rx={3} {...stroke} />
@@ -73,21 +73,24 @@ export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: num
       )}
       {kind === 'hina' && (
         <G>
+          {/* a packed calendar and a ticking clock */}
+          <Rect x={14} y={30} width={36} height={30} rx={4} {...stroke} />
+          <Path d="M14 40 H50" {...stroke} />
+          <Path d="M24 26 V33 M40 26 V33" {...stroke} />
+          <Rect x={20} y={46} width={6} height={6} rx={1.5} {...stroke} fill={art.sand} />
+          <Rect x={30} y={46} width={6} height={6} rx={1.5} {...stroke} fill={art.sand} />
+          <Rect x={40} y={46} width={6} height={6} rx={1.5} {...stroke} fill={art.sand} />
+          <Circle cx={63} cy={52} r={11} {...stroke} fill={colors.bgMist} />
+          <Path d="M63 45 V52 L68 55" {...stroke} strokeWidth={2} />
+        </G>
+      )}
+      {kind === 'sierra' && (
+        <G>
           {/* moon */}
           <Path d="M52 22 A16 16 0 1 0 60 52 A13 13 0 0 1 52 22 Z" {...stroke} />
           {/* swirling lines */}
           <Path d="M18 34 C 26 28 34 40 26 44 C 20 46 22 38 28 38" {...stroke} strokeWidth={2} />
           <Path d="M62 62 C 70 56 78 66 71 70 C 65 72 66 65 72 65" {...stroke} strokeWidth={2} />
-        </G>
-      )}
-      {kind === 'omar' && (
-        <G>
-          {/* books */}
-          <Rect x={16} y={34} width={10} height={26} rx={2} {...stroke} />
-          <Rect x={28} y={28} width={10} height={32} rx={2} {...stroke} />
-          <Rect x={40} y={36} width={10} height={24} rx={2} {...stroke} transform="rotate(8 45 48)" />
-          {/* lightning */}
-          <Path d="M66 18 L56 38 H65 L60 56 L74 32 H65 Z" {...stroke} fill={art.sand} />
         </G>
       )}
     </Svg>

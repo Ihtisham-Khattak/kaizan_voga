@@ -9,10 +9,10 @@ import { useTheme } from '@/theme/theme-provider';
 
 /** Brief order. Four goals are voiced by a friend; the rest use an original Kaizen icon. */
 export const GOALS: { id: Goal; character?: CharacterName; icon: KaizenIconName }[] = [
-  { id: 'stress', character: 'zara', icon: 'goal-stress' },
-  { id: 'back-neck', character: 'ali', icon: 'goal-back-neck' },
-  { id: 'sleep', character: 'hina', icon: 'goal-sleep' },
-  { id: 'focus', character: 'omar', icon: 'goal-focus' },
+  { id: 'stress', character: 'hina', icon: 'goal-stress' },
+  { id: 'back-neck', character: 'hamid', icon: 'goal-back-neck' },
+  { id: 'sleep', character: 'sierra', icon: 'goal-sleep' },
+  { id: 'focus', character: 'arfa', icon: 'goal-focus' },
   { id: 'flexibility', icon: 'goal-flex' },
   { id: 'balance', icon: 'goal-balance' },
   { id: 'gentle', icon: 'goal-gentle' },

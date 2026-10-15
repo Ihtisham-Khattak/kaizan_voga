@@ -1,22 +1,28 @@
 import { MotiView } from 'moti';
+import { createContext, useContext } from 'react';
 import { Easing } from 'react-native-reanimated';
 import Svg from 'react-native-svg';
 
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import type { Mood } from '@/store/types';
 
-import { BUST_VIEWBOX, HUMAN_VIEWBOX } from './art/human';
+import { BUST_VIEWBOX, HUMAN_VIEWBOX, styleFor, type Outfit } from './art/human';
 import { HUMAN_STYLES } from './art/styles';
 import { Human } from './engine/human';
 import { Kai, KAI_VIEWBOX } from './kai';
 import type { CharacterName, HumanPose, KaiPose, Pose } from './types';
+
+/** Art style for people. Screens opt in to 'clay' (soft figurine look) by wrapping their content in <CharacterLook look="clay">. */
+export type Look = 'flat' | 'clay';
+const LookContext = createContext<Look>('flat');
+export const CharacterLook = LookContext.Provider;
 
 const HUMAN_BUST = BUST_VIEWBOX;
 const KAI_BUST = '8 6 144 150';
 
 const styles = HUMAN_STYLES;
 
-const HUMAN_POSES: HumanPose[] = ['stand', 'sit', 'wave', 'yoga'];
+const HUMAN_POSES: HumanPose[] = ['stand', 'sit', 'wave', 'yoga', 'reach', 'sideReach'];
 const KAI_POSES: KaiPose[] = ['float', 'wave', 'celebrate', 'bell', 'sleep'];
 
 /** Accepts any Pose and maps it to something this character can do. */
@@ -29,7 +35,7 @@ function resolvePose(name: CharacterName, pose: Pose): HumanPose | KaiPose {
   return pose === 'celebrate' ? 'wave' : 'stand';
 }
 
-const DISPLAY = { zara: 'Zara', ali: 'Ali', hina: 'Hina', omar: 'Omar', kai: 'Kai' } as const;
+const DISPLAY = { hina: 'Hina', arfa: 'Arfa', hamid: 'Hamid', sierra: 'Sierra', kai: 'Kai' } as const;
 
 export interface CharacterProps {
   name: CharacterName;
@@ -43,11 +49,15 @@ export interface CharacterProps {
   crop?: 'full' | 'bust';
   /** Blink, idle float and waving. Off in dense grids. */
   animated?: boolean;
+  /** Everyday clothes or session clothes. Same person either way. */
+  outfit?: Outfit;
+  /** Overrides the look set by <CharacterLook>. */
+  look?: Look;
 }
 
 /**
  * THE character component. Every screen uses this – characters are never redrawn per screen,
- * which is what keeps Zara, Ali, Hina, Omar and Kai identical everywhere.
+ * which is what keeps Hina, Arfa, Hamid, Sierra and Kai identical everywhere.
  */
 export function Character({
   name,
@@ -57,8 +67,12 @@ export function Character({
   flip,
   crop = 'full',
   animated = true,
+  outfit = 'everyday',
+  look,
 }: CharacterProps) {
   const reduce = useReduceMotion();
+  const ctxLook = useContext(LookContext);
+  const clay = (look ?? ctxLook) === 'clay';
   const resolved = resolvePose(name, pose);
   const isKai = name === 'kai';
 
@@ -95,7 +109,13 @@ export function Character({
         {isKai ? (
           <Kai pose={resolved as KaiPose} mood={mood} animated={animated} />
         ) : (
-          <Human style={styles[name]} pose={resolved as HumanPose} mood={mood} animated={animated} />
+          <Human
+            style={styleFor(styles[name], outfit)}
+            pose={resolved as HumanPose}
+            mood={mood}
+            animated={animated}
+            clay={clay}
+          />
         )}
       </Svg>
     </MotiView>

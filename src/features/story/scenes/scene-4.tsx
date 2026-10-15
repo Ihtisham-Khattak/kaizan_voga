@@ -1,205 +1,227 @@
+import { Heart, InfinityIcon, Moon, Wind } from 'phosphor-react-native';
 import { MotiView } from 'moti';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
-import { Character } from '@/characters/character';
+import { CharacterAvatar } from '@/components/character-avatar';
+import { FadeUp } from '@/components/fade-up';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { milestones, scenes, type Milestone } from '@/data/story';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
 import { KaizenIcon } from '@/icons';
-import { haptic } from '@/lib/haptics';
-import { cn } from '@/lib/utils';
-import type { Mood } from '@/store/types';
-import { spring } from '@/theme/motion';
-import { useTheme } from '@/theme/theme-provider';
+import { useStoryColors } from '@/theme/story';
 
-import { dir, Entrance, SceneCTA, SceneScroll, SceneTitle, stageWidth } from '../stage';
+import { SceneCTA, SceneScroll } from '../stage';
 import type { SceneProps } from '../types';
-import { art } from '@/theme/illustration';
 
-const cfg = scenes[4];
-const NODE = 30;
+const WEEKS = [1, 2, 3, 4] as const;
+const NODE_ICON = { 2: Wind, 3: Moon, 4: InfinityIcon } as const;
 
-function MilestoneRow({
-  m,
-  lit,
-  nextLit,
-  isLast,
-}: {
-  m: Milestone;
-  lit: boolean;
-  nextLit: boolean;
-  isLast: boolean;
-}) {
-  const { t } = useT();
-  const { colors } = useTheme();
+function Node({ week, delay }: { week: (typeof WEEKS)[number]; delay: number }) {
+  const sc = useStoryColors();
   const reduce = useReduceMotion();
-  const [h, setH] = useState(0);
-
+  const active = week === 1;
   return (
-    <View onLayout={(e) => setH(e.nativeEvent.layout.height)} className="flex-row gap-3 pb-4">
-      {/* path segment down to the next node: grey track, sage fill draws in when the next node lights */}
-      {!isLast ? (
-        <View
-          style={{
-            position: 'absolute',
-            start: NODE / 2 - 1.5,
-            top: NODE,
-            width: 3,
-            height: Math.max(0, h - NODE),
-            borderRadius: 2,
-            backgroundColor: colors.hairline,
-            overflow: 'hidden',
-          }}
-        >
-          <MotiView
-            animate={{ height: nextLit ? Math.max(0, h - NODE) : 0 }}
-            transition={{ type: 'timing', duration: reduce ? 200 : 700 }}
-            style={{ width: 3, backgroundColor: colors.leaf }}
-          />
-        </View>
-      ) : null}
-
-      <View style={{ width: NODE, height: NODE }} className="items-center justify-center">
-        {/* a ring ripples out when the node lights */}
-        {lit && !reduce ? (
-          <MotiView
-            from={{ scale: 1, opacity: 0.5 }}
-            animate={{ scale: 2.2, opacity: 0 }}
-            transition={{ type: 'timing', duration: 900 }}
-            style={{
-              position: 'absolute',
-              width: NODE,
-              height: NODE,
-              borderRadius: NODE / 2,
-              backgroundColor: colors.leaf,
-            }}
-          />
-        ) : null}
-        <MotiView
-          animate={{ scale: lit ? 1 : 0.9, backgroundColor: lit ? colors.leaf : colors.bgMist }}
-          transition={{ type: 'spring', ...spring.pop }}
-          style={{
-            width: NODE,
-            height: NODE,
-            borderRadius: NODE / 2,
-            borderWidth: 2,
-            borderColor: lit ? colors.leaf : colors.hairline,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <MotiView
-            animate={{ scale: lit ? 1 : 0, rotate: lit ? '0deg' : '-40deg' }}
-            transition={{ type: 'spring', ...spring.pop, delay: 120 }}
-          >
-            <KaizenIcon name="leaf" size={16} color={art.night} strokeWidth={2} />
-          </MotiView>
-        </MotiView>
-      </View>
-
-      <MotiView
-        animate={{ opacity: lit ? 1 : 0.5 }}
-        transition={{ type: 'timing', duration: 500 }}
-        style={{ flex: 1 }}
-      >
-        <View className={cn('self-start rounded-full bg-secondary px-3 py-1')}>
-          <Text variant="caption" className="font-sans-semibold text-secondary-foreground">
-            {t('story.s4.week', { n: m.week })}
-          </Text>
-        </View>
-        <Text variant="bodyLarge" className="pt-1 font-sans-semibold">
-          {t(m.titleKey)}
-        </Text>
-        <Text variant="caption">{t(m.subKey)}</Text>
-      </MotiView>
-    </View>
+    <MotiView
+      from={{ opacity: 0, scale: reduce ? 1 : 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'timing', duration: 450, delay }}
+      style={{
+        width: 52,
+        height: 52,
+        borderRadius: 26,
+        backgroundColor: active ? sc.nodeActive : sc.nodeIdle,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 4,
+        borderColor: sc.bg,
+      }}
+    >
+      {active ? (
+        <KaizenIcon name="lotus" size={26} color={sc.buttonText} strokeWidth={2} />
+      ) : (
+        <Icon as={NODE_ICON[week as 2 | 3 | 4]} size={24} color={sc.muted} />
+      )}
+    </MotiView>
   );
 }
 
-/** Scene 4 — Kai's 30-day journey. The path lights up week by week and the friends' faces improve with it. */
+/** Scene 5 (step 6) — "Your 30-Day Kaizen Path": a hero card, a four-week timeline, a gentle reminder. */
 export function Scene4({ controls, width }: SceneProps) {
   const { t } = useT();
-  const reduce = useReduceMotion();
-  const w = stageWidth(width);
-  const [lit, setLit] = useState(0);
-
-  useEffect(() => {
-    const ids = milestones.map((m, i) =>
-      setTimeout(() => {
-        setLit(i + 1);
-        haptic.select();
-      }, m.litAt)
-    );
-    return () => ids.forEach(clearTimeout);
-  }, []);
-
-  const friendMood: Mood = lit === 0 ? 'stressed' : milestones[lit - 1].friendMood;
-  const done = lit === milestones.length;
-  const bubble = cfg.bubbles[0];
+  const sc = useStoryColors();
+  const { fontScale } = useWindowDimensions();
+  const w = Math.min(width - 32, 440);
+  const big = fontScale > 1.15;
 
   return (
-    <SceneScroll
-      top={60}
-      cta={
-        <View className="w-full items-center gap-2">
-          {/* always visible */}
-          <Text variant="caption" className="max-w-[340px] text-center">
-            {t('story.s4.footnote')}
-          </Text>
-          <SceneCTA label={t('common.next')} onPress={controls.next} delay={1000} />
-        </View>
-      }
-      bottomPad={200}
-    >
-      <SceneTitle>{t('story.s4.title')}</SceneTitle>
-
-      {/* Kai floats in; once the month is complete he cheers and says his line beside him */}
-      <View style={{ width: w }} className="flex-row items-center gap-2 pt-1">
-        <Entrance from="top" distance={60} delay={200}>
-          <Character name="kai" pose={done ? 'celebrate' : 'float'} mood="happy" size={92} />
-        </Entrance>
-        <MotiView
-          animate={{ opacity: done ? 1 : 0, translateX: done || reduce ? 0 : -12 * dir() }}
-          transition={{ type: 'timing', duration: 500, delay: done ? 400 : 0 }}
-          style={{ flex: 1 }}
-          pointerEvents="none"
-          accessibilityLiveRegion="polite"
-        >
-          <View className="rounded-[18px] border border-border bg-card px-4 py-3 shadow-lg shadow-forest/10">
-            <View className="absolute -start-[7px] top-8 size-3.5 rotate-45 border-b border-s border-border bg-card" />
-            <Text variant="caption" className="font-sans-semibold text-foreground">
-              Kai
+    <SceneScroll cta={<SceneCTA label={t('story.s4.cta')} onPress={controls.next} delay={2200} />}>
+      <View style={{ width: w, gap: 16 }}>
+        <FadeUp>
+          <View
+            style={{
+              backgroundColor: sc.heroBg,
+              borderRadius: 40,
+              padding: 20,
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <View>
+              <View style={{ padding: 6, borderRadius: 60, backgroundColor: sc.chipBg }}>
+                <CharacterAvatar name="kai" size={96} animated />
+              </View>
+              <View
+                style={{
+                  position: 'absolute',
+                  end: -6,
+                  bottom: -4,
+                  width: 38,
+                  height: 38,
+                  borderRadius: 19,
+                  backgroundColor: sc.card,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor: sc.cardBorder,
+                }}
+              >
+                <KaizenIcon name="lotus" size={20} color={sc.title} strokeWidth={2} />
+              </View>
+            </View>
+            <Text
+              variant="display"
+              className="text-center"
+              style={{ color: sc.title }}
+              accessibilityRole="header"
+            >
+              {t('story.s4.title')}
             </Text>
-            <Text variant="caption" className="text-foreground">
-              {t(bubble.textKey)}
+            <Text variant="bodyLarge" className="text-center" style={{ color: sc.body }}>
+              {t('story.s4.subtitle')}
             </Text>
           </View>
-        </MotiView>
-      </View>
+        </FadeUp>
 
-      <View style={{ width: w }} className="flex-row gap-3 pt-2">
-        <View className="flex-1 pt-1">
-          {milestones.map((m, i) => (
-            <MilestoneRow
-              key={m.week}
-              m={m}
-              lit={lit > i}
-              nextLit={lit > i + 1}
-              isLast={i === milestones.length - 1}
+        {/* timeline: nodes on a quiet vertical line, one card per week */}
+        <View style={{ gap: 14 }}>
+          {!big ? (
+            <View
+              style={{
+                position: 'absolute',
+                start: 24,
+                top: 30,
+                bottom: 70,
+                width: 3,
+                borderRadius: 2,
+                backgroundColor: sc.line,
+              }}
             />
-          ))}
+          ) : null}
+          {WEEKS.map((n, i) => {
+            const active = n === 1;
+            return (
+              <View key={n} style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start' }}>
+                {big ? null : (
+                  <View style={{ width: 52, alignItems: 'center', gap: 4 }}>
+                    <Node week={n} delay={500 + i * 350} />
+                    <Text variant="overline" style={{ color: active ? sc.title : sc.muted }}>
+                      {active ? t('story.s4.now') : t('story.s4.wk', { n })}
+                    </Text>
+                  </View>
+                )}
+                <FadeUp delay={400 + i * 350} style={{ flex: 1 }}>
+                  <View
+                    accessible
+                    accessibilityLabel={`${t(`story.s4.w${n}.title`)}. ${t(`story.s4.w${n}.tag`)}. ${t(`story.s4.w${n}.body`)}`}
+                    style={{
+                      borderRadius: 28,
+                      padding: 18,
+                      gap: 10,
+                      backgroundColor: active ? sc.card : sc.noteBg,
+                      borderWidth: active ? 1 : 0,
+                      borderColor: sc.cardBorder,
+                      shadowColor: sc.title,
+                      shadowOpacity: active ? 0.08 : 0,
+                      shadowRadius: 14,
+                      shadowOffset: { width: 0, height: 6 },
+                    }}
+                  >
+                    <Text
+                      variant="title2"
+                      style={{ color: sc.title, fontFamily: undefined }}
+                      className="font-display"
+                    >
+                      {t(`story.s4.w${n}.title`)}
+                    </Text>
+                    <View
+                      style={{
+                        alignSelf: 'flex-start',
+                        borderRadius: 999,
+                        paddingHorizontal: 12,
+                        paddingVertical: 4,
+                        backgroundColor: active ? sc.chipBg : sc.nodeIdle,
+                      }}
+                    >
+                      <Text variant="callout" style={{ color: active ? sc.chipText : sc.body }}>
+                        {t(`story.s4.w${n}.tag`)}
+                      </Text>
+                    </View>
+                    <Text variant="body" style={{ color: sc.body }}>
+                      {t(`story.s4.w${n}.body`)}
+                    </Text>
+                    {active ? (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <View
+                          style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: sc.positive }}
+                        />
+                        <Text variant="callout" style={{ color: sc.positive }}>
+                          {t('story.s4.w1.status')}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+                </FadeUp>
+              </View>
+            );
+          })}
         </View>
 
-        {/* the three friends watch from the side */}
-        <View className="items-center justify-start gap-1" style={{ width: 70 }}>
-          {(['ali', 'hina', 'omar'] as const).map((n, i) => (
-            <Entrance key={n} from="end" delay={300 + i * 150} distance={30}>
-              <Character name={n} pose="stand" mood={friendMood} size={112} />
-            </Entrance>
-          ))}
-        </View>
+        <FadeUp delay={1900}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              backgroundColor: sc.noteBg,
+              borderRadius: 24,
+              padding: 14,
+            }}
+          >
+            <View
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 24,
+                backgroundColor: sc.chipBg,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon as={Heart} size={22} color={sc.title} />
+            </View>
+            <Text variant="body" style={{ flex: 1, color: sc.body }}>
+              <Text
+                variant="body"
+                style={{ color: sc.title, fontWeight: '700' }}
+              >{`${t('story.s4.reminderLead')} `}</Text>
+              {t('story.s4.reminder')}
+            </Text>
+          </View>
+        </FadeUp>
+        <Text variant="footnote" className="px-2 text-center" style={{ color: sc.muted }}>
+          {t('story.s4.footnote')}
+        </Text>
       </View>
     </SceneScroll>
   );

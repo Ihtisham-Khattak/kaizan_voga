@@ -25,7 +25,7 @@ export interface SceneBubble {
 }
 
 export interface SceneProp {
-  kind: 'bench' | 'thought-ali' | 'thought-hina' | 'thought-omar' | 'rays' | 'confetti';
+  kind: 'bench' | 'thought-hamid' | 'thought-hina' | 'thought-sierra' | 'rays' | 'confetti';
   enterAt: number;
 }
 
@@ -57,20 +57,20 @@ export const scenes: SceneConfig[] = [
     ambient: { light: [art.cC7CDC8, art.cDDE1DC], dark: [art.c1A201D, art.c151A18] },
     titleKey: 'story.s1.title',
     characters: [
-      { id: 'ali', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 0 },
+      { id: 'hamid', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 0 },
       { id: 'hina', pose: 'sit', mood: 'stressed', slot: 'center', enterAt: 150 },
-      { id: 'omar', pose: 'sit', mood: 'stressed', slot: 'end', enterAt: 300 },
+      { id: 'sierra', pose: 'sit', mood: 'stressed', slot: 'end', enterAt: 300 },
     ],
     props: [
       { kind: 'bench', enterAt: 0 },
-      { kind: 'thought-ali', enterAt: 500 },
+      { kind: 'thought-hamid', enterAt: 500 },
       { kind: 'thought-hina', enterAt: 650 },
-      { kind: 'thought-omar', enterAt: 800 },
+      { kind: 'thought-sierra', enterAt: 800 },
     ],
     bubbles: [
-      { speaker: 'ali', textKey: 'story.s1.ali', delayMs: 900, tail: 'start' },
+      { speaker: 'hamid', textKey: 'story.s1.hamid', delayMs: 900, tail: 'start' },
       { speaker: 'hina', textKey: 'story.s1.hina', delayMs: 900 + BUBBLE_STAGGER_MS, tail: 'start' },
-      { speaker: 'omar', textKey: 'story.s1.omar', delayMs: 900 + 2 * BUBBLE_STAGGER_MS, tail: 'end' },
+      { speaker: 'sierra', textKey: 'story.s1.sierra', delayMs: 900 + 2 * BUBBLE_STAGGER_MS, tail: 'end' },
     ],
   },
   // 2 — You're not alone
@@ -80,62 +80,60 @@ export const scenes: SceneConfig[] = [
     titleKey: 'story.s2.title',
     captionKey: 'story.s2.caption',
     characters: [
-      { id: 'ali', pose: 'sit', mood: 'tired', slot: 'start', enterAt: 0 },
+      { id: 'hamid', pose: 'sit', mood: 'tired', slot: 'start', enterAt: 0 },
       { id: 'hina', pose: 'sit', mood: 'neutral', slot: 'center', enterAt: 0 },
-      { id: 'omar', pose: 'sit', mood: 'tired', slot: 'end', enterAt: 0 },
+      { id: 'sierra', pose: 'sit', mood: 'tired', slot: 'end', enterAt: 0 },
     ],
     props: [{ kind: 'bench', enterAt: 0 }],
     bubbles: [
       { speaker: 'hina', textKey: 'story.s2.hina', delayMs: 700, tail: 'start' },
-      { speaker: 'ali', textKey: 'story.s2.ali', delayMs: 700 + BUBBLE_STAGGER_MS, tail: 'start' },
+      { speaker: 'hamid', textKey: 'story.s2.hamid', delayMs: 700 + BUBBLE_STAGGER_MS, tail: 'start' },
     ],
   },
-  // 3 — Zara arrives (warm light enters)
+  // 3 — Arfa arrives (warm light enters)
   {
     id: 3,
     ambient: { light: [art.cF4E6CB, art.cFAF3E3], dark: [art.warmNight, art.c1A1A14] },
     characters: [
-      { id: 'ali', pose: 'sit', mood: 'neutral', slot: 'start', enterAt: 0 },
+      { id: 'hamid', pose: 'sit', mood: 'neutral', slot: 'start', enterAt: 0 },
       { id: 'hina', pose: 'sit', mood: 'neutral', slot: 'center', enterAt: 0 },
-      { id: 'omar', pose: 'sit', mood: 'neutral', slot: 'end', enterAt: 0 },
-      { id: 'zara', pose: 'stand', mood: 'calm', slot: 'end', enterAt: 600 },
+      { id: 'sierra', pose: 'sit', mood: 'neutral', slot: 'end', enterAt: 0 },
+      { id: 'arfa', pose: 'stand', mood: 'calm', slot: 'end', enterAt: 600 },
     ],
     props: [
       { kind: 'bench', enterAt: 0 },
       { kind: 'rays', enterAt: 300 },
     ],
     bubbles: [
-      { speaker: 'zara', textKey: 'story.s3.zara1', delayMs: 1400, tail: 'end' },
-      { speaker: 'zara', textKey: 'story.s3.zara2', delayMs: 1400 + BUBBLE_STAGGER_MS, tail: 'end' },
-      { speaker: 'omar', textKey: 'story.s3.omar', delayMs: 1400 + 2 * BUBBLE_STAGGER_MS, tail: 'end' },
-      { speaker: 'zara', textKey: 'story.s3.zara3', delayMs: 1400 + 3 * BUBBLE_STAGGER_MS, tail: 'end' },
+      { speaker: 'arfa', textKey: 'story.s3.arfa1', delayMs: 1400, tail: 'end' },
+      { speaker: 'arfa', textKey: 'story.s3.arfa2', delayMs: 1400 + BUBBLE_STAGGER_MS, tail: 'end' },
+      { speaker: 'sierra', textKey: 'story.s3.sierra', delayMs: 1400 + 2 * BUBBLE_STAGGER_MS, tail: 'end' },
+      { speaker: 'arfa', textKey: 'story.s3.arfa3', delayMs: 1400 + 3 * BUBBLE_STAGGER_MS, tail: 'end' },
     ],
   },
   // 4 — Kai's 30-day journey (friends' moods improve as each milestone lights)
   {
     id: 4,
     ambient: { light: [art.mint, art.cF3F8F0], dark: [art.c183025, art.night] },
-    titleKey: 'story.s4.title',
     characters: [
       { id: 'kai', pose: 'float', mood: 'happy', slot: 'center', enterAt: 0 },
-      { id: 'ali', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 200 },
+      { id: 'hamid', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 200 },
       { id: 'hina', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 350 },
-      { id: 'omar', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 500 },
+      { id: 'sierra', pose: 'sit', mood: 'stressed', slot: 'start', enterAt: 500 },
     ],
     props: [],
-    bubbles: [{ speaker: 'kai', textKey: 'story.s4.kai', delayMs: 5200, tail: 'start' }],
+    bubbles: [],
   },
-  // 5 — Zara's story (Before / Now)
+  // 5 — Arfa's story (Before / Now)
   {
     id: 5,
     ambient: { light: [art.cE9E3D3, art.cFAF0DC], dark: [art.c1D2320, art.warmNight] },
-    titleKey: 'story.s5.title',
     characters: [
-      { id: 'zara', pose: 'stand', mood: 'stressed', slot: 'start', enterAt: 0 },
-      { id: 'zara', pose: 'stand', mood: 'calm', slot: 'end', enterAt: 500 },
+      { id: 'arfa', pose: 'stand', mood: 'stressed', slot: 'start', enterAt: 0 },
+      { id: 'arfa', pose: 'stand', mood: 'calm', slot: 'end', enterAt: 500 },
     ],
     props: [],
-    bubbles: [{ speaker: 'zara', textKey: 'story.s5.zara', delayMs: 1400, tail: 'end' }],
+    bubbles: [],
   },
   // 6 — What brings you here?
   {
@@ -143,10 +141,10 @@ export const scenes: SceneConfig[] = [
     ambient: { light: [art.cream, art.cFCE9DF], dark: [art.night, art.c2A1E1A] },
     titleKey: 'story.s6.title',
     characters: [
-      { id: 'ali', pose: 'stand', mood: 'happy', slot: 'start', enterAt: 0 },
+      { id: 'hamid', pose: 'stand', mood: 'happy', slot: 'start', enterAt: 0 },
       { id: 'hina', pose: 'stand', mood: 'happy', slot: 'start', enterAt: 100 },
-      { id: 'zara', pose: 'stand', mood: 'happy', slot: 'end', enterAt: 200 },
-      { id: 'omar', pose: 'stand', mood: 'happy', slot: 'end', enterAt: 300 },
+      { id: 'arfa', pose: 'stand', mood: 'happy', slot: 'end', enterAt: 200 },
+      { id: 'sierra', pose: 'stand', mood: 'happy', slot: 'end', enterAt: 300 },
     ],
     props: [{ kind: 'confetti', enterAt: 600 }],
     bubbles: [],
@@ -156,28 +154,12 @@ export const scenes: SceneConfig[] = [
 export const SCENE_COUNT = scenes.length;
 
 /** Scene 4 milestones. `friendMood` is the mood the three friends show once the milestone lights up. */
-export interface Milestone {
-  week: 1 | 2 | 3 | 4;
-  titleKey: string;
-  subKey: string;
-  friendMood: Mood;
-  /** ms after the scene becomes active that this node lights. */
-  litAt: number;
-}
-
-export const milestones: Milestone[] = [
-  { week: 1, titleKey: 'story.s4.w1.title', subKey: 'story.s4.w1.sub', friendMood: 'tired', litAt: 1200 },
-  { week: 2, titleKey: 'story.s4.w2.title', subKey: 'story.s4.w2.sub', friendMood: 'neutral', litAt: 2100 },
-  { week: 3, titleKey: 'story.s4.w3.title', subKey: 'story.s4.w3.sub', friendMood: 'calm', litAt: 3000 },
-  { week: 4, titleKey: 'story.s4.w4.title', subKey: 'story.s4.w4.sub', friendMood: 'happy', litAt: 3900 },
-];
-
 /** Scene 6 goal cards → matching character icon. */
 export const goalCharacter: Record<string, CharacterName | null> = {
-  stress: 'zara',
-  'back-neck': 'ali',
-  sleep: 'hina',
-  focus: 'omar',
+  stress: 'hina',
+  'back-neck': 'hamid',
+  sleep: 'sierra',
+  focus: 'arfa',
   flexibility: null,
   balance: null,
   gentle: null,

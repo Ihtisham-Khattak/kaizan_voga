@@ -1,9 +1,51 @@
-import { Circle, Ellipse, G, Path, Rect } from 'react-native-svg';
+import { createContext, useContext } from 'react';
+import { Circle, Defs, Ellipse, G, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 
+import { shade, tint } from '../art/color';
 import type { Prim } from '../art/types';
+
+/**
+ * Clay look: when set (to a unique id prefix), every solid, opaque hex fill is drawn with a soft radial gradient
+ * (light from the upper left, darker rim) instead of a flat colour. Translucent shading shapes stay flat.
+ */
+export const ClayContext = createContext<string | null>(null);
+
+const SOLID = /^#[0-9a-f]{6}$/i;
+const clayId = (prefix: string, hex: string) => `${prefix}${hex.slice(1).toLowerCase()}`;
+
+function fillOf(clay: string | null, p: { fill?: string; op?: number }) {
+  if (!clay || !p.fill || !SOLID.test(p.fill) || (p.op !== undefined && p.op < 0.99)) return p.fill;
+  return `url(#${clayId(clay, p.fill)})`;
+}
+
+function collect(list: Prim[], out: Set<string>) {
+  for (const p of list) {
+    if (p.k === 'g') collect(p.children, out);
+    else if (p.fill && SOLID.test(p.fill) && (p.op === undefined || p.op >= 0.99))
+      out.add(p.fill.toLowerCase());
+  }
+}
+
+/** Gradient definitions for every colour used in these lists. Render once inside the clay figure's <Svg>. */
+export function ClayDefs({ prefix, lists }: { prefix: string; lists: Prim[][] }) {
+  const colours = new Set<string>();
+  lists.forEach((l) => collect(l, colours));
+  return (
+    <Defs>
+      {[...colours].map((hex) => (
+        <RadialGradient key={hex} id={clayId(prefix, hex)} cx="0.34" cy="0.26" r="0.95" fx="0.34" fy="0.26">
+          <Stop offset="0" stopColor={tint(hex, 0.3)} />
+          <Stop offset="0.5" stopColor={hex} />
+          <Stop offset="1" stopColor={shade(hex, 0.2)} />
+        </RadialGradient>
+      ))}
+    </Defs>
+  );
+}
 
 /** Renders character art data with react-native-svg. */
 export function Prims({ list }: { list: Prim[] }) {
+  const clay = useContext(ClayContext);
   return (
     <>
       {list.map((p, i) => {
@@ -13,7 +55,7 @@ export function Prims({ list }: { list: Prim[] }) {
               <Path
                 key={i}
                 d={p.d}
-                fill={p.fill}
+                fill={fillOf(clay, p)}
                 stroke={p.stroke}
                 strokeWidth={p.sw}
                 strokeLinecap={p.cap}
@@ -28,7 +70,7 @@ export function Prims({ list }: { list: Prim[] }) {
                 cx={p.cx}
                 cy={p.cy}
                 r={p.r}
-                fill={p.fill}
+                fill={fillOf(clay, p)}
                 stroke={p.stroke}
                 strokeWidth={p.sw}
                 opacity={p.op}
@@ -42,7 +84,7 @@ export function Prims({ list }: { list: Prim[] }) {
                 cy={p.cy}
                 rx={p.rx}
                 ry={p.ry}
-                fill={p.fill}
+                fill={fillOf(clay, p)}
                 stroke={p.stroke}
                 strokeWidth={p.sw}
                 opacity={p.op}
@@ -58,7 +100,7 @@ export function Prims({ list }: { list: Prim[] }) {
                 width={p.w}
                 height={p.h}
                 rx={p.rx}
-                fill={p.fill}
+                fill={fillOf(clay, p)}
                 stroke={p.stroke}
                 strokeWidth={p.sw}
                 opacity={p.op}

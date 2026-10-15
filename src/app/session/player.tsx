@@ -91,8 +91,9 @@ export default function SessionPlayer() {
   const plan = useMemo(() => (routine && config ? buildPlan(routine, config) : []), [routine, config]);
   const planned = useMemo(() => planTotalSec(plan), [plan]);
 
-  const [index, setIndex] = useState(0);
-  const [remaining, setRemaining] = useState(plan[0]?.durationSec ?? 0);
+  const first = Math.min(Math.max(0, config?.startIndex ?? 0), Math.max(0, plan.length - 1));
+  const [index, setIndex] = useState(first);
+  const [remaining, setRemaining] = useState(plan[first]?.durationSec ?? 0);
   const [practicedSec, setPracticedSec] = useState(0);
   const [paused, setPaused] = useState(false);
   const [muted, setMuted] = useState(false);

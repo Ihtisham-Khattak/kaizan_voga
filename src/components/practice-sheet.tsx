@@ -11,6 +11,8 @@ import { useTodayPlan } from '@/lib/journey';
 import { openCollection, startBreathing, startSession } from '@/lib/nav';
 import { haptic } from '@/lib/haptics';
 import { useLibraryStore } from '@/store/library-store';
+import { usePrefsStore } from '@/store/prefs-store';
+import { useSessionStore } from '@/store/session-store';
 import { useUiStore } from '@/store/ui-store';
 import { useTheme } from '@/theme/theme-provider';
 
@@ -68,6 +70,25 @@ export function PracticeSheet() {
   const close = useUiStore((s) => s.closePractice);
   const last = useLibraryStore((s) => s.lastSession);
   const plan = useTodayPlan();
+  const prefs = usePrefsStore();
+  const setConfig = useSessionStore((s) => s.setConfig);
+  /** Pick up where you left off: rebuild the settings (they are not kept between sessions) and start at the saved step. */
+  const resume = () => {
+    if (!last) return;
+    if (last.kind === 'breathing') return startBreathing(last.contentId);
+    setConfig({
+      routineId: last.contentId,
+      scale: 1,
+      pace: 'normal',
+      voice: prefs.voice,
+      music: prefs.music,
+      ambience: prefs.ambience,
+      focus: [],
+      chairMode: prefs.chairMode,
+      startIndex: last.stepIndex,
+    });
+    router.push('/session/player' as Href);
+  };
   const go = (fn: () => void) => () => {
     close();
     setTimeout(fn, 150);
@@ -99,7 +120,7 @@ export function PracticeSheet() {
             icon="play"
             title={t('practice.resume')}
             sub={t('practice.resumeSub')}
-            onPress={go(() => router.push('/session/player' as Href))}
+            onPress={go(() => resume())}
           />
         ) : null}
       </View>

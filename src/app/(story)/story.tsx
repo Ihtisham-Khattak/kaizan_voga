@@ -7,7 +7,8 @@ import { Scene5 } from '@/features/story/scenes/scene-5';
 import { Scene6 } from '@/features/story/scenes/scene-6';
 import { StoryShell } from '@/features/story/shell';
 
-const SCENES = [Scene0, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6];
+// Order: …Arfa arrives → Arfa's story (Scene5) → the 30-day path (Scene4) → goals
+const SCENES = [Scene0, Scene1, Scene2, Scene3, Scene5, Scene4, Scene6];
 
 export default function StoryScreen() {
   return <StoryShell scenes={SCENES} />;

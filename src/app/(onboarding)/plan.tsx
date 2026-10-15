@@ -4,15 +4,18 @@ import { useEffect, useState } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Character } from '@/characters/character';
+import { Character, CharacterLook } from '@/characters/character';
+import type { CharacterName } from '@/characters/palette';
+import { CharacterAvatar } from '@/components/character-avatar';
+import { goalCharacter } from '@/data/story';
 import { ConfettiLeaves } from '@/characters/props';
-import { AuroraBackground } from '@/components/aurora-background';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { FadeUp } from '@/components/fade-up';
-import { GlassCard } from '@/components/glass-card';
 import { RoutineCard } from '@/components/routine-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SceneCTA } from '@/features/story/stage';
+import { useStoryColors } from '@/theme/story';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
 import { firstSession } from '@/lib/plan';
@@ -78,9 +81,12 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 function Summary() {
   const { t, i18n } = useT();
+  const sc = useStoryColors();
   const insets = useSafeAreaInsets();
   const prefs = usePrefsStore();
   const routine = firstSession();
+  // the person whose story is closest to the user's first goal (falls back to Arfa, the beginner's way in)
+  const like = (goalCharacter[prefs.goals[0] ?? ''] ?? 'arfa') as Exclude<CharacterName, 'kai'>;
   const order = weekdayOrder();
 
   const go = (dest: '/session/setup' | '/home') => {
@@ -103,13 +109,22 @@ function Summary() {
     >
       <FadeUp className="items-center gap-1">
         <Character name="kai" pose="celebrate" mood="happy" size={120} />
-        <Text variant="display" className="text-center">
+        <Text variant="display" className="text-center" style={{ color: sc.title }}>
           {t('onboardingR.plan.title')}
         </Text>
       </FadeUp>
 
       <FadeUp delay={200}>
-        <GlassCard strong radius={28} contentStyle={{ padding: 24, gap: 16 }}>
+        <View
+          style={{
+            backgroundColor: sc.card,
+            borderRadius: 36,
+            borderWidth: 1,
+            borderColor: sc.cardBorder,
+            padding: 22,
+            gap: 16,
+          }}
+        >
           <Row label={t('onboardingR.plan.focus')}>
             <View className="flex-row flex-wrap gap-2">
               {(prefs.goals.length ? prefs.goals : (['gentle'] as const)).map((g) => (
@@ -161,13 +176,31 @@ function Summary() {
           <Row label={t('onboardingR.plan.first')}>
             <RoutineCard variant="row" routine={routine} />
           </Row>
-        </GlassCard>
+          <View
+            accessible
+            accessibilityLabel={`${t('onboardingR.plan.similar')} ${t(`story.s5.people.${like}.started`)}`}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 12,
+              backgroundColor: sc.afterBg,
+              borderRadius: 20,
+              padding: 12,
+            }}
+          >
+            <CharacterAvatar name={like} size={44} ring mood="happy" />
+            <View style={{ flex: 1 }}>
+              <Text variant="footnote">{t('onboardingR.plan.similar')}</Text>
+              <Text variant="callout" style={{ color: sc.title }}>
+                {t(`story.s5.people.${like}.started`)}
+              </Text>
+            </View>
+          </View>
+        </View>
       </FadeUp>
 
       <FadeUp delay={500} className="gap-2">
-        <Button size="lg" onPress={() => go('/session/setup')}>
-          <Text>{t('onboardingR.plan.startFirst')}</Text>
-        </Button>
+        <SceneCTA label={t('onboardingR.plan.startFirst')} onPress={() => go('/session/setup')} />
         <Button size="lg" variant="secondary" onPress={() => go('/home')}>
           <Text>{t('onboardingR.plan.explore')}</Text>
         </Button>
@@ -181,6 +214,7 @@ function Summary() {
 
 /** Onboarding Q11 — plan reveal: a breathing loader, then a glass summary of the 30-day journey. */
 export default function PlanScreen() {
+  const sc = useStoryColors();
   const { width, height } = useWindowDimensions();
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -189,10 +223,11 @@ export default function PlanScreen() {
   }, []);
 
   return (
-    <View className="flex-1 bg-background">
-      <AuroraBackground />
-      <ConfettiLeaves width={width} height={height} count={ready ? 9 : 4} />
-      <AnimatePresence exitBeforeEnter>{ready ? <Summary key="s" /> : <Loader key="l" />}</AnimatePresence>
-    </View>
+    <CharacterLook value="clay">
+      <View style={{ flex: 1, backgroundColor: sc.bg }}>
+        <ConfettiLeaves width={width} height={height} count={ready ? 9 : 4} />
+        <AnimatePresence exitBeforeEnter>{ready ? <Summary key="s" /> : <Loader key="l" />}</AnimatePresence>
+      </View>
+    </CharacterLook>
   );
 }

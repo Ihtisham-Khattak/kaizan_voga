@@ -1,6 +1,7 @@
 import { shade, tint } from './color';
 import type { Prim, Pt } from './types';
 import { art } from '@/theme/illustration';
+import { blush } from '../palette';
 
 /**
  * Semi-realistic editorial human figure (≈5 heads tall), drawn as plain data.
@@ -17,10 +18,13 @@ export const BUST_VIEWBOX = '48 -60 104 140';
 /** The head (+ hair, face, accessories) is drawn 18% larger around the chin: still adult proportions, but expressions stay readable at small sizes. */
 export const HEAD_TRANSFORM = 'translate(100 41) scale(1.18) translate(-100 -41)';
 
+/** Clay look: a toy-sized head (1.5x) sitting right on the shoulders, so the figure reads like a soft vinyl/clay figurine. */
+export const CLAY_HEAD_TRANSFORM = 'translate(0 8) translate(100 41) scale(1.5) translate(-100 -41)';
+
 /** Face is drawn in a 0–100 box, mapped onto the head with this transform (inside HEAD_TRANSFORM). */
 export const FACE_TRANSFORM = 'translate(74 -8) scale(0.52)';
 
-export type HumanPose = 'stand' | 'sit' | 'wave' | 'yoga';
+export type HumanPose = 'stand' | 'sit' | 'wave' | 'yoga' | 'reach' | 'sideReach';
 
 export interface Ctx {
   skin: string;
@@ -51,6 +55,15 @@ export interface HumanStyle {
   faceOverlay?: (c: Ctx) => Prim[];
   /** On the head after hair: earrings. */
   earAccessory?: (c: Ctx) => Prim[];
+  /** Yoga-session outfit: only what changes. Face, hair shape, skin and proportions stay the same person. */
+  yoga?: Partial<Omit<HumanStyle, 'yoga' | 'skin' | 'hair'>>;
+}
+
+export type Outfit = 'everyday' | 'yoga';
+
+/** The style to draw for an outfit: the everyday style with the yoga overrides on top. */
+export function styleFor(style: HumanStyle, outfit: Outfit = 'everyday'): HumanStyle {
+  return outfit === 'yoga' && style.yoga ? { ...style, ...style.yoga } : style;
 }
 
 interface Rig {
@@ -119,6 +132,34 @@ export const RIGS: Record<HumanPose, Rig> = {
       [116, 246],
     ],
   },
+  // Arms overhead (a standing stretch)
+  reach: {
+    armL: [
+      [72, 66],
+      [60, 30],
+      [70, -14],
+    ],
+    armR: [
+      [128, 66],
+      [140, 30],
+      [130, -14],
+    ],
+    ...standLegs,
+  },
+  // One arm over the head, the other on the hip (a side stretch)
+  sideReach: {
+    armL: [
+      [72, 66],
+      [56, 104],
+      [80, 128],
+    ],
+    armR: [
+      [128, 66],
+      [142, 28],
+      [112, -16],
+    ],
+    ...standLegs,
+  },
   yoga: {
     armL: [
       [72, 66],
@@ -185,6 +226,55 @@ export function hand(wrist: Pt, towards: Pt, skin: string): Prim {
     fill: skin,
     rot: (Math.atan2(dy, dx) * 180) / Math.PI - 90,
   };
+}
+
+/** A limb segment shaded like a soft tube: dark rim, lit body nudged up-left, narrow highlight. */
+function tube(a: Pt, b: Pt, color: string, w: number): Prim[] {
+  const hi = (t0: number, t1: number) => line(lerp(a, b, t0), lerp(a, b, t1));
+  return [
+    stroke(line(a, b), shade(color, 0.17), w),
+    { k: 'g', transform: 'translate(-1 -0.8)', children: [stroke(line(a, b), color, w - 3)] },
+    // two stacked highlights (wide + faint, narrow + brighter) approximate a soft gradient edge
+    {
+      k: 'g',
+      transform: `translate(${-w * 0.18} ${-w * 0.1})`,
+      children: [stroke(hi(0.1, 0.85), tint(color, 0.45), Math.max(3, w * 0.34), { op: 0.14 })],
+    },
+    {
+      k: 'g',
+      transform: `translate(${-w * 0.2} ${-w * 0.12})`,
+      children: [stroke(hi(0.16, 0.74), tint(color, 0.55), Math.max(2, w * 0.14), { op: 0.32 })],
+    },
+  ];
+}
+
+const CLAY_ARM = { upper: 24, lower: 21, shortUpper: 25 };
+export const CLAY_ARM_W = CLAY_ARM;
+
+function clayArm(pts: Pt[], s: HumanStyle, c: Ctx): Prim[] {
+  const [sh, el, wr] = pts;
+  const out: Prim[] = [];
+  if (s.sleeve === 'short') {
+    const cut = lerp(sh, el, 0.62);
+    out.push(...tube(sh, el, c.skin, CLAY_ARM.upper - 2), ...tube(el, wr, c.skin, CLAY_ARM.lower - 1));
+    out.push(...tube(sh, cut, s.top, CLAY_ARM.shortUpper));
+  } else {
+    out.push(...tube(sh, el, s.top, CLAY_ARM.upper), ...tube(el, wr, s.top, CLAY_ARM.lower));
+    if (s.cuff) out.push(stroke(line(lerp(el, wr, 0.82), wr), s.cuff, CLAY_ARM.lower + 1, { cap: 'butt' }));
+  }
+  const h = hand(wr, el, c.skin);
+  out.push(h.k === 'ellipse' ? { ...h, rx: 9, ry: 11 } : h);
+  return out;
+}
+
+function clayLeg(pts: Pt[], s: HumanStyle): Prim[] {
+  const [hip, knee, ankle] = pts;
+  return [
+    ...tube(hip, knee, s.pants, 34),
+    ...tube(knee, ankle, s.pants, 26),
+    { k: 'rect', x: ankle[0] - 16, y: ankle[1] - 2, w: 32, h: 16, rx: 8, fill: s.shoes },
+    { k: 'rect', x: ankle[0] - 16, y: ankle[1] + 10, w: 32, h: 5, rx: 2.5, fill: art.cCFC7B6 },
+  ];
 }
 
 export function arm(pts: Pt[], s: HumanStyle, c: Ctx): Prim[] {
@@ -271,6 +361,16 @@ export function head(c: Ctx): Prim[] {
   ];
 }
 
+/** Clay head: same shape, plus a soft forehead highlight and rosy cheeks (the radial fill does the rest). */
+function clayHead(c: Ctx): Prim[] {
+  return [
+    ...head(c),
+    { k: 'ellipse', cx: 90, cy: -4, rx: 9, ry: 5.5, fill: tint(c.skin, 0.6), op: 0.32, rot: -25 },
+    { k: 'ellipse', cx: 84, cy: 24, rx: 6, ry: 4, fill: blush, op: 0.38 },
+    { k: 'ellipse', cx: 116, cy: 24, rx: 6, ry: 4, fill: blush, op: 0.38 },
+  ];
+}
+
 export interface Layers {
   behind: Prim[];
   legs: Prim[];
@@ -287,25 +387,38 @@ export interface Layers {
 }
 
 /** Everything except the animated face (and the waving right arm when animated – see Human). */
-export function buildHuman(s: HumanStyle, pose: HumanPose): Layers {
+export function buildHuman(s: HumanStyle, pose: HumanPose, clay = false): Layers {
   const rig = RIGS[pose];
   const c = ctxOf(s);
   const footY = Math.max(rig.legL[2][1], rig.legR[2][1]) + 16;
+  const L = clay ? clayLeg : leg;
+  const A = clay ? clayArm : arm;
   return {
     behind: s.behind?.(c) ?? [],
     legs: [
-      // soft contact shadow so the figure stands on the ground
-      { k: 'ellipse', cx: 100, cy: footY, rx: 44, ry: 5, fill: art.black, op: 0.12 } as Prim,
-      ...leg(rig.legL, s),
-      ...leg(rig.legR, s),
+      // soft contact shadow so the figure stands on the ground (two layers = soft edge)
+      {
+        k: 'ellipse',
+        cx: 100,
+        cy: footY,
+        rx: clay ? 52 : 44,
+        ry: clay ? 8 : 5,
+        fill: art.black,
+        op: clay ? 0.07 : 0.12,
+      } as Prim,
+      ...(clay
+        ? [{ k: 'ellipse', cx: 100, cy: footY, rx: 38, ry: 5, fill: art.black, op: 0.09 } as Prim]
+        : []),
+      ...L(rig.legL, s),
+      ...L(rig.legR, s),
     ],
     torso: torso(s, c),
     neck: neck(c),
     clothing: s.clothing?.(c) ?? [],
     frontHair: s.frontHair?.(c) ?? [],
-    armL: arm(rig.armL, s, c),
-    armR: arm(rig.armR, s, c),
-    head: head(c),
+    armL: A(rig.armL, s, c),
+    armR: A(rig.armR, s, c),
+    head: clay ? clayHead(c) : head(c),
     hairFront: s.hairFront?.(c) ?? [],
     faceOverlay: s.faceOverlay?.(c) ?? [],
     earAccessory: s.earAccessory?.(c) ?? [],

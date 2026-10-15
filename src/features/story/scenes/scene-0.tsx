@@ -1,19 +1,17 @@
 import { MotiView } from 'moti';
-import { CaretRight } from 'phosphor-react-native';
-import { I18nManager, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Character } from '@/characters/character';
 import { ConfettiLeaves, LotusLogo } from '@/characters/props';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { FadeUp } from '@/components/fade-up';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
 import { spring } from '@/theme/motion';
 
-import { SceneScroll } from '../stage';
+import { SceneCTA, SceneScroll } from '../stage';
 import type { SceneProps } from '../types';
 
 /** Scene 0 — Welcome. Kai floats in and waves while a breathing circle pulses behind him. */
@@ -29,21 +27,12 @@ export function Scene0({ controls, width, height }: SceneProps) {
       <SceneScroll
         top={72}
         cta={
-          <FadeUp delay={2200} className="w-full max-w-[380px] gap-1">
-            <Button size="lg" onPress={controls.next}>
-              <Text>{t('story.s0.begin')}</Text>
-              <Icon
-                as={CaretRight}
-                size={18}
-                weight="bold"
-                className="text-primary-foreground"
-                style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
-              />
-            </Button>
+          <View style={{ width: '100%', maxWidth: 420, gap: 4 }}>
+            <SceneCTA label={t('story.s0.begin')} onPress={controls.next} delay={2200} />
             <Button variant="ghost" onPress={controls.goSignIn}>
               <Text>{t('story.s0.haveAccount')}</Text>
             </Button>
-          </FadeUp>
+          </View>
         }
       >
         <FadeUp className="items-center gap-2">

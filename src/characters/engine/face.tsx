@@ -100,7 +100,12 @@ export function Face({ mood, blink = false, closed = false, boost = 1, noseColor
   });
   // Eyes are dots; squinting is a vertical shrink done by a smaller circle. `boost` makes them bolder on small heads.
   const eyeBoost = 1 + (boost - 1) * 0.6;
-  const eyeR = (v: number, b: number) => Math.max(0.6, 4.4 * (0.55 + 0.45 * v) * b * eyeBoost);
+  // MUST be a worklet: it is called from the animated props below, which run on the UI thread. A plain function
+  // there makes Worklets throw "Tried to synchronously call a Remote Function" and the app dies on Android.
+  const eyeR = (v: number, b: number) => {
+    'worklet';
+    return Math.max(0.6, 4.4 * (0.55 + 0.45 * v) * b * eyeBoost);
+  };
   const leftEye = useAnimatedProps(() => ({ r: eyeR(eye.value, blinkScale.value) }));
   const rightEye = useAnimatedProps(() => ({ r: eyeR(eye.value, blinkScale.value) }));
   // little catch-lights (semi-realistic humans only)

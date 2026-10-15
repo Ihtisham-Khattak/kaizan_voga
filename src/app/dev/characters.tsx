@@ -22,12 +22,12 @@ import { MOODS, type Mood } from '@/store/types';
 import { useAppStore } from '@/store';
 import { useTheme } from '@/theme/theme-provider';
 
-const NAMES: CharacterName[] = ['zara', 'ali', 'hina', 'omar', 'kai'];
+const NAMES: CharacterName[] = ['hina', 'arfa', 'hamid', 'sierra', 'kai'];
 const SIGNATURE: Record<CharacterName, string> = {
-  zara: 'Teal top · high bun · small leaf earring',
-  ali: 'Mustard hoodie · round glasses',
-  hina: 'Lavender scarf / dupatta',
-  omar: 'Coral t-shirt · headphones around neck',
+  hina: 'Lilac dupatta · hair tied back with a clip · office lanyard',
+  arfa: 'Teal cardigan · long wavy hair in a loose braid · stud earrings',
+  hamid: 'Mustard sweater over a collared shirt · round glasses · light stubble',
+  sierra: 'Coral knit cardigan · loose curls · hoop earrings',
   kai: 'Sage lotus-leaf sprite · soft glow · floats',
 };
 
@@ -42,6 +42,8 @@ export default function CharacterSheet() {
   const [animated, setAnimated] = useState(true);
   const [mood, setMood] = useState<Mood>('calm');
   const [pose, setPose] = useState<Pose>('stand');
+  const [outfit, setOutfit] = useState<'everyday' | 'yoga'>('everyday');
+  const [clay, setClay] = useState(true);
 
   return (
     <ScrollView
@@ -64,6 +66,12 @@ export default function CharacterSheet() {
           <Chip label="Dark" selected={theme === 'dark'} onPress={() => set({ theme: 'dark' })} />
           <Chip label="Flip (RTL)" selected={flip} onPress={() => setFlip((f) => !f)} />
           <Chip label="Animated" selected={animated} onPress={() => setAnimated((a) => !a)} />
+          <Chip label="Clay look" selected={clay} onPress={() => setClay((c) => !c)} />
+          <Chip
+            label="Yoga outfit"
+            selected={outfit === 'yoga'}
+            onPress={() => setOutfit((o) => (o === 'yoga' ? 'everyday' : 'yoga'))}
+          />
         </View>
         <View className="flex-row flex-wrap gap-2">
           {[110, 170, 240].map((s) => (
@@ -76,7 +84,20 @@ export default function CharacterSheet() {
           ))}
         </View>
         <View className="flex-row flex-wrap gap-2">
-          {(['stand', 'sit', 'wave', 'yoga', 'float', 'celebrate', 'bell', 'sleep'] as Pose[]).map((p) => (
+          {(
+            [
+              'stand',
+              'sit',
+              'wave',
+              'yoga',
+              'reach',
+              'sideReach',
+              'float',
+              'celebrate',
+              'bell',
+              'sleep',
+            ] as Pose[]
+          ).map((p) => (
             <Chip key={p} label={p} selected={pose === p} onPress={() => setPose(p)} />
           ))}
         </View>
@@ -86,7 +107,16 @@ export default function CharacterSheet() {
       <View className="flex-row flex-wrap items-end justify-around gap-2 rounded-card border border-border bg-card p-4">
         {NAMES.map((n) => (
           <View key={n} className="items-center gap-1">
-            <Character name={n} pose={pose} mood={mood} size={size} flip={flip} animated={animated} />
+            <Character
+              name={n}
+              pose={pose}
+              mood={mood}
+              size={size}
+              flip={flip}
+              animated={animated}
+              outfit={outfit}
+              look={clay ? 'clay' : 'flat'}
+            />
             <Text variant="label">{n}</Text>
           </View>
         ))}
@@ -108,7 +138,16 @@ export default function CharacterSheet() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
             {(n === 'kai' ? KAI_POSES : HUMAN_POSES).map((p) => (
               <View key={p} className="items-center gap-1 rounded-2xl border border-border bg-card p-2">
-                <Character name={n} pose={p} mood={mood} size={130} flip={flip} animated={false} />
+                <Character
+                  name={n}
+                  pose={p}
+                  mood={mood}
+                  size={130}
+                  flip={flip}
+                  animated={false}
+                  outfit={outfit}
+                  look={clay ? 'clay' : 'flat'}
+                />
                 <Text variant="caption">{p}</Text>
               </View>
             ))}
@@ -141,9 +180,9 @@ export default function CharacterSheet() {
         <Text variant="heading">Scene props</Text>
         <View className="items-center gap-4 overflow-hidden rounded-card border border-border bg-card p-4">
           <View className="flex-row items-end gap-3">
-            <ThoughtIcon kind="ali" size={70} />
+            <ThoughtIcon kind="hamid" size={70} />
             <ThoughtIcon kind="hina" size={70} />
-            <ThoughtIcon kind="omar" size={70} />
+            <ThoughtIcon kind="sierra" size={70} />
           </View>
           <Bench width={300} />
           <Bench width={300} muted />

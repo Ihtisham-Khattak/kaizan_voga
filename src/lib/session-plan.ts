@@ -11,6 +11,8 @@ export interface SessionConfig {
   ambience: Ambience;
   focus: string[];
   chairMode: boolean;
+  /** Resume: start at this step of the plan instead of the first. */
+  startIndex?: number;
 }
 
 export interface PlayerStep {
