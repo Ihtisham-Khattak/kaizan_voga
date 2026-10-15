@@ -1,4 +1,4 @@
-import { ArrowDown, Lock } from 'phosphor-react-native';
+import { ArrowDown } from 'phosphor-react-native';
 import { Pressable, View } from 'react-native';
 
 import { CoverArt, variantFor } from '@/components/cover-art';
@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getExercise, type Routine } from '@/data/repo';
+import { PremiumBadge } from '@/components/premium-badge';
 import { useT } from '@/i18n';
 import { minutesOf } from '@/lib/format';
 import { cn } from '@/lib/utils';
@@ -48,14 +49,9 @@ export function RoutineCard({ routine: r, variant = 'tile', downloaded, onPress,
     </View>
   );
 
-  const premium = r.premium ? (
-    <View className="absolute start-2 top-2 flex-row items-center gap-1 rounded-full bg-card/90 px-2 py-1">
-      <Icon as={Lock} size={12} weight="bold" />
-      <Text variant="caption" className="font-sans-semibold text-foreground">
-        {t('cards.premium')}
-      </Text>
-    </View>
-  ) : null;
+  const premium = (
+    <PremiumBadge id={r.id} premium={r.premium} contentKind={r.kind} className="absolute start-2 top-2" />
+  );
 
   if (variant === 'row') {
     return (

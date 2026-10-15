@@ -36,6 +36,8 @@ import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { Group, Row } from '@/features/settings/ui';
+import { ProfileSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { JOURNEY_DAYS, journeyDay } from '@/lib/journey';
 import { useAppStore } from '@/store/app-store';
@@ -50,6 +52,7 @@ const go = (href: string) => () => router.push(href as Href);
 /** Profile: who you are, your plan, your account, and every setting in one calm list. */
 export default function ProfileScreen() {
   const { t } = useT();
+  const loading = useScreenLoading();
   const insets = useSafeAreaInsets();
   const prefs = usePrefsStore();
   const startedAt = useAppStore((s) => s.journeyStartedAt);
@@ -63,6 +66,8 @@ export default function ProfileScreen() {
   const name = prefs.name || auth.user?.name || t('pf.profile.friend');
   const day = journeyDay(startedAt);
   const close = () => setSheet(null);
+
+  if (loading) return <ProfileSkeleton />;
 
   return (
     <View className="flex-1 bg-background">
@@ -236,6 +241,12 @@ export default function ProfileScreen() {
           <Row icon={Info} label={t('pf.profile.rows.about')} onPress={go('/settings/about')} />
           <Row icon={FileText} label={t('pf.profile.rows.terms')} onPress={go('/settings/terms')} />
         </Group>
+
+        {__DEV__ ? (
+          <Group title="Developer">
+            <Row first icon={Info} label="State components and toggles" onPress={go('/dev/states')} />
+          </Group>
+        ) : null}
 
         <Group>
           <Row first icon={PlayCircle} label={t('pf.profile.replay')} onPress={() => setSheet('replay')} />

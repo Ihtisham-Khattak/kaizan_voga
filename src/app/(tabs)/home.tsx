@@ -1,11 +1,11 @@
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
-import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { ExerciseCard } from '@/components/exercise-card';
 import { FadeUp } from '@/components/fade-up';
 import { RoutineCard } from '@/components/routine-card';
@@ -19,9 +19,12 @@ import {
   MoodCheckin,
   QuickReliefRow,
   RestCard,
+  TrialBanner,
   TodayHero,
   WeekStrip,
 } from '@/features/home/parts';
+import { HomeSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { isSameDay, partOfDay, useTodayPlan } from '@/lib/journey';
 import { openCollection, openPose, openRoutine, startBreathing, startSession } from '@/lib/nav';
@@ -29,6 +32,7 @@ import { useAuthStore } from '@/store/auth-store';
 import { useLibraryStore } from '@/store/library-store';
 import { usePrefsStore } from '@/store/prefs-store';
 import { useProgressStore } from '@/store/progress-store';
+import { useSubscriptionStore } from '@/store/subscription-store';
 import { useUiStore } from '@/store/ui-store';
 
 const px = { paddingHorizontal: 16 };
@@ -36,6 +40,7 @@ const px = { paddingHorizontal: 16 };
 /** Home (Today): greeting, optional mood check-in, today's session, quick relief, recommendations, favourites, week. */
 export default function HomeScreen() {
   const { t, i18n } = useT();
+  const loading = useScreenLoading();
   const insets = useSafeAreaInsets();
   const plan = useTodayPlan();
   const prefs = usePrefsStore();
@@ -44,6 +49,7 @@ export default function HomeScreen() {
   const sessions = useProgressStore((s) => s.sessions);
   const { favorites, lastSession, toggleFavorite } = useLibraryStore();
   const bannerDismissed = useUiStore((s) => s.guestBannerDismissed);
+  const showTrial = useSubscriptionStore((s) => s.status === 'trial' && !s.trialBannerDismissed);
   const dismissBanner = useUiStore((s) => s.dismissGuestBanner);
 
   const name = user?.name || prefs.name || t('home.friend');
@@ -71,6 +77,8 @@ export default function HomeScreen() {
     .map((k) => getRoutine(k.slice(8)))
     .filter(Boolean);
   const resumeRoutine = lastSession?.kind === 'routine' ? getRoutine(lastSession.contentId) : undefined;
+
+  if (loading) return <HomeSkeleton />;
 
   return (
     <View className="flex-1 bg-background">
@@ -103,6 +111,12 @@ export default function HomeScreen() {
         {authStatus === 'guest' && !bannerDismissed ? (
           <FadeUp delay={60} style={px}>
             <GuestBanner onCreate={() => router.push('/sign-up')} onDismiss={dismissBanner} />
+          </FadeUp>
+        ) : null}
+
+        {showTrial ? (
+          <FadeUp delay={80} style={px}>
+            <TrialBanner />
           </FadeUp>
         ) : null}
 
@@ -165,11 +179,7 @@ export default function HomeScreen() {
           {favExercises.length + favRoutines.length === 0 ? (
             <View style={px}>
               <View className="rounded-card border border-border bg-card">
-                <EmptyState
-                  title={t('home.favoritesEmpty.title')}
-                  body={t('home.favoritesEmpty.body')}
-                  mood="happy"
-                />
+                <EmptyFor kind="favourites" onCta={() => router.push('/explore' as Href)} />
               </View>
             </View>
           ) : (

@@ -44,3 +44,6 @@ example
 
 # local dev tooling (screenshots, test scripts)
 .tools/
+
+# built APKs
+/dist-apk

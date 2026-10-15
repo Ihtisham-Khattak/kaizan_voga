@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams, type Href } from 'expo-router';
-import { CaretDown, Check, Lock } from 'phosphor-react-native';
+import { CaretDown, Check } from 'phosphor-react-native';
 import { AnimatePresence, MotiView } from 'moti';
 import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -15,6 +15,8 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getProgram, getRoutine, type ProgramDay } from '@/data/repo';
 import { HeroActions } from '@/features/pose/hero-actions';
+import { PremiumBadge } from '@/components/premium-badge';
+import { gate } from '@/lib/entitlement';
 import { useT } from '@/i18n';
 import { KaizenIcon } from '@/icons';
 import { minutesOf } from '@/lib/format';
@@ -126,26 +128,9 @@ export default function ProgramDetail() {
       >
         <View style={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32, overflow: 'hidden' }}>
           <CoverArt tint={p.cover} height={230} rounded={0} />
-          {p.premium ? (
-            <View style={{ position: 'absolute', bottom: 12, start: 14 }}>
-              <GlassCard
-                radius={14}
-                shadow={false}
-                contentStyle={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 4,
-                  paddingHorizontal: 12,
-                  paddingVertical: 4,
-                }}
-              >
-                <Icon as={Lock} size={12} weight="bold" />
-                <Text variant="caption" className="font-sans-semibold">
-                  {t('cards.premium')}
-                </Text>
-              </GlassCard>
-            </View>
-          ) : null}
+          <View style={{ position: 'absolute', bottom: 12, start: 14 }}>
+            <PremiumBadge id={p.id} premium={p.premium} contentKind={'program'} />
+          </View>
         </View>
 
         <View className="gap-4 px-4 pt-6">
@@ -231,7 +216,14 @@ export default function ProgramDetail() {
         style={{ position: 'absolute', start: 0, end: 0, bottom: 0 }}
         contentStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: Math.max(insets.bottom, 12) }}
       >
-        <Button size="lg" onPress={() => (next.routineId ? startSession(next.routineId) : startBreathing())}>
+        <Button
+          size="lg"
+          onPress={() => {
+            if (!gate({ kind: 'content', id: p.id, premium: p.premium, contentKind: 'program' })) return;
+            if (next.routineId) startSession(next.routineId);
+            else startBreathing();
+          }}
+        >
           <Text>{done > 0 ? t('program.continue') : t('program.start')}</Text>
         </Button>
       </GlassCard>

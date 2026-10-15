@@ -21,6 +21,26 @@ Definition of done per card: builds (`tsc`, `eslint`, Android bundle) · screens
 
 Cut-lines if time runs short (in order): PR-06 history detail, PF-06 health/devices, X-03 collections, M-05 hardship. Nothing on the critical path (story → onboarding → account → first session → completion → Home) is cut.
 
+## Backlog completion plan (2026-10-15) — the last 11 UI cards
+
+Order is by dependency, not by number. Each card goes In Progress → In Review with the same verification as before (tsc, eslint, i18n key check, Android export, web light/Night/Urdu/130% screenshots). Done only after sign-off.
+
+| Step | Cards | Why this order | Output |
+|---|---|---|---|
+| A | **M-04** gating foundation | Everything else in Premium calls it | `useEntitlement(feature)`, `PremiumBadge`, `LockedSheet`, trial banner; never-locked rule (safety info, breathing basics, SOS quick-relief, starter session) |
+| B | **M-01** paywall | Entry point for A | `premium/index`: Free vs Premium table, plan cards, trial toggle, footer links |
+| C | **M-02** mock checkout | Needs B | Checkout sheet, loading, success (Kai + confetti), failure, cancelled; updates the subscription store |
+| D | **M-03** manage subscription | Needs C's states | `settings/subscription`: free / trial / active / cancelled / expired, switch plan, gentle cancel |
+| E | **M-05** hardship request | Small, linked from B | `premium/help-affording`: form + thank-you |
+| F | **ST-03** offline / error / coming-soon | Other states reuse it | Offline banner (expo-network), full-screen + inline error, reusable Coming-soon |
+| G | **ST-02** empty states | Uses F's components | Kai empty states for the 8 listed cases |
+| H | **ST-01** skeletons | Last visual layer | Skeleton variants per screen + Reduce Motion static tint + dev toggle |
+| I | **QA-03** content & tone audit | Scriptable, fast | Banned-claim scan over EN copy, fixes, report |
+| J | **QA-02** flow acceptance | Needs everything built | Automated puppeteer walk of the funnel + dead-end crawler |
+| K | **QA-01** QA pass | Final | Widths, Night, RTL, 130%, Reduce Motion run; `docs/known-limitations.md` |
+
+Risks: native-only checks (TalkBack/VoiceOver, 60 fps on low-end Android, real RTL flip, iOS Reduce Transparency) can't be done from this machine; they go into `known-limitations.md` as "needs a device" rather than being claimed as passed. The Urdu copy still needs a native-speaker review (QA-03).
+
 ## Phase 2 — Functionality (from 2026-10-15)
 
 All mock layers are already isolated (`src/data/repo.ts`, `src/store/*`, auth/subscription stores) so each item below replaces a mock, not a screen.

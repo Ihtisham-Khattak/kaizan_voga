@@ -1,3 +1,4 @@
+import { router, type Href } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,6 +11,7 @@ import { toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { listAchievements, listChallenges, type Achievement } from '@/data/repo';
+import { EmptyFor } from '@/features/states/empty';
 import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
 import { KaizenIcon, type KaizenIconName } from '@/icons';
@@ -40,6 +42,8 @@ export default function AchievementsScreen() {
     <View className="flex-1 bg-background">
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 24 }}>
         <ScreenHeader title={t('prog.ach.title')} subtitle={t('prog.ach.subtitle')} />
+
+        {count === 0 ? <EmptyFor kind="achievements" onCta={() => router.push('/home' as Href)} /> : null}
 
         <View className="gap-3 px-4">
           <Text variant="label">{t('prog.ach.unlocked', { count, total: all.length })}</Text>

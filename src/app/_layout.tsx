@@ -10,6 +10,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { LockedSheetHost } from '@/components/locked-sheet';
+import { ErrorState } from '@/features/states/error-state';
+import { OfflineBanner } from '@/features/states/offline-banner';
 import { ToastHost } from '@/components/toast';
 import { applyDirection } from '@/i18n/direction';
 import { detectLanguage, i18n, setLanguage } from '@/i18n';
@@ -18,6 +21,11 @@ import { useAppFonts } from '@/theme/fonts';
 import { ThemeProvider } from '@/theme/theme-provider';
 
 SplashScreen.preventAutoHideAsync();
+
+/** expo-router renders this when any screen throws – a calm page with Retry instead of a red crash screen. */
+export function ErrorBoundary({ retry }: { error: Error; retry: () => Promise<void> }) {
+  return <ErrorState onRetry={() => void retry()} />;
+}
 
 export default function RootLayout() {
   const fontsReady = useAppFonts();
@@ -37,6 +45,8 @@ export default function RootLayout() {
             <BottomSheetModalProvider>
               <LanguageSync />
               <RootStack />
+              <OfflineBanner />
+              <LockedSheetHost />
               <ToastHost />
               <PortalHost />
             </BottomSheetModalProvider>

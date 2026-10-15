@@ -5,6 +5,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { GlassCard } from '@/components/glass-card';
 import { toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
@@ -100,7 +101,7 @@ export default function CustomRoutineScreen() {
         <Text variant="caption">{t('custom.total', { time: formatDuration(total, t) })}</Text>
 
         {items.length === 0 ? (
-          <EmptyState title={t('custom.emptyTitle')} body={t('custom.emptyBody')} />
+          <EmptyFor kind="custom" />
         ) : (
           items.map((it, i) => {
             const e = getExercise(it.exerciseId);

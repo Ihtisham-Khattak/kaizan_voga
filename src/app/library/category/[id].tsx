@@ -2,7 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView } from 'react-native';
 
-import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { ExerciseCard } from '@/components/exercise-card';
 import { Chip } from '@/components/ui/chip';
 import { exercisesByCategory, type ExerciseCategory, type Level } from '@/data/repo';
@@ -52,7 +52,7 @@ export default function CategoryScreen() {
         <Chip label={t('explore.chair')} selected={chair} onPress={() => setChair(!chair)} />
       </ScrollView>
       {list.length === 0 ? (
-        <EmptyState title={t('search.noResults.title')} body={t('search.noResults.body')} />
+        <EmptyFor kind="search" />
       ) : (
         list.map((e) => (
           <ExerciseCard

@@ -18,6 +18,8 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getExercise, type Modification } from '@/data/repo';
 import { AddToRoutineSheet } from '@/features/pose/add-to-routine-sheet';
+import { DetailSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { formatDuration } from '@/lib/format';
 import { haptic } from '@/lib/haptics';
@@ -49,6 +51,7 @@ function Numbered({ items }: { items: string[] }) {
 /** Pose detail: big illustration, names, chips, soft caution, tabbed guidance, modifications that swap the figure, trust badge. */
 export default function PoseDetail() {
   const { t } = useT();
+  const loading = useScreenLoading();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const e = getExercise(String(id));
@@ -75,6 +78,8 @@ export default function PoseDetail() {
   const isFav = favorites.includes(favKey);
   const figure = mod?.kind === 'chair' ? 'seated' : variantFor(e);
   const duration = formatDuration(e.durationSec, t);
+
+  if (loading) return <DetailSkeleton />;
 
   return (
     <View className="flex-1 bg-background">

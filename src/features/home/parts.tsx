@@ -20,6 +20,7 @@ import { minutesOf } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { weekdayLabel, weekdayOrder } from '@/lib/weekdays';
 import { useProgressStore } from '@/store/progress-store';
+import { daysLeft, useSubscriptionStore } from '@/store/subscription-store';
 import { usePrefsStore } from '@/store/prefs-store';
 import type { Mood, SessionRecord, Weekday } from '@/store/types';
 import { alpha } from '@/theme/colors';
@@ -287,6 +288,47 @@ export function GuestBanner({ onCreate, onDismiss }: { onCreate: () => void; onD
       </Button>
       <Pressable
         onPress={onDismiss}
+        accessibilityRole="button"
+        accessibilityLabel={t('home.dismiss')}
+        className="size-10 items-center justify-center"
+      >
+        <Icon as={X} size={16} weight="bold" className="text-muted-foreground" />
+      </Pressable>
+    </GlassCard>
+  );
+}
+
+// ───────────────────────── Trial banner (Premium) ─────────────────────────
+/** Dismissible heads-up while a free trial is running. Calm wording, one action, never a countdown pressure. */
+export function TrialBanner() {
+  const { t } = useT();
+  const status = useSubscriptionStore((s) => s.status);
+  const trialEndsAt = useSubscriptionStore((s) => s.trialEndsAt);
+  const dismissed = useSubscriptionStore((s) => s.trialBannerDismissed);
+  const dismiss = useSubscriptionStore((s) => s.dismissTrialBanner);
+  if (status !== 'trial' || dismissed) return null;
+
+  const left = daysLeft(trialEndsAt);
+  const title =
+    left <= 0
+      ? t('premium.trialBanner.today')
+      : left === 1
+        ? t('premium.trialBanner.one')
+        : t('premium.trialBanner.title', { count: left });
+
+  return (
+    <GlassCard
+      tone="leaf"
+      contentStyle={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12, padding: 16 }}
+    >
+      <Text variant="label" className="min-w-[160px] flex-1">
+        {title}
+      </Text>
+      <Button size="sm" variant="secondary" onPress={() => router.push('/settings/subscription' as Href)}>
+        <Text>{t('premium.trialBanner.manage')}</Text>
+      </Button>
+      <Pressable
+        onPress={dismiss}
         accessibilityRole="button"
         accessibilityLabel={t('home.dismiss')}
         className="size-10 items-center justify-center"

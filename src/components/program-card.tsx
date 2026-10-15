@@ -1,12 +1,11 @@
-import { Lock } from 'phosphor-react-native';
 import { Pressable, View } from 'react-native';
 
 import { CoverArt } from '@/components/cover-art';
 import { ProgressRing } from '@/components/progress-ring';
 import { Badge } from '@/components/ui/badge';
-import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import type { Program } from '@/data/types';
+import { PremiumBadge } from '@/components/premium-badge';
 import { useT } from '@/i18n';
 import { cn } from '@/lib/utils';
 
@@ -36,14 +35,12 @@ export function ProgramCard({ program: p, completedDays = 0, onPress, className 
     >
       <View>
         <CoverArt tint={p.cover} height={130} />
-        {p.premium ? (
-          <View className="absolute start-2 top-2 flex-row items-center gap-1 rounded-full bg-card/90 px-2 py-1">
-            <Icon as={Lock} size={12} weight="bold" />
-            <Text variant="caption" className="font-sans-semibold text-foreground">
-              {t('cards.premium')}
-            </Text>
-          </View>
-        ) : null}
+        <PremiumBadge
+          id={p.id}
+          premium={p.premium}
+          contentKind="program"
+          className="absolute start-2 top-2"
+        />
       </View>
       <View className="flex-row items-center gap-3 px-1 pb-1">
         <View className="flex-1 gap-2">

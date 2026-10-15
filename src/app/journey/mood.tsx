@@ -1,9 +1,10 @@
+import { router, type Href } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import Svg, { Circle, Polygon } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { ScreenHeader } from '@/components/screen-header';
 import { Chip } from '@/components/ui/chip';
 import { Text } from '@/components/ui/text';
@@ -77,12 +78,7 @@ export default function MoodScreen() {
         </View>
 
         {data.length < 3 ? (
-          <EmptyState
-            title={t('prog.mood.emptyTitle')}
-            body={t('prog.mood.emptyBody')}
-            mood="calm"
-            pose="float"
-          />
+          <EmptyFor kind="mood" onCta={() => router.push('/home' as Href)} />
         ) : (
           <>
             <View className="mx-4 gap-3 rounded-3xl border border-border bg-card p-4">

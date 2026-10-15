@@ -5,7 +5,7 @@ import { I18nManager, Pressable, ScrollView, TextInput, View } from 'react-nativ
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BottomSheet } from '@/components/bottom-sheet';
-import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { ExerciseCard } from '@/components/exercise-card';
 import { GlassCard } from '@/components/glass-card';
 import { RoutineCard } from '@/components/routine-card';
@@ -212,7 +212,7 @@ export default function SearchScreen() {
             </View>
           </>
         ) : total === 0 ? (
-          <EmptyState title={t('search.noResults.title')} body={t('search.noResults.body')} />
+          <EmptyFor kind="search" />
         ) : (
           <>
             <Text variant="caption" accessibilityLiveRegion="polite">

@@ -1,5 +1,6 @@
-import { ScreenStub } from '@/components/screen-stub';
+import { ComingSoon } from '@/features/states/coming-soon';
 
-export default function Screen() {
-  return <ScreenStub id="T-01" title="Practice" note="Tab screen" links={[]} />;
+/** The centre Practice button opens the quick-actions sheet and never lands here; this is only a safety net. */
+export default function PracticeTab() {
+  return <ComingSoon />;
 }

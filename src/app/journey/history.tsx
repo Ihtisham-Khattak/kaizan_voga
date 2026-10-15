@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { EmptyState } from '@/components/empty-state';
+import { EmptyFor } from '@/features/states/empty';
 import { ScreenHeader } from '@/components/screen-header';
 import { Chip } from '@/components/ui/chip';
 import { Text } from '@/components/ui/text';
 import { SessionRow } from '@/features/progress/session-row';
+import { ListSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { addDays, dayKey, startOfWeek } from '@/lib/stats';
 import { useProgressStore } from '@/store/progress-store';
@@ -24,6 +26,7 @@ const MATCH: Record<Filter, (k: ContentKind) => boolean> = {
 /** Every session, newest first, grouped by week. */
 export default function HistoryScreen() {
   const { t, i18n } = useT();
+  const loading = useScreenLoading();
   const insets = useSafeAreaInsets();
   const sessions = useProgressStore((s) => s.sessions);
   const [filter, setFilter] = useState<Filter>('all');
@@ -45,6 +48,8 @@ export default function HistoryScreen() {
     return `${fmt.format(from)} – ${fmt.format(addDays(from, 6))}`;
   };
 
+  if (loading) return <ListSkeleton />;
+
   return (
     <View className="flex-1 bg-background">
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 32, gap: 16 }}>
@@ -56,10 +61,10 @@ export default function HistoryScreen() {
         </View>
 
         {shown.length === 0 ? (
-          <EmptyState
-            title={t('prog.hist.emptyTitle')}
-            body={sessions.length === 0 ? t('prog.hist.emptyBody') : t('prog.hist.emptyFilter')}
-            mood="calm"
+          <EmptyFor
+            kind="history"
+            body={sessions.length === 0 ? undefined : t('prog.hist.emptyFilter')}
+            onCta={sessions.length === 0 ? () => router.push('/home' as Href) : undefined}
           />
         ) : (
           [...groups.entries()].map(([key, list]) => (

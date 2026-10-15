@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { BottomSheet } from '@/components/bottom-sheet';
-import { EmptyState } from '@/components/empty-state';
 import { toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Progress } from '@/components/ui/progress';
 import { Text } from '@/components/ui/text';
 import { Group, SettingsScreen, SwitchRow } from '@/features/settings/ui';
+import { EmptyFor } from '@/features/states/empty';
 import { useT } from '@/i18n';
 import { resolveRoutine } from '@/lib/routines';
 import { useAppStore } from '@/store/app-store';
@@ -45,12 +45,7 @@ export default function DownloadsScreen() {
       </View>
 
       {downloads.length === 0 ? (
-        <EmptyState
-          title={t('pf.dl.emptyTitle')}
-          body={t('pf.dl.emptyBody')}
-          mood="calm"
-          cta={{ label: t('pf.dl.emptyCta'), onPress: () => router.push('/explore' as Href) }}
-        />
+        <EmptyFor kind="downloads" onCta={() => router.push('/explore' as Href)} />
       ) : (
         <Group>
           {downloads.map((d, i) => {

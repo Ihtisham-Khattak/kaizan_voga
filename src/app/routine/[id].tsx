@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { ArrowDown, Check, Lock } from 'phosphor-react-native';
+import { ArrowDown, Check } from 'phosphor-react-native';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +13,10 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { getExercise, type RoutinePhase } from '@/data/repo';
 import { HeroActions } from '@/features/pose/hero-actions';
+import { PremiumBadge } from '@/components/premium-badge';
+import { gate } from '@/lib/entitlement';
+import { DetailSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { KaizenIcon, type KaizenIconName } from '@/icons';
 import { formatDuration, minutesOf } from '@/lib/format';
@@ -34,6 +38,7 @@ const EQ_ICON: Record<string, KaizenIconName> = {
 /** Routine detail: cover, description, goals, equipment, offline download, ordered poses by phase, sticky Start. */
 export default function RoutineDetail() {
   const { t } = useT();
+  const loading = useScreenLoading();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -60,6 +65,8 @@ export default function RoutineDetail() {
     (g) => g.steps.length
   );
 
+  if (loading) return <DetailSkeleton />;
+
   return (
     <View className="flex-1 bg-background">
       <ScrollView
@@ -74,26 +81,9 @@ export default function RoutineDetail() {
             rounded={0}
             figureSize={170}
           />
-          {r.premium ? (
-            <View style={{ position: 'absolute', bottom: 12, start: 14 }}>
-              <GlassCard
-                radius={14}
-                shadow={false}
-                contentStyle={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 4,
-                  paddingHorizontal: 12,
-                  paddingVertical: 4,
-                }}
-              >
-                <Icon as={Lock} size={12} weight="bold" />
-                <Text variant="caption" className="font-sans-semibold">
-                  {t('cards.premium')}
-                </Text>
-              </GlassCard>
-            </View>
-          ) : null}
+          <View style={{ position: 'absolute', bottom: 12, start: 14 }}>
+            <PremiumBadge id={r.id} premium={r.premium} contentKind={r.kind} />
+          </View>
         </View>
 
         <View className="gap-4 px-4 pt-6">
@@ -169,7 +159,11 @@ export default function RoutineDetail() {
                   : t('routine.download')}
             </Text>
             {dl.status === 'none' ? (
-              <Button size="sm" variant="outline" onPress={dl.start}>
+              <Button
+                size="sm"
+                variant="outline"
+                onPress={() => gate({ kind: 'feature', feature: 'downloads' }) && dl.start()}
+              >
                 <Text>{t('routine.download')}</Text>
               </Button>
             ) : dl.status === 'downloaded' ? (

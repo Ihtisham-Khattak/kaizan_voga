@@ -97,7 +97,8 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "validate:data": "tsx scripts/validate-data.ts",
-    "theme:sync": "tsx scripts/sync-theme.ts"
+    "theme:sync": "tsx scripts/sync-theme.ts",
+    "audit:copy": "tsx scripts/audit-copy.ts"
   },
   "private": true
 }

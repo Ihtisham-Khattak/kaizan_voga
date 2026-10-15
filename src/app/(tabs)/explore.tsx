@@ -24,6 +24,8 @@ import {
   routinesByGoal,
   type ExerciseCategory,
 } from '@/data/repo';
+import { ExploreSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { openCollection, openProgram, openRoutine, openSearch } from '@/lib/nav';
 import { customToRoutine } from '@/lib/routines';
@@ -50,11 +52,14 @@ const px = { paddingHorizontal: 16 };
 /** Explore / Library: search, filter chips, programs, routines by goal, styles, pose library, sleep. */
 export default function ExploreScreen() {
   const { t } = useT();
+  const loading = useScreenLoading();
   const insets = useSafeAreaInsets();
   const myGoals = usePrefsStore((s) => s.goals);
   const [goal, setGoal] = useState<Goal>(myGoals[0] ?? 'stress');
   const byGoal = routinesByGoal(goal);
   const custom = useLibraryStore((s) => s.customRoutines);
+
+  if (loading) return <ExploreSkeleton />;
 
   return (
     <View className="flex-1 bg-background">

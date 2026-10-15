@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { DayPicker, Group, Segmented, SettingsScreen, SwitchRow, TimeStepper } from '@/features/settings/ui';
+import { EmptyFor } from '@/features/states/empty';
 import { useT } from '@/i18n';
 import { formatClock } from '@/lib/format';
 import { haptic } from '@/lib/haptics';
@@ -82,6 +83,8 @@ export default function RemindersScreen() {
           </Button>
         </View>
       ) : null}
+
+      {!enabled ? <EmptyFor kind="reminders" onCta={() => toggle(true)} /> : null}
 
       <Group>
         <SwitchRow

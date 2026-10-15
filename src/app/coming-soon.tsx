@@ -1,12 +1,9 @@
-import { ScreenStub } from '@/components/screen-stub';
+import { useLocalSearchParams } from 'expo-router';
 
-export default function Screen() {
-  return (
-    <ScreenStub
-      id="F-06"
-      title="Coming soon"
-      note="This destination isn't built yet."
-      links={[{ label: 'Back to Home', href: '/home' }]}
-    />
-  );
+import { ComingSoon } from '@/features/states/coming-soon';
+
+/** Any unbuilt destination can route here: router.push({ pathname: '/coming-soon', params: { title } }). */
+export default function ComingSoonScreen() {
+  const { title } = useLocalSearchParams<{ title?: string }>();
+  return <ComingSoon title={title ? String(title) : undefined} />;
 }

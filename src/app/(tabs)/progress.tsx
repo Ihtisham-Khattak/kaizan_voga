@@ -7,7 +7,6 @@ import {
   Medal,
   NotePencil,
 } from 'phosphor-react-native';
-import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,9 +15,10 @@ import { EmptyState } from '@/components/empty-state';
 import { FadeUp } from '@/components/fade-up';
 import { TAB_BAR_CLEARANCE } from '@/components/tab-bar';
 import { Icon } from '@/components/ui/icon';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
 import { JourneyPath } from '@/features/progress/journey-path';
+import { ProgressSkeleton } from '@/features/states/skeletons';
+import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { journeyDay, JOURNEY_DAYS, useTodayPlan } from '@/lib/journey';
 import { startSession } from '@/lib/nav';
@@ -56,16 +56,13 @@ export default function ProgressScreen() {
   const plan = useTodayPlan();
   const day = journeyDay(startedAt);
 
-  // brief skeleton so the first paint feels like loading real data (Phase 2 swaps in the real fetch)
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const id = setTimeout(() => setLoading(false), 350);
-    return () => clearTimeout(id);
-  }, []);
+  const loading = useScreenLoading();
 
   const practiced = practicedKeys(sessions);
   const minutes = totalMinutes(sessions);
   const fav = favouriteStyle(sessions);
+
+  if (loading) return <ProgressSkeleton />;
 
   return (
     <View className="flex-1 bg-background">
@@ -87,16 +84,7 @@ export default function ProgressScreen() {
           </Text>
         </View>
 
-        {loading ? (
-          <View className="gap-4">
-            <Skeleton className="h-72 w-full rounded-3xl" />
-            <View className="flex-row gap-3">
-              <Skeleton className="h-20 flex-1" />
-              <Skeleton className="h-20 flex-1" />
-              <Skeleton className="h-20 flex-1" />
-            </View>
-          </View>
-        ) : (
+        {
           <>
             <FadeUp>
               <View className="gap-3 rounded-3xl border border-border bg-card p-4">
@@ -161,7 +149,7 @@ export default function ProgressScreen() {
               </View>
             </FadeUp>
           </>
-        )}
+        }
       </ScrollView>
     </View>
   );
