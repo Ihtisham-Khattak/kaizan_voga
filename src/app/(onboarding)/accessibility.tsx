@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 import { FadeUp } from '@/components/fade-up';
+import { GlassCard } from '@/components/glass-card';
 import { SafetyNotice } from '@/components/safety-notice';
 import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
@@ -50,10 +51,10 @@ export default function AccessibilityScreen() {
         </SafetyNotice>
       </FadeUp>
 
-      <View className="overflow-hidden rounded-card border border-border bg-card" role="group">
+      <GlassCard strong>
         {OPTIONS.map((l, i) => (
           <FadeUp key={l} delay={200 + i * 60} distance={10}>
-            <View className={i > 0 ? 'border-t border-border' : undefined}>
+            <View className={i > 0 ? 'border-hairline border-t' : undefined}>
               <View className="min-h-16 flex-row items-center gap-3 px-4 py-3">
                 <Text variant="body" className="flex-1">
                   {t(`onboardingQ.accessibility.${l}`)}
@@ -67,7 +68,7 @@ export default function AccessibilityScreen() {
             </View>
           </FadeUp>
         ))}
-      </View>
+      </GlassCard>
     </PersonalizationShell>
   );
 }

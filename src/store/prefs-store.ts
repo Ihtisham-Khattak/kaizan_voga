@@ -79,7 +79,7 @@ export const usePrefsStore = register(
         name: 'kz-prefs',
         version: 2,
         storage,
-        // v2: the cast changed (Zara/Ali/Omar became Arfa/Hamid/Sierra) – keep each person's saved companion
+        // v2: the cast changed (Zara/Ali/Omar became Arif/Hamid/Sarah) – keep each person's saved companion
         migrate: (persisted) => {
           const p = persisted as { avatar?: string } | null;
           const map: Record<string, string> = { zara: 'arfa', ali: 'hamid', omar: 'sierra' };

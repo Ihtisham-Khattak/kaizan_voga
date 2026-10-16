@@ -7,9 +7,9 @@ import { art } from '@/theme/illustration';
  * The four people (docs/character-bible.md). Each = the shared body + ONE signature colour + a few details that
  * never change, plus a `yoga` outfit (everyday clothes swapped for session clothes; same face, hair, skin):
  *   Hina   – lilac dupatta · hair tied back with a clip · office lanyard
- *   Arfa   – teal cardigan · long wavy hair in a loose braid · small stud earrings
+ *   Arif   – teal cardigan · long wavy hair in a loose braid · small stud earrings
  *   Hamid  – mustard sweater over a collared shirt · round glasses · light stubble · sturdy build
- *   Sierra – coral knit cardigan · loose curls · hoop earrings
+ *   Sarah – coral knit cardigan · loose curls · hoop earrings
  */
 export const INK = art.ink;
 const stroke = (d: string, color: string, sw: number, op = 1): Prim => ({
@@ -78,7 +78,7 @@ export const HINA: HumanStyle = {
   },
 };
 
-// ───────────────────────── Arfa ─────────────────────────
+// ───────────────────────── Arif ─────────────────────────
 export const ARFA: HumanStyle = {
   skin: art.skinArfa,
   hair: art.hairArfa,
@@ -196,7 +196,7 @@ export const HAMID: HumanStyle = {
   },
 };
 
-// ───────────────────────── Sierra ─────────────────────────
+// ───────────────────────── Sarah ─────────────────────────
 export const SIERRA: HumanStyle = {
   skin: art.skinSierra,
   hair: art.hairSierra,

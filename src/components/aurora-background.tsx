@@ -1,4 +1,5 @@
 import { useEffect, useId } from 'react';
+import { MotiView } from 'moti';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
   Easing,
@@ -12,6 +13,8 @@ import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useReduceTransparency } from '@/hooks/use-reduce-transparency';
+import type { Palette } from '@/theme/colors';
+import { alpha } from '@/theme/colors';
 import { useTheme } from '@/theme/theme-provider';
 
 interface BlobProps {
@@ -61,9 +64,32 @@ function Blob({ color, size, x, y, drift, period, still, id }: BlobProps) {
   );
 }
 
+/** A time-of-day mood for one screen: the blobs cross-fade between these (tokens only). */
+export type AuroraTone = 'morning' | 'afternoon' | 'evening' | 'varies';
+const TONES: AuroraTone[] = ['morning', 'afternoon', 'evening', 'varies'];
+
+/** Three blob colours per tone: fresh green (morning), clear blue (afternoon), lavender (evening), the default mix. */
+function tonePalette(c: Palette, tone: AuroraTone | 'day'): [string, string, string] {
+  switch (tone) {
+    case 'morning':
+      return [c.auroraMint, c.mint, c.auroraMint];
+    case 'afternoon':
+      return [c.auroraSky, c.auroraSky, c.skySoft];
+    case 'evening':
+      return [c.lavenderSoft, c.lavenderSoft, alpha(c.lavender, 0.35)];
+    default:
+      return [c.auroraMint, c.auroraSky, c.auroraMint];
+  }
+}
+
 interface Props {
   /** Evening screens swap one blob for `lavenderSoft` (sleep, wind-down, evening Home). */
   variant?: 'day' | 'evening';
+  /**
+   * Time-of-day mood for a single screen (e.g. "When would you like to practice?"). When set, the background
+   * cross-fades between tones as it changes. `null` shows the default mix and still allows the change.
+   */
+  tone?: AuroraTone | null;
 }
 
 /**
@@ -71,53 +97,72 @@ interface Props {
  * drifting slowly. Glass on plain white just looks grey, so every glass screen has one of these behind it.
  * Reduce Transparency hides the blobs; Reduce Motion stops the drift.
  */
-export function AuroraBackground({ variant = 'day' }: Props) {
+export function AuroraBackground({ variant = 'day', tone }: Props) {
   const { colors } = useTheme();
   const { width, height } = useWindowDimensions();
   const reduceMotion = useReduceMotion();
   const reduceTransparency = useReduceTransparency();
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
-  const evening = variant === 'evening';
+
+  const layer = (name: AuroraTone | 'day') => {
+    const [a, b, c] = tonePalette(colors, variant === 'evening' && name === 'day' ? 'evening' : name);
+    return (
+      <>
+        <Blob
+          id={`a${name}${uid}`}
+          color={a}
+          size={width * 1.25}
+          x={-width * 0.4}
+          y={-width * 0.2}
+          drift={36}
+          period={14000}
+          still={reduceMotion}
+        />
+        <Blob
+          id={`b${name}${uid}`}
+          color={variant === 'evening' && name === 'day' ? colors.lavenderSoft : b}
+          size={width * 1.1}
+          x={width * 0.25}
+          y={height * 0.28}
+          drift={-30}
+          period={17000}
+          still={reduceMotion}
+        />
+        <Blob
+          id={`c${name}${uid}`}
+          color={c}
+          size={width * 0.95}
+          x={-width * 0.3}
+          y={height * 0.62}
+          drift={28}
+          period={20000}
+          still={reduceMotion}
+        />
+      </>
+    );
+  };
+
+  const active: AuroraTone = tone ?? 'varies';
 
   return (
     <View
       pointerEvents="none"
       style={[StyleSheet.absoluteFill, { backgroundColor: colors.bg, overflow: 'hidden' }]}
     >
-      {reduceTransparency ? null : (
-        <>
-          <Blob
-            id={`a${uid}`}
-            color={colors.auroraMint}
-            size={width * 1.25}
-            x={-width * 0.4}
-            y={-width * 0.2}
-            drift={36}
-            period={14000}
-            still={reduceMotion}
-          />
-          <Blob
-            id={`b${uid}`}
-            color={evening ? colors.lavenderSoft : colors.auroraSky}
-            size={width * 1.1}
-            x={width * 0.25}
-            y={height * 0.28}
-            drift={-30}
-            period={17000}
-            still={reduceMotion}
-          />
-          <Blob
-            id={`c${uid}`}
-            color={colors.auroraMint}
-            size={width * 0.95}
-            x={-width * 0.3}
-            y={height * 0.62}
-            drift={28}
-            period={20000}
-            still={reduceMotion}
-          />
-        </>
-      )}
+      {reduceTransparency
+        ? null
+        : tone === undefined
+          ? layer('day')
+          : TONES.map((name) => (
+              <MotiView
+                key={name}
+                animate={{ opacity: name === active ? 1 : 0 }}
+                transition={{ type: 'timing', duration: reduceMotion ? 0 : 900 }}
+                style={StyleSheet.absoluteFill}
+              >
+                {layer(name)}
+              </MotiView>
+            ))}
     </View>
   );
 }

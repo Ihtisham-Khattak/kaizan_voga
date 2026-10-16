@@ -53,6 +53,7 @@
     "expo-router": "~57.0.26",
     "expo-secure-store": "~57.0.4",
     "expo-sharing": "~57.0.23",
+    "expo-speech": "~57.0.3",
     "expo-splash-screen": "~57.0.10",
     "expo-status-bar": "~57.0.1",
     "expo-symbols": "~57.0.3",
@@ -98,7 +99,8 @@
     "typecheck": "tsc --noEmit",
     "validate:data": "tsx scripts/validate-data.ts",
     "theme:sync": "tsx scripts/sync-theme.ts",
-    "audit:copy": "tsx scripts/audit-copy.ts"
+    "audit:copy": "tsx scripts/audit-copy.ts",
+    "apk": "bash scripts/build-apk.sh"
   },
   "private": true
 }

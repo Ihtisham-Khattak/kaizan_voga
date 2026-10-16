@@ -1,15 +1,14 @@
 import { Check } from 'phosphor-react-native';
-import { MotiView } from 'moti';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { FadeUp } from '@/components/fade-up';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { haptic } from '@/lib/haptics';
-import { cn } from '@/lib/utils';
-import { spring } from '@/theme/motion';
+import { useTheme } from '@/theme/theme-provider';
+
+import { OptionSurface } from './option-surface';
 
 interface Props {
   title: string;
@@ -25,52 +24,58 @@ interface Props {
 }
 
 /**
- * Large, friendly selectable card (min 64px tall). Selection = sage border + tinted fill + check mark + a soft
- * spring — never colour alone.
+ * Large, friendly selectable row (min 64px tall). Selection = `leaf` edge + `mint` fill + check mark — never colour
+ * alone. The row never changes size, so a selected row stays in line with the others.
  */
 export function OptionCard({ title, subtitle, selected, onPress, leading, multi, index = 0 }: Props) {
-  const reduce = useReduceMotion();
+  const { colors } = useTheme();
   return (
     <FadeUp delay={120 + index * 70} distance={18}>
-      <MotiView
-        animate={{ scale: selected && !reduce ? 1.015 : 1 }}
-        transition={{ type: 'spring', ...spring.gentle }}
+      <Pressable
+        role={multi ? 'checkbox' : 'radio'}
+        aria-checked={selected}
+        accessibilityState={{ checked: selected }}
+        accessibilityLabel={subtitle ? `${title}. ${subtitle}` : title}
+        onPress={() => {
+          haptic.select();
+          onPress();
+        }}
+        style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
       >
-        <Pressable
-          role={multi ? 'checkbox' : 'radio'}
-          aria-checked={selected}
-          accessibilityState={{ checked: selected }}
-          accessibilityLabel={subtitle ? `${title}. ${subtitle}` : title}
-          onPress={() => {
-            haptic.select();
-            onPress();
-          }}
-          className={cn(
-            'min-h-16 flex-row items-center gap-3 rounded-card border-2 px-4 py-3 active:opacity-90',
-            selected ? 'border-leaf bg-secondary' : 'border-border bg-card'
-          )}
+        <OptionSurface
+          selected={selected}
+          pad={14}
+          contentStyle={{ minHeight: 64, justifyContent: 'center' }}
         >
-          {leading ? <View className="size-12 items-center justify-center">{leading}</View> : null}
-          <View className="flex-1 gap-1">
-            <Text
-              variant="bodyLarge"
-              className={cn('font-sans-semibold', selected && 'text-secondary-foreground')}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+            {leading ? <View style={{ width: 48, alignItems: 'center' }}>{leading}</View> : null}
+            <View style={{ flex: 1, gap: 2 }}>
+              <Text variant="bodyLarge" style={{ color: colors.forest, fontWeight: '600' }}>
+                {title}
+              </Text>
+              {subtitle ? (
+                <Text variant="callout" style={{ color: colors.muted, fontWeight: '400' }}>
+                  {subtitle}
+                </Text>
+              ) : null}
+            </View>
+            <View
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: multi ? 10 : 14,
+                borderWidth: 2,
+                borderColor: selected ? colors.leaf : colors.hairline,
+                backgroundColor: selected ? colors.leaf : 'transparent',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              {title}
-            </Text>
-            {subtitle ? <Text variant="caption">{subtitle}</Text> : null}
+              {selected ? <Icon as={Check} size={16} weight="bold" color={colors.onPrimary} /> : null}
+            </View>
           </View>
-          <View
-            className={cn(
-              'size-7 items-center justify-center border-2',
-              multi ? 'rounded-lg' : 'rounded-full',
-              selected ? 'border-leaf bg-leaf' : 'border-border bg-transparent'
-            )}
-          >
-            {selected ? <Icon as={Check} size={16} weight="bold" className="text-onLeaf" /> : null}
-          </View>
-        </Pressable>
-      </MotiView>
+        </OptionSurface>
+      </Pressable>
     </FadeUp>
   );
 }

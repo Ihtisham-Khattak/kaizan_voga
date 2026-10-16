@@ -85,7 +85,7 @@ function Summary() {
   const insets = useSafeAreaInsets();
   const prefs = usePrefsStore();
   const routine = firstSession();
-  // the person whose story is closest to the user's first goal (falls back to Arfa, the beginner's way in)
+  // the person whose story is closest to the user's first goal (falls back to Arif, the beginner's way in)
   const like = (goalCharacter[prefs.goals[0] ?? ''] ?? 'arfa') as Exclude<CharacterName, 'kai'>;
   const order = weekdayOrder();
 

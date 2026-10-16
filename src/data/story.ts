@@ -90,7 +90,7 @@ export const scenes: SceneConfig[] = [
       { speaker: 'hamid', textKey: 'story.s2.hamid', delayMs: 700 + BUBBLE_STAGGER_MS, tail: 'start' },
     ],
   },
-  // 3 — Arfa arrives (warm light enters)
+  // 3 — Arif arrives (warm light enters)
   {
     id: 3,
     ambient: { light: [art.cF4E6CB, art.cFAF3E3], dark: [art.warmNight, art.c1A1A14] },
@@ -124,7 +124,7 @@ export const scenes: SceneConfig[] = [
     props: [],
     bubbles: [],
   },
-  // 5 — Arfa's story (Before / Now)
+  // 5 — Arif's story (Before / Now)
   {
     id: 5,
     ambient: { light: [art.cE9E3D3, art.cFAF0DC], dark: [art.c1D2320, art.warmNight] },

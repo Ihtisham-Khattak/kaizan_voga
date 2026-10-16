@@ -35,7 +35,7 @@ function resolvePose(name: CharacterName, pose: Pose): HumanPose | KaiPose {
   return pose === 'celebrate' ? 'wave' : 'stand';
 }
 
-const DISPLAY = { hina: 'Hina', arfa: 'Arfa', hamid: 'Hamid', sierra: 'Sierra', kai: 'Kai' } as const;
+const DISPLAY = { hina: 'Hina', arfa: 'Arif', hamid: 'Hamid', sierra: 'Sarah', kai: 'Kai' } as const;
 
 export interface CharacterProps {
   name: CharacterName;
@@ -57,7 +57,7 @@ export interface CharacterProps {
 
 /**
  * THE character component. Every screen uses this – characters are never redrawn per screen,
- * which is what keeps Hina, Arfa, Hamid, Sierra and Kai identical everywhere.
+ * which is what keeps Hina, Arif, Hamid, Sarah and Kai identical everywhere.
  */
 export function Character({
   name,

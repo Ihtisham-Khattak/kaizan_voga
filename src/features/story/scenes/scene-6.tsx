@@ -55,7 +55,7 @@ export function Scene6({ width, height }: SceneProps) {
               distance={40}
               style={{ marginHorizontal: -6 }}
             >
-              <CharacterAvatar name={c.id} size={84} ring />
+              <CharacterAvatar name={c.id} size={84} ring mood="happy" />
             </Entrance>
           ))}
         </View>

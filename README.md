@@ -68,14 +68,14 @@ flowchart LR
 
 ### Step 1: The story (7 scenes, about a minute)
 
-An illustrated, swipeable intro ([`src/app/(story)`](src/app/(story)), [`src/features/story`](src/features/story)). Swipe, tap *Next*, or *Skip* at any time; the Android back button steps back one scene.
+An illustrated, swipeable intro ([`src/app/(story)`](src/app/(story)), [`src/features/story`](src/features/story)). Swipe, tap *Next*, use the pulsing arrow on the screen edge (forward on the first scene, both ways in the middle, back on the last), or *Skip* at any time; the Android back button steps back one scene. A "Step n of 7" line at the bottom shows where you are.
 
 | # | Scene | What it tells you |
 |---|---|---|
 | 1 | **Welcome** | Kai, the leaf‑sprout guide, says hello. *Begin* or *I already have an account*. |
 | 2 | **Sound familiar?** | Three people voice the problems the app exists for: stiff back, stuck neck, can't switch off. |
 | 3 | **You're not alone** | They realise they all feel the same. Stress and stiffness are common. |
-| 4 | **Meet Arfa** | Someone who started where you are arrives and explains the 3‑minute idea. |
+| 4 | **Meet Arif** | Someone who started where you are arrives and explains the 3‑minute idea. |
 | 5 | **Four ways in** | Pick the person who sounds most like you and see their before/after, what they started with, and what they would tell you. |
 | 6 | **Your 30‑day path** | The shape of the journey: *Learn to breathe → Find your rhythm → Make it yours*. |
 | 7 | **What brings you here?** | Choose your goals (stress, back/neck, sleep, focus, flexibility, balance). This is also step 1 of personalization. |
@@ -85,6 +85,8 @@ An illustrated, swipeable intro ([`src/app/(story)`](src/app/(story)), [`src/fea
 One question per screen, always skippable **except the two that protect you** ([`src/features/onboarding/steps.ts`](src/features/onboarding/steps.ts)).
 
 `Goals → Experience → Time per day → Schedule → Movement preferences → Equipment → Accessibility needs → Voice & music → Age 🔒 → Safety 🔒 → Reminders → Your plan`
+
+Two screens do more than ask. **"When would you like to practice?"** changes its background to match your answer (green morning, blue afternoon, lavender evening). **"How would you like to be guided?"** plays real sound: tap a voice to hear a sample, switch on the music, or pick rain, forest or soft piano, and they mix. Sound stops when you leave the screen.
 
 🔒 = required. Under‑18s are redirected to a dedicated screen. The last step reveals **your plan**: focus areas, daily minutes, best time, practice days, your first session, and "someone with a goal like yours" with what they started with.
 
@@ -157,14 +159,14 @@ Skeleton loaders, empty states, an offline banner, full‑screen and inline erro
 
 ## 4. The people you meet
 
-The app's stories are told by four people and one guide. Their look and story are defined in [`docs/character-bible.md`](docs/character-bible.md); the portraits live in [`assets/images/people`](assets/images/people).
+The app's stories are told by four people and one guide. Their look and story are defined in [`docs/character-bible.md`](docs/character-bible.md); the portraits live in [`assets/images/people`](assets/images/people): a worried "before" and a happy "after" image for each person, used side by side in *Four ways in* and for happy avatars.
 
 | | Who | Their story | Colour |
 |---|---|---|---|
 | 🟣 | **Hina** | Back‑to‑back days at the office; a stuck neck by 3 pm. Starts with a 3‑minute desk reset. | Lilac |
-| 🟢 | **Arfa** | The one who has been there: scared to start, found a 3‑minute version with no pressure. The app's guide‑in‑the‑story. | Teal |
+| 🟢 | **Arif** | The one who has been there: scared to start, found a 3‑minute version with no pressure. The app's guide‑in‑the‑story. | Teal |
 | 🟡 | **Hamid** | Ten hours at a desk; a stiff back. Starts with a desk‑neck reset. | Mustard |
-| 🟠 | **Sierra** | Evenings spent scrolling; restless nights. Starts with an evening wind‑down. | Coral |
+| 🟠 | **Sarah** | Evenings spent scrolling; restless nights. Starts with an evening wind‑down. | Coral |
 | 🌱 | **Kai** | The leaf‑sprout companion who reacts to your mood, celebrates your sessions and appears in every empty or error state. | Sage |
 
 They return across the app: the *Practice with…* suggestions on routine and program pages, your profile companion, the plan reveal, and reflections. They are illustrated characters, **not real people**.
@@ -280,6 +282,8 @@ A fresh install starts at the story. To look at components without clicking thro
 
 ### Build an Android APK locally
 
+Bump `version` (1.1.0 → 1.2.0 …) and `android.versionCode` in `app.json`, then run `npm run apk`. The APK is named after the version. Or by hand:
+
 ```bash
 cd android
 ANDROID_HOME=$HOME/Android ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a
@@ -297,6 +301,8 @@ Install it with `adb install --user 0 -r app-release.apk`. The `arm64-v8a` build
 | `npm run lint` | ESLint via Expo |
 | `npm run validate:data` | Checks that content references (poses in routines, ids, levels) are consistent |
 | `npm run audit:copy` | Scans English copy for banned medical or absolute claims |
+| `python3 scripts/make-sounds.py` | Regenerates the original sound loops in `assets/audio` (rain, forest, soft piano, music). Replace with recorded audio before release. |
+| `npm run apk` | Builds the release APK as `dist-apk/KaizenYoga-<version>.apk`. Bump `version` (minor) and `android.versionCode` in `app.json` first. |
 | `npm run theme:sync` | Regenerates Tailwind tokens and `global.css` from `src/theme` |
 
 ---

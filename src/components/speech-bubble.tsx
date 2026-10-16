@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils';
 import { spring } from '@/theme/motion';
 
 const DISPLAY_NAME: Record<CharacterName, string> = {
-  arfa: 'Arfa',
+  arfa: 'Arif',
   hamid: 'Hamid',
   hina: 'Hina',
-  sierra: 'Sierra',
+  sierra: 'Sarah',
   kai: 'Kai',
 };
 

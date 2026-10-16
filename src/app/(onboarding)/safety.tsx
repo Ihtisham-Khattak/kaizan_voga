@@ -41,7 +41,7 @@ export default function SafetyScreen() {
       <View className="gap-4 rounded-card border border-danger/30 bg-bgMist p-6">
         {ROWS.map((r, i) => (
           <FadeUp key={r.key} delay={150 + i * 120} distance={10} className="flex-row items-start gap-3">
-            <View className="size-10 items-center justify-center rounded-full bg-card">
+            <View className="size-10 items-center justify-center rounded-full bg-mint">
               <Icon as={r.icon} size={22} weight="duotone" className="text-primary" />
             </View>
             <Text variant="body" className="flex-1">

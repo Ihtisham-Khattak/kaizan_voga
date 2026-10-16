@@ -1,15 +1,14 @@
 import { Check } from 'phosphor-react-native';
-import { MotiView } from 'moti';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { FadeUp } from '@/components/fade-up';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { haptic } from '@/lib/haptics';
-import { cn } from '@/lib/utils';
-import { spring } from '@/theme/motion';
+import { useTheme } from '@/theme/theme-provider';
+
+import { OptionSurface } from './option-surface';
 
 interface Props {
   label: string;
@@ -35,46 +34,58 @@ export function ChoiceTile({
   index = 0,
   widthPct = 48,
 }: Props) {
-  const reduce = useReduceMotion();
+  const { colors } = useTheme();
   return (
     <FadeUp delay={120 + index * 70} distance={18} style={{ width: `${widthPct}%` }}>
-      <MotiView
-        animate={{ scale: selected && !reduce ? 1.03 : 1 }}
-        transition={{ type: 'spring', ...spring.gentle }}
+      <Pressable
+        role={multi ? 'checkbox' : 'radio'}
+        aria-checked={selected}
+        accessibilityState={{ checked: selected }}
+        accessibilityLabel={sublabel ? `${label}. ${sublabel}` : label}
+        onPress={() => {
+          haptic.select();
+          onPress();
+        }}
+        style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
       >
-        <Pressable
-          role={multi ? 'checkbox' : 'radio'}
-          aria-checked={selected}
-          accessibilityState={{ checked: selected }}
-          accessibilityLabel={sublabel ? `${label}. ${sublabel}` : label}
-          onPress={() => {
-            haptic.select();
-            onPress();
-          }}
-          className={cn(
-            'min-h-[132px] items-center justify-center gap-2 rounded-card border-2 px-3 py-4 active:opacity-90',
-            selected ? 'border-leaf bg-secondary' : 'border-border bg-card'
-          )}
+        <OptionSurface
+          selected={selected}
+          pad={12}
+          contentStyle={{ minHeight: 132, alignItems: 'center', justifyContent: 'center' }}
         >
-          <View className="h-[72px] items-center justify-center">{leading}</View>
-          <Text
-            variant="bodyLarge"
-            className={cn('text-center font-sans-semibold', selected && 'text-secondary-foreground')}
-          >
-            {label}
-          </Text>
-          {sublabel ? (
-            <Text variant="caption" className="text-center">
-              {sublabel}
+          <View style={{ alignItems: 'center', gap: 8 }}>
+            <View style={{ height: 72, alignItems: 'center', justifyContent: 'center' }}>{leading}</View>
+            <Text
+              variant="bodyLarge"
+              style={{ color: colors.forest, fontWeight: '600', textAlign: 'center' }}
+            >
+              {label}
             </Text>
-          ) : null}
+            {sublabel ? (
+              <Text variant="callout" style={{ color: colors.muted, textAlign: 'center' }}>
+                {sublabel}
+              </Text>
+            ) : null}
+          </View>
           {selected ? (
-            <View className="absolute end-2 top-2 size-6 items-center justify-center rounded-full bg-leaf">
-              <Icon as={Check} size={14} weight="bold" className="text-onLeaf" />
+            <View
+              style={{
+                position: 'absolute',
+                end: 8,
+                top: 8,
+                width: 24,
+                height: 24,
+                borderRadius: 12,
+                backgroundColor: colors.leaf,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon as={Check} size={14} weight="bold" color={colors.onPrimary} />
             </View>
           ) : null}
-        </Pressable>
-      </MotiView>
+        </OptionSurface>
+      </Pressable>
     </FadeUp>
   );
 }

@@ -31,9 +31,12 @@ export function SceneScroll({
   top = 72,
   cta,
   bottomPad,
+  bandColor,
 }: {
   children: ReactNode;
   top?: number;
+  /** Colour of the fade band under the pinned CTA. Defaults to the story background; token screens pass `colors.bg`. */
+  bandColor?: string;
   /** Extra space under the scrolling content (defaults to clear the pinned CTA). */
   bottomPad?: number;
   /** Primary action, pinned above the progress dots (never pushed below the fold). */
@@ -61,7 +64,7 @@ export function SceneScroll({
       {cta ? (
         <LinearGradient
           pointerEvents="none"
-          colors={[sc.bg + '00', sc.bg, sc.bg]}
+          colors={[(bandColor ?? sc.bg) + '00', bandColor ?? sc.bg, bandColor ?? sc.bg]}
           locations={[0, 0.28, 1]}
           style={{ position: 'absolute', start: 0, end: 0, bottom: 0, height: band }}
         />

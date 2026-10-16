@@ -45,7 +45,7 @@ export function Bench({ width = 340, muted = false }: { width?: number; muted?: 
 // ───────────────────────── Thought icons ─────────────────────────
 export type ThoughtKind = 'hamid' | 'hina' | 'sierra';
 
-/** Small thought bubble above a person: Hamid laptop + clock, Hina a packed calendar + clock, Sierra moon + swirls. */
+/** Small thought bubble above a person: Hamid laptop + clock, Hina a packed calendar + clock, Sarah moon + swirls. */
 export function ThoughtIcon({ kind, size = 84 }: { kind: ThoughtKind; size?: number }) {
   const { colors } = useTheme();
   const ink = colors.ink;

@@ -5,6 +5,7 @@ import { Platform, Pressable, View } from 'react-native';
 
 import { Character } from '@/characters/character';
 import { FadeUp } from '@/components/fade-up';
+import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
@@ -92,41 +93,43 @@ export default function RemindersScreen() {
         </Text>
       </View>
 
-      <FadeUp delay={200} className="gap-4 rounded-card border border-border bg-card p-4">
-        <View className="flex-row items-center justify-between gap-3">
-          <Text variant="label">{t('onboardingR.reminders.time')}</Text>
+      <FadeUp delay={200}>
+        <GlassCard strong contentStyle={{ padding: 16, gap: 16 }}>
+          <View className="flex-row items-center justify-between gap-3">
+            <Text variant="label">{t('onboardingR.reminders.time')}</Text>
+            <View className="flex-row items-center gap-3">
+              <StepButton
+                label={t('onboardingR.reminders.earlier')}
+                onPress={() => setTime(addMinutes(reminder.time, -30))}
+              >
+                <Icon as={Minus} size={18} weight="bold" />
+              </StepButton>
+              <Text variant="heading" className="min-w-[88px] text-center" accessibilityLiveRegion="polite">
+                {formatClock(reminder.time, locale)}
+              </Text>
+              <StepButton
+                label={t('onboardingR.reminders.later')}
+                onPress={() => setTime(addMinutes(reminder.time, 30))}
+              >
+                <Icon as={Plus} size={18} weight="bold" />
+              </StepButton>
+            </View>
+          </View>
+          <View className="h-px bg-hairline" />
           <View className="flex-row items-center gap-3">
-            <StepButton
-              label={t('onboardingR.reminders.earlier')}
-              onPress={() => setTime(addMinutes(reminder.time, -30))}
-            >
-              <Icon as={Minus} size={18} weight="bold" />
-            </StepButton>
-            <Text variant="heading" className="min-w-[88px] text-center" accessibilityLiveRegion="polite">
-              {formatClock(reminder.time, locale)}
-            </Text>
-            <StepButton
-              label={t('onboardingR.reminders.later')}
-              onPress={() => setTime(addMinutes(reminder.time, 30))}
-            >
-              <Icon as={Plus} size={18} weight="bold" />
-            </StepButton>
+            <View className="flex-1">
+              <Text variant="label">{t('onboardingR.reminders.quiet')}</Text>
+              <Text variant="caption">{`${formatClock(reminder.quietHours.from, locale)} – ${formatClock(reminder.quietHours.to, locale)}`}</Text>
+            </View>
+            <Switch
+              checked={reminder.quietHours.enabled}
+              onCheckedChange={(v) =>
+                patch({ reminder: { ...reminder, quietHours: { ...reminder.quietHours, enabled: v } } })
+              }
+              accessibilityLabel={t('onboardingR.reminders.quiet')}
+            />
           </View>
-        </View>
-        <View className="h-px bg-border" />
-        <View className="flex-row items-center gap-3">
-          <View className="flex-1">
-            <Text variant="label">{t('onboardingR.reminders.quiet')}</Text>
-            <Text variant="caption">{`${formatClock(reminder.quietHours.from, locale)} – ${formatClock(reminder.quietHours.to, locale)}`}</Text>
-          </View>
-          <Switch
-            checked={reminder.quietHours.enabled}
-            onCheckedChange={(v) =>
-              patch({ reminder: { ...reminder, quietHours: { ...reminder.quietHours, enabled: v } } })
-            }
-            accessibilityLabel={t('onboardingR.reminders.quiet')}
-          />
-        </View>
+        </GlassCard>
       </FadeUp>
     </PersonalizationShell>
   );

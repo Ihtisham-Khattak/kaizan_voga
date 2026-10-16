@@ -1,29 +1,46 @@
-import { CheckCircle, Leaf, MinusCircle, Quotes, Sparkle } from 'phosphor-react-native';
+import { CaretRight, CheckCircle, Leaf, MinusCircle, Quotes, Sparkle } from 'phosphor-react-native';
 import { MotiView } from 'moti';
 import { useState } from 'react';
-import { Pressable, useWindowDimensions, View } from 'react-native';
+import { I18nManager, Pressable, useWindowDimensions, View } from 'react-native';
 
-import type { CharacterName } from '@/characters/palette';
+import { signature, type CharacterName } from '@/characters/palette';
+import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
+import { GlassCard } from '@/components/glass-card';
 import { PersonPhoto } from '@/components/person-photo';
+import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
-import { signature } from '@/characters/palette';
-import { useStoryColors } from '@/theme/story';
+import { useTheme } from '@/theme/theme-provider';
 
-import { SceneCTA, SceneScroll } from '../stage';
+import { SceneScroll } from '../stage';
 import type { SceneProps } from '../types';
 
 type Who = Exclude<CharacterName, 'kai'>;
 const WHO: Who[] = ['hina', 'arfa', 'hamid', 'sierra'];
 const KEYS = ['1', '2', '3'] as const;
 
+const FRAME_H = 176;
+
+/** One side of the story card: the person's portrait, worried before and happy with Kaizen. */
+function Frame({ who, kind, bg }: { who: Who; kind: 'before' | 'after'; bg: string }) {
+  const [w, setW] = useState(140);
+  return (
+    <View
+      onLayout={(e) => setW(e.nativeEvent.layout.width)}
+      style={{ height: FRAME_H, borderRadius: 12, overflow: 'hidden', backgroundColor: bg }}
+    >
+      <PersonPhoto person={who} variant={kind} width={w} height={FRAME_H} faceAt={0.3} />
+    </View>
+  );
+}
+
 function Panel({ who, kind }: { who: Who; kind: 'before' | 'after' }) {
   const { t } = useT();
-  const sc = useStoryColors();
+  const { colors } = useTheme();
   const before = kind === 'before';
   const label = before ? t('story.s5.before') : t('story.s5.now');
   const texts = KEYS.map((k) => t(`story.s5.people.${who}.${before ? 'b' : 'a'}${k}`));
@@ -33,10 +50,10 @@ function Panel({ who, kind }: { who: Who; kind: 'before' | 'after' }) {
       accessibilityLabel={`${label}. ${texts.join('. ')}`}
       style={{
         flex: 1,
-        backgroundColor: before ? sc.beforeBg : sc.afterBg,
+        backgroundColor: before ? colors.bgMist : colors.mint,
         padding: 12,
-        gap: 14,
-        borderRadius: 4,
+        gap: 12,
+        borderRadius: 20,
       }}
     >
       <View
@@ -45,22 +62,24 @@ function Panel({ who, kind }: { who: Who; kind: 'before' | 'after' }) {
           borderRadius: 999,
           paddingHorizontal: 12,
           paddingVertical: 4,
-          backgroundColor: before ? sc.circleBg : sc.button,
+          backgroundColor: before ? colors.hairline : colors.primary,
         }}
       >
-        <Text variant="callout" style={{ color: before ? sc.body : sc.buttonText }}>
+        <Text variant="callout" style={{ color: before ? colors.muted : colors.onPrimary }}>
           {label}
         </Text>
       </View>
-      <View style={{ gap: 12 }}>
+      <Frame who={who} kind={kind} bg={before ? colors.hairline : colors.mint} />
+      <View style={{ gap: 10 }}>
         {texts.map((text, i) => (
           <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+            {/* `danger` is for safety messages only (UI_Build.md), so "before" uses a quiet muted minus */}
             <Icon
               as={before ? MinusCircle : CheckCircle}
-              size={22}
-              color={before ? sc.negative : sc.positive}
+              size={20}
+              color={before ? colors.muted : colors.leaf}
             />
-            <Text variant="callout" style={{ flex: 1, color: sc.body }}>
+            <Text variant="callout" style={{ flex: 1, color: colors.ink }}>
               {text}
             </Text>
           </View>
@@ -70,10 +89,13 @@ function Panel({ who, kind }: { who: Who; kind: 'before' | 'after' }) {
   );
 }
 
-/** Four ways in: pick the person who sounds most like you and see their before / after, what they started with, and what they would tell you. */
+/**
+ * Four ways in — pick the person who sounds most like you; their story (before / with Kaizen), what they started
+ * with, and what they would tell you. Built strictly on the docs/UI_Build.md tokens.
+ */
 export function Scene5({ controls, width }: SceneProps) {
   const { t } = useT();
-  const sc = useStoryColors();
+  const { colors } = useTheme();
   const { fontScale } = useWindowDimensions();
   const [who, setWho] = useState<Who>('hina');
   const w = Math.min(width - 32, 440);
@@ -81,211 +103,169 @@ export function Scene5({ controls, width }: SceneProps) {
   const p = (k: string) => t(`story.s5.people.${who}.${k}`);
 
   return (
-    <SceneScroll cta={<SceneCTA label={t('story.s5.cta')} onPress={controls.next} delay={1800} />}>
-      <View style={{ width: w, gap: 18, alignItems: 'center' }}>
-        <FadeUp className="items-center gap-3">
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 8,
-              borderRadius: 999,
-              paddingHorizontal: 16,
-              paddingVertical: 8,
-              backgroundColor: sc.chipBg,
-            }}
-          >
-            <Icon as={Leaf} size={18} weight="duotone" color={sc.chipText} />
-            <Text variant="overline" style={{ color: sc.chipText }}>
-              {t('story.s5.chip')}
-            </Text>
-          </View>
-          <Text
-            variant="display"
-            className="text-center"
-            style={{ color: sc.title }}
-            accessibilityRole="header"
-          >
-            {t('story.s5.title')}
-          </Text>
-          <Text variant="bodyLarge" className="text-center" style={{ color: sc.muted }}>
-            {t('story.s5.subtitle')}
-          </Text>
-        </FadeUp>
-
-        {/* who sounds like you? */}
-        <FadeUp delay={150} style={{ width: '100%' }}>
-          <View
-            role="radiogroup"
-            style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
-          >
-            {WHO.map((id) => {
-              const on = id === who;
-              return (
-                <Pressable
-                  key={id}
-                  role="radio"
-                  aria-checked={on}
-                  accessibilityLabel={t('story.s5.storyOf', { name: t(`story.s5.people.${id}.name`) })}
-                  onPress={() => {
-                    haptic.select();
-                    setWho(id);
-                  }}
-                  style={{ alignItems: 'center', gap: 6, width: 78 }}
-                >
-                  <View
-                    style={{
-                      padding: 3,
-                      borderRadius: 40,
-                      borderWidth: 3,
-                      borderColor: on ? signature[id] : 'transparent',
-                      backgroundColor: on ? sc.card : 'transparent',
-                    }}
-                  >
-                    <CharacterAvatar name={id} size={58} mood={on ? 'happy' : 'neutral'} />
-                  </View>
-                  <Text
-                    variant="callout"
-                    style={{ color: on ? sc.title : sc.muted, fontWeight: on ? '700' : '500' }}
-                  >
-                    {t(`story.s5.people.${id}.name`)}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        </FadeUp>
-
-        <MotiView
-          key={who}
-          from={{ opacity: 0, translateY: 8 }}
-          animate={{ opacity: 1, translateY: 0 }}
-          transition={{ type: 'timing', duration: 320 }}
-          style={{ width: '100%', gap: 16 }}
-        >
-          {/* their portrait, in their colour */}
-          <View
-            style={{
-              width: '100%',
-              borderRadius: 36,
-              borderWidth: 4,
-              borderColor: signature[who],
-              overflow: 'hidden',
-              backgroundColor: signature[who] + '33',
-            }}
-          >
-            <PersonPhoto person={who} width={w - 8} height={Math.min(240, (w - 8) * 0.64)} faceAt={0.36} />
+    <>
+      <AuroraBackground />
+      <SceneScroll
+        top={90}
+        bandColor={colors.bg}
+        cta={
+          <FadeUp delay={1200} style={{ width: '100%', maxWidth: 420 }}>
+            <Button size="lg" onPress={controls.next} accessibilityLabel={t('story.s5.cta')}>
+              <Text>{t('story.s5.cta')}</Text>
+              <Icon
+                as={CaretRight}
+                size={18}
+                weight="bold"
+                color={colors.onPrimary}
+                style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
+              />
+            </Button>
+          </FadeUp>
+        }
+      >
+        <View style={{ width: w, gap: 14 }}>
+          <FadeUp style={{ gap: 12, alignItems: 'flex-start' }}>
             <View
               style={{
-                position: 'absolute',
-                start: 12,
-                bottom: 12,
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 8,
                 borderRadius: 999,
-                paddingHorizontal: 14,
+                paddingHorizontal: 12,
                 paddingVertical: 6,
-                backgroundColor: sc.card,
+                backgroundColor: colors.mint,
               }}
             >
-              <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: signature[who] }} />
-              <Text variant="callout" style={{ color: sc.title, fontWeight: '700' }}>
-                {p('name')}
+              <Icon as={Leaf} size={16} weight="duotone" color={colors.leaf} />
+              <Text variant="overline" style={{ color: colors.forest }}>
+                {t('story.s5.chip')}
               </Text>
             </View>
-          </View>
-
-          <Text variant="title3" className="px-2 text-center font-display-medium" style={{ color: sc.body }}>
-            {`“${p('tag')}”`}
-          </Text>
-
-          <View
-            style={{
-              width: '100%',
-              backgroundColor: sc.card,
-              borderRadius: 36,
-              borderWidth: 1,
-              borderColor: sc.cardBorder,
-              padding: 14,
-              overflow: 'hidden',
-              flexDirection: sideBySide ? 'row' : 'column',
-              gap: 12,
-            }}
-          >
-            <View style={{ flex: sideBySide ? 1 : undefined, borderRadius: 20, overflow: 'hidden' }}>
-              <Panel who={who} kind="before" />
-            </View>
-            <View style={{ flex: sideBySide ? 1 : undefined, borderRadius: 20, overflow: 'hidden' }}>
-              <Panel who={who} kind="after" />
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-              backgroundColor: sc.afterBg,
-              borderRadius: 20,
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-            }}
-          >
-            <Icon as={Sparkle} size={20} weight="fill" color={sc.positive} />
-            <Text variant="callout" style={{ flex: 1, color: sc.body }}>
-              <Text variant="callout" style={{ color: sc.muted }}>{`${t('story.s5.started')}: `}</Text>
-              {p('started')}
+            <Text variant="display" accessibilityRole="header" style={{ color: colors.forest }}>
+              {t('story.s5.title')}
             </Text>
-          </View>
+            <Text variant="bodyLarge" style={{ color: colors.muted }}>
+              {t('story.s5.subtitle')}
+            </Text>
+          </FadeUp>
 
-          <View
-            style={{
-              backgroundColor: sc.noteBg,
-              borderRadius: 24,
-              padding: 16,
-              flexDirection: 'row',
-              gap: 14,
-            }}
+          {/* who sounds like you? */}
+          <FadeUp delay={150}>
+            <View role="radiogroup" style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              {WHO.map((id) => {
+                const on = id === who;
+                return (
+                  <Pressable
+                    key={id}
+                    role="radio"
+                    aria-checked={on}
+                    accessibilityLabel={t('story.s5.storyOf', { name: t(`story.s5.people.${id}.name`) })}
+                    onPress={() => {
+                      haptic.select();
+                      setWho(id);
+                    }}
+                    style={{ alignItems: 'center', gap: 6, width: 78 }}
+                  >
+                    <View
+                      style={{
+                        padding: 3,
+                        borderRadius: 40,
+                        borderWidth: 3,
+                        borderColor: on ? signature[id] : 'transparent',
+                      }}
+                    >
+                      <CharacterAvatar name={id} size={58} />
+                    </View>
+                    <Text
+                      variant="callout"
+                      style={{ color: on ? colors.forest : colors.muted, fontWeight: on ? '700' : '500' }}
+                    >
+                      {t(`story.s5.people.${id}.name`)}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </FadeUp>
+
+          <MotiView
+            key={who}
+            from={{ opacity: 0, translateY: 8 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{ type: 'timing', duration: 320 }}
+            style={{ gap: 14 }}
           >
+            <Text variant="title3" style={{ color: colors.forest }}>
+              {`“${p('tag')}”`}
+            </Text>
+
+            {/* their story: before / with Kaizen */}
+            <GlassCard
+              radius="hero"
+              contentStyle={{ padding: 12, gap: 12, flexDirection: sideBySide ? 'row' : 'column' }}
+            >
+              <Panel who={who} kind="before" />
+              <Panel who={who} kind="after" />
+            </GlassCard>
+
             <View
               style={{
-                width: 52,
-                height: 52,
-                borderRadius: 26,
-                backgroundColor: sc.circleBg,
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
+                gap: 10,
+                backgroundColor: colors.mint,
+                borderRadius: 20,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
               }}
             >
-              <Icon as={Quotes} size={24} weight="fill" color={sc.title} />
-            </View>
-            <View style={{ flex: 1, gap: 8 }}>
-              <Text variant="bodyLarge" style={{ color: sc.body, fontStyle: 'italic' }}>
-                {`“${p('message')}”`}
+              <Icon as={Sparkle} size={20} weight="fill" color={colors.leaf} />
+              <Text variant="callout" style={{ flex: 1, color: colors.forest }}>
+                <Text variant="callout" style={{ color: colors.muted }}>{`${t('story.s5.started')}: `}</Text>
+                {p('started')}
               </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <View
-                  style={{
-                    width: 22,
-                    height: 3,
-                    borderRadius: 2,
-                    backgroundColor: sc.positive,
-                    opacity: 0.6,
-                  }}
-                />
-                <Text variant="callout" style={{ color: sc.body, flex: 1 }}>
-                  {p('author')}
+            </View>
+
+            <View
+              style={{
+                backgroundColor: colors.bgMist,
+                borderRadius: 20,
+                padding: 16,
+                flexDirection: 'row',
+                gap: 14,
+              }}
+            >
+              <View
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 22,
+                  backgroundColor: colors.mint,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Icon as={Quotes} size={22} weight="fill" color={colors.leaf} />
+              </View>
+              <View style={{ flex: 1, gap: 8 }}>
+                <Text variant="bodyLarge" style={{ color: colors.ink }}>
+                  {`“${p('message')}”`}
                 </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <View style={{ width: 22, height: 3, borderRadius: 2, backgroundColor: colors.leaf }} />
+                  <Text variant="callout" style={{ color: colors.forest, flex: 1 }}>
+                    {p('author')}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        </MotiView>
+          </MotiView>
 
-        <Text variant="footnote" className="text-center" style={{ color: sc.muted }}>
-          {t('story.s5.illustrated')}
-        </Text>
-      </View>
-    </SceneScroll>
+          <Text variant="footnote" style={{ color: colors.muted, textAlign: 'center' }}>
+            {t('story.s5.illustrated')}
+          </Text>
+        </View>
+      </SceneScroll>
+    </>
   );
 }

@@ -15,7 +15,7 @@ export type Limitation = 'balance' | 'knee' | 'wrist' | 'chair-only' | 'avoid-fl
 export type VoicePreference = 'female' | 'male' | 'none';
 export type Ambience = 'rain' | 'forest' | 'piano' | 'none';
 
-/** Same vocabulary as the character `mood` prop so MoodPicker faces match Arfa & friends. */
+/** Same vocabulary as the character `mood` prop so MoodPicker faces match Arif & friends. */
 export type Mood = 'stressed' | 'tired' | 'neutral' | 'calm' | 'happy';
 export const MOODS: readonly Mood[] = ['stressed', 'tired', 'neutral', 'calm', 'happy'] as const;
 export const moodScore = (m: Mood) => MOODS.indexOf(m) + 1;

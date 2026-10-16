@@ -1,4 +1,8 @@
-# Kaizen Yoga — Character Bible: Hina, Arfa, Hamid, Sierra
+# Kaizen Yoga — Character Bible: Hina, Arif, Hamid, Sarah
+
+> Naming note: Arif was originally called Arfa and was written as a woman; the portrait supplied for this slot is a man, so the display name and the Urdu copy now follow him. The internal id in code is still `arfa`. Section 4's visual description (teal cardigan, braid) is the old illustrated version.
+>
+> Naming note: Sarah was originally called Sierra. Only the display name changed; the internal id in code is still `sierra` (so saved avatar choices keep working).
 
 Status: **implemented (first pass)** on the in-house vector art, using the defaults listed in section 12. Sections 1–11 are the original proposal.
 Written for: the product owner and the design team.
@@ -86,7 +90,7 @@ The brief asks for realistic people, "not generic fitness ads". The current art 
 
 ---
 
-## 4. Arfa
+## 4. Arif
 
 **One line:** Curious and a bit shy; afraid of looking clumsy, so she never started.
 
@@ -144,7 +148,7 @@ The brief asks for realistic people, "not generic fitness ads". The current art 
 
 ---
 
-## 6. Sierra
+## 6. Sarah
 
 **One line:** Her days belong to everyone else; she wants one calm pocket that is hers.
 
@@ -157,7 +161,7 @@ The brief asks for realistic people, "not generic fitness ads". The current art 
 | Goal | Create a small, dependable evening ritual; learn simple breathing and gentle movement; feel more balanced |
 | Signature | Coral (inherits Omar's slot): coral top or scarf, curly or wavy hair worn loose or in a clip |
 
-**Background note:** I have **not** assumed Sierra's ethnicity, nationality or exact job. These stay a design decision for you: pick a skin tone and hair type that sit in the warm palette and make her distinct from the other three.
+**Background note:** I have **not** assumed Sarah's ethnicity, nationality or exact job. These stay a design decision for you: pick a skin tone and hair type that sit in the warm palette and make her distinct from the other three.
 **Look (proposed):** relaxed shoulders but tired eyes, often with a mug. Everyday: coral cardigan or knit, comfortable trousers, lanyard or work bag. Yoga: soft long-sleeved top, leggings, socks, blanket nearby.
 **Environments:** small apartment with a sofa and a lamp, kitchen counter, a bedroom with a phone on the bedside table.
 
@@ -176,7 +180,7 @@ The brief asks for realistic people, "not generic fitness ads". The current art 
 
 ## 7. Visual specification (proposed)
 
-| | Hina | Arfa | Hamid | Sierra |
+| | Hina | Arif | Hamid | Sarah |
 |---|---|---|---|---|
 | Age feel | early 30s | mid 20s | 40ish | early to mid 30s |
 | Build / posture | medium, desk-forward | slim, slightly hunched | sturdy, forward shoulders | average, relaxed but tired |
@@ -197,16 +201,16 @@ Rules: same face, hair and proportions in every scene; mood changes eyebrows and
 
 | Screen (verified to exist) | What changes |
 |---|---|
-| Story scenes 1–2 ("Sound familiar?", "You're not alone") | Replace the three friends with Hina, Hamid and Sierra on the bench, each with a one-line worry. Arfa joins in scene 3. |
-| Story scene 3 (the narrator) | Arfa is the first-person "I felt that too" voice, since she is the one afraid to start. |
+| Story scenes 1–2 ("Sound familiar?", "You're not alone") | Replace the three friends with Hina, Hamid and Sarah on the bench, each with a one-line worry. Arif joins in scene 3. |
+| Story scene 3 (the narrator) | Arif is the first-person "I felt that too" voice, since she is the one afraid to start. |
 | Story: Zara's Story, 30-day path | Becomes "Four ways in": one short before/after card per person (same Before / With Kaizen layout), swipeable. |
-| Goals picker | Map goals to the person who shares them: neck/back and desk work → Hamid; stress, low energy and not enough time → Hina; flexibility and beginner worries → Arfa; sleep, balance and "time for me" → Sierra. |
+| Goals picker | Map goals to the person who shares them: neck/back and desk work → Hamid; stress, low energy and not enough time → Hina; flexibility and beginner worries → Arif; sleep, balance and "time for me" → Sarah. |
 | Plan reveal | Show "People with goals like yours started with…" and one routine. |
 | Profile avatar picker | Offer the four characters (plus Kai) as the user's companion. |
 | Monthly reflection before/now card | Use the chosen companion (currently always Zara). |
 | Routine and program detail | A small "Hina's pick / Hamid's pick" chip with a one-line reason. |
 | Home | Optional: "Today with Hina": one short story card that links to the matching routine. |
-| Empty states | Keep Kai for neutral states. Use a character only where the situation fits (e.g. history empty → Arfa's first-step line). |
+| Empty states | Keep Kai for neutral states. Use a character only where the situation fits (e.g. history empty → Arif's first-step line). |
 | Achievements and challenges | Kai stays the celebrator. Characters appear in the detail sheet quote ("Hina on 'Week one'"). |
 | Reminders and notification previews | Short in-voice lines ("Hamid's 3 o'clock stretch"), optional. |
 
@@ -215,7 +219,7 @@ Rules: same face, hair and proportions in every scene; mood changes eyebrows and
 ## 9. What it takes to build (proposed phases)
 
 **Phase A: Cast and art (largest)**
-- New or revised style configs for Hina, Arfa, Hamid, Sierra (hair shapes, outfits, accessories). Hina gets a new look. Arfa/Hamid/Sierra are new faces, not recolours.
+- New or revised style configs for Hina, Arif, Hamid, Sarah (hair shapes, outfits, accessories). Hina gets a new look. Arif/Hamid/Sarah are new faces, not recolours.
 - New **outfit** option (`everyday` / `yoga`) on `Character`.
 - New **poses**: chair twist, seated neck roll, child's pose, cat-cow, forward fold, wide-leg stretch. Needed to show their routines honestly.
 - New **environments** as SVG props: desk, sofa + lamp, bedroom, living-room corner, bench stays.
@@ -244,17 +248,17 @@ Rough effort for the in-house vector route: Phase A is the bulk, then B and C. R
 If you pick option 2, use these reference-sheet briefs so all four stay consistent. Use the same style line for every one: *"realistic editorial illustration, natural proportions, soft daylight, lived-in room, no beauty filter, no stock-photo gloss, calm green and cream palette."*
 
 - **Hina:** early 30s, dark shoulder-length hair tied with a clip, lavender dupatta, tired attentive eyes, desk with cold tea; yoga outfit: loose tee and leggings, living-room corner.
-- **Arfa:** mid 20s, long wavy hair in a loose braid, teal cardigan, wide thoughtful eyes, hand near mouth; yoga outfit: oversized tee, joggers, wool socks, bedroom floor.
+- **Arif:** mid 20s, long wavy hair in a loose braid, teal cardigan, wide thoughtful eyes, hand near mouth; yoga outfit: oversized tee, joggers, wool socks, bedroom floor.
 - **Hamid:** about 40, short hair, light stubble, round glasses, mustard sweater over collared shirt, sturdy build, natural belly, hand on lower back; yoga outfit: grey tee and track pants, using a chair.
-- **Sierra:** early 30s, wavy or curly hair worn loose, coral knit, soft tired smile, mug in hand; yoga outfit: soft long-sleeve and leggings, sofa and lamp. *(Skin tone and heritage: your decision.)*
+- **Sarah:** early 30s, wavy or curly hair worn loose, coral knit, soft tired smile, mug in hand; yoga outfit: soft long-sleeve and leggings, sofa and lamp. *(Skin tone and heritage: your decision.)*
 
 ---
 
 ## 11. Decisions I need from you
 
-1. **The cast.** Replace Zara, Ali and Omar with Arfa, Hamid and Sierra, and redefine Hina? Or keep some of the current cast alongside?
+1. **The cast.** Replace Zara, Ali and Omar with Arif, Hamid and Sarah, and redefine Hina? Or keep some of the current cast alongside?
 2. **Kai.** Keep him as the guide who celebrates and appears in empty states? (I assume yes.)
-3. **Sierra's background:** skin tone, hair, and any cultural context you want.
+3. **Sarah's background:** skin tone, hair, and any cultural context you want.
 4. **Art route:** option 1, 2 or 3 above. This sets how real the people look and how long the build takes.
 5. **Scope of the first build:** Phase A+B only (story and onboarding), or A+B+C?
 6. **Urdu:** do you want the stories written natively in Urdu first, or English first and then translated and reviewed?
@@ -263,23 +267,23 @@ If you pick option 2, use these reference-sheet briefs so all four stay consiste
 
 ## 12. What was built (first pass)
 
-Defaults used because the open questions in section 11 were not answered: Arfa, Hamid and Sierra replace Zara, Ali and Omar; Hina is redefined; Kai stays as the guide; art stays in-house vector; scope = cast, story and in-app touches.
+Defaults used because the open questions in section 11 were not answered: Arif, Hamid and Sarah replace Zara, Ali and Omar; Hina is redefined; Kai stays as the guide; art stays in-house vector; scope = cast, story and in-app touches.
 
 **Characters (`src/characters`)**
-- Four new styles in `art/styles.ts`: Hina (ponytail with clip, lilac dupatta, office lanyard), Arfa (long braid, teal cardigan, studs), Hamid (round glasses, grey temples, stubble, mustard sweater over a collar, sturdier build), Sierra (loose curls, coral knit cardigan, hoops). Each has a `yoga` outfit. Same face, hair and skin in both outfits.
+- Four new styles in `art/styles.ts`: Hina (ponytail with clip, lilac dupatta, office lanyard), Arif (long braid, teal cardigan, studs), Hamid (round glasses, grey temples, stubble, mustard sweater over a collar, sturdier build), Sarah (loose curls, coral knit cardigan, hoops). Each has a `yoga` outfit. Same face, hair and skin in both outfits.
 - `Character` takes `outfit="everyday" | "yoga"`. Two new poses: `reach` (arms overhead) and `sideReach`.
 - `settings.tsx`: three lived-in rooms (office desk, sofa and lamp, bedroom floor with rug).
-- New thought bubble for Hina (calendar and clock). Sierra uses the moon bubble, Hamid the laptop and clock.
-- Skin tones and Sierra's hair are placeholders pending your decision (section 11, item 3).
+- New thought bubble for Hina (calendar and clock). Sarah uses the moon bubble, Hamid the laptop and clock.
+- Skin tones and Sarah's hair are placeholders pending your decision (section 11, item 3).
 
 **Story**
-- Scenes 1–3 use Hamid, Hina and Sierra on the bench, then Arfa arrives.
+- Scenes 1–3 use Hamid, Hina and Sarah on the bench, then Arif arrives.
 - "Zara's Story" became **Four ways in**: pick a person, see their before and after in their own room, what they started with, and their message.
 - Goals scene shows all four people cheering.
 
 **In the app**
-- Goal cards: stress → Hina, neck/back → Hamid, sleep → Sierra, focus → Arfa.
-- Profile companion picker offers the four; saved companions migrate (Zara→Arfa, Ali→Hamid, Omar→Sierra).
+- Goal cards: stress → Hina, neck/back → Hamid, sleep → Sarah, focus → Arif.
+- Profile companion picker offers the four; saved companions migrate (Zara→Arif, Ali→Hamid, Omar→Sarah).
 - Monthly reflection before/now card shows the user's chosen companion.
 - "Hina's pick" card with a one-line reason on 12 routines and programs.
 - Plan reveal: "Someone with a goal like yours started with…".

@@ -1,7 +1,7 @@
 import { art } from '@/theme/illustration';
 
 /**
- * Character art is fixed-palette: Hina/Arfa/Hamid/Sierra/Kai must look IDENTICAL in light and dark mode,
+ * Character art is fixed-palette: Hina/Arif/Hamid/Sarah/Kai must look IDENTICAL in light and dark mode,
  * so nothing here reads the theme.
  */
 export type CharacterName = 'hina' | 'arfa' | 'hamid' | 'sierra' | 'kai';

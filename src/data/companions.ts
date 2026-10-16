@@ -6,8 +6,8 @@ export const PEOPLE: Person[] = ['hina', 'arfa', 'hamid', 'sierra'];
 
 /**
  * Whose "pick" a routine or program is, and why (reason text: i18n companions.reasons.<id>).
- * Only things that genuinely fit that person's story: desk breaks → Hina/Hamid, beginner/easy versions → Arfa,
- * evenings and sleep → Sierra.
+ * Only things that genuinely fit that person's story: desk breaks → Hina/Hamid, beginner/easy versions → Arif,
+ * evenings and sleep → Sarah.
  */
 export const PICKS: Record<string, Person> = {
   'r-01': 'arfa',

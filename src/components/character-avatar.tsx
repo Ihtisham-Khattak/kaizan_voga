@@ -19,15 +19,8 @@ interface Props {
   animated?: boolean;
 }
 
-/** Circular head crop – Hina, Arfa, Hamid and Sierra use their portraits; Kai uses the illustrated Character. */
-export function CharacterAvatar({
-  name,
-  mood = 'happy',
-  pose,
-  size = 48,
-  ring = false,
-  animated = false,
-}: Props) {
+/** Circular head crop – Hina, Arif, Hamid and Sarah use their portraits (the happy one for mood happy or calm); Kai uses the illustrated Character. */
+export function CharacterAvatar({ name, mood, pose, size = 48, ring = false, animated = false }: Props) {
   const color = signature[name];
   if (name !== 'kai') {
     const inner = size - (ring ? 4 : 0);
@@ -45,6 +38,7 @@ export function CharacterAvatar({
       >
         <PersonPhoto
           person={name as Person}
+          variant={mood === 'happy' || mood === 'calm' ? 'after' : 'before'}
           width={inner}
           height={inner}
           zoom={PHOTOS[name as Person].hairy ? 1.9 : 2.3}
@@ -68,7 +62,14 @@ export function CharacterAvatar({
       }}
     >
       <View style={{ marginBottom: -size * 0.04 }}>
-        <Character name={name} mood={mood} pose={pose} crop="bust" size={size * 1.02} animated={animated} />
+        <Character
+          name={name}
+          mood={mood ?? 'happy'}
+          pose={pose}
+          crop="bust"
+          size={size * 1.02}
+          animated={animated}
+        />
       </View>
     </View>
   );
