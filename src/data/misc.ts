@@ -130,24 +130,28 @@ export const styles: YogaStyle[] = [
     name: 'Hatha',
     explainer: 'A slower pace where poses are held for a few breaths. A good foundation for beginners.',
     suits: 'Anyone new to yoga or who likes to take it slow.',
+    cover: 'sage',
   },
   {
     id: 'gentle',
     name: 'Gentle',
     explainer: 'Soft, easy movements with plenty of time to rest between poses.',
     suits: 'Beginners, stiff mornings, or days you need extra kindness.',
+    cover: 'mint',
   },
   {
     id: 'chair',
     name: 'Chair',
     explainer: 'Yoga done sitting or standing with a chair for support. No getting down on the floor.',
     suits: 'Desk breaks, limited mobility, or balance concerns.',
+    cover: 'sand',
   },
   {
     id: 'restorative',
     name: 'Restorative',
     explainer: 'Supported, quiet poses held for longer using cushions so your body can fully rest.',
     suits: 'Winding down, stress, and evenings.',
+    cover: 'lavender',
   },
   {
     id: 'vinyasa',
@@ -155,18 +159,44 @@ export const styles: YogaStyle[] = [
     explainer:
       'Poses linked together by your breath in a flowing sequence. We keep ours slow and beginner-friendly.',
     suits: 'People who like to keep moving once they feel comfortable.',
+    cover: 'coral',
+  },
+  {
+    id: 'yin',
+    name: 'Yin',
+    explainer: 'Slow, quiet poses held for a few minutes, mostly lying or sitting, so your body can let go.',
+    suits: 'Evenings, stiff hips and back, or anyone who wants to slow right down.',
+    cover: 'lavender',
+  },
+  {
+    id: 'power',
+    name: 'Power',
+    explainer:
+      'Stronger, steadier poses that build stability. Ours are short and beginner-friendly, with easier versions.',
+    suits: 'People who like to feel their strength, once they are comfortable with the basics.',
+    cover: 'coral',
+  },
+  {
+    id: 'prenatal',
+    name: 'Prenatal',
+    explainer: 'Gentle, seated and supported movement chosen with pregnancy in mind.',
+    suits: 'Anyone who has been told by their doctor or midwife that gentle movement is fine for them.',
+    cover: 'sage',
+    note: 'Please check with your doctor or midwife before you start, and stop if anything feels uncomfortable.',
   },
   {
     id: 'mobility-balance',
     name: 'Mobility & Balance',
     explainer: 'Joint-friendly movements and steady-stance practice to feel more stable and free.',
     suits: 'Feeling stiff, or wanting to feel steadier on your feet.',
+    cover: 'sage',
   },
   {
     id: 'breathing-mindfulness',
     name: 'Breathing & Mindfulness',
     explainer: 'Slow breathing and calm attention, with little or no movement.',
     suits: 'Busy minds, short breaks, and bedtime.',
+    cover: 'mint',
   },
 ];
 

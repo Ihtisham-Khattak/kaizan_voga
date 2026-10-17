@@ -61,7 +61,7 @@ export const routines: Routine[] = [
     [
       ...S('settle', ['ex-41', 40]),
       ...S('warm-up', ['ex-27', 40]),
-      ...S('main', ['ex-46', 50], ['ex-10', 60], ['ex-07', 60]),
+      ...S('main', ['ex-46', 50], ['ex-47', 60], ['ex-07', 60]),
       ...S('cool-down', ['ex-26', 30]),
       ...S('close', ['ex-43', 20]),
     ]
@@ -79,7 +79,7 @@ export const routines: Routine[] = [
     [
       ...S('settle', ['ex-46', 30]),
       ...S('warm-up', ['ex-27', 40], ['ex-26', 40]),
-      ...S('main', ['ex-47', 50], ['ex-49', 50], ['ex-50', 50]),
+      ...S('main', ['ex-47', 50], ['ex-08', 50], ['ex-72', 50]),
       ...S('close', ['ex-43', 40]),
     ]
   ),
@@ -151,7 +151,7 @@ export const routines: Routine[] = [
     [
       ...S('settle', ['ex-41', 45]),
       ...S('warm-up', ['ex-27', 45], ['ex-26', 45]),
-      ...S('main', ['ex-36', 90], ['ex-48', 80], ['ex-49', 80], ['ex-44', 80]),
+      ...S('main', ['ex-36', 90], ['ex-48', 80], ['ex-08', 80], ['ex-44', 80]),
       ...S('cool-down', ['ex-43', 90]),
       ...S('close', ['ex-41', 45]),
     ]
@@ -208,7 +208,7 @@ export const routines: Routine[] = [
       ...S('settle', ['ex-43', 60]),
       ...S('warm-up', ['ex-17', 60], ['ex-37', 90]),
       ...S('main', ['ex-16', 100], ['ex-25', 90], ['ex-19', 90], ['ex-20', 100]),
-      ...S('cool-down', ['ex-33', 100], ['ex-32', 100]),
+      ...S('cool-down', ['ex-31', 100], ['ex-32', 100]),
       ...S('close', ['ex-34', 120]),
     ]
   ),
@@ -273,13 +273,87 @@ export const routines: Routine[] = [
     [
       ...S('settle', ['ex-41', 60]),
       ...S('warm-up', ['ex-19', 60]),
-      ...S('main', ['ex-35', 480]),
-      ...S('cool-down', ['ex-24', 120]),
-      ...S('close', ['ex-34', 180]),
+      ...S('main', ['ex-34', 600]),
+      ...S('cool-down', ['ex-32', 120]),
+      ...S('close', ['ex-43', 60]),
     ],
     true
   ),
 
+  // ───────────── Style showcase routines (Yin / Power / Prenatal) + core ─────────────
+  routine(
+    'r-13',
+    'routine',
+    'Gentle Core Basics',
+    'Steady centre, kind to your back',
+    'Slow, supported movements that wake up the muscles around your middle without strain. Easier versions are always one tap away.',
+    ['balance', 'back-neck'],
+    'beginner',
+    'hatha',
+    'mint',
+    [
+      ...S('settle', ['ex-43', 40]),
+      ...S('warm-up', ['ex-17', 60], ['ex-29', 40]),
+      ...S('main', ['ex-18', 60], ['ex-23', 60], ['ex-22', 60], ['ex-12', 50]),
+      ...S('cool-down', ['ex-16', 60], ['ex-19', 40]),
+      ...S('close', ['ex-42', 30]),
+    ]
+  ),
+  routine(
+    'r-14',
+    'routine',
+    'Steady Strength',
+    'Strong, steady and unhurried',
+    'A short power-style session: standing poses, balance and gentle holds that build stability. Take breaks whenever you like.',
+    ['balance', 'focus'],
+    'intermediate',
+    'power',
+    'coral',
+    [
+      ...S('settle', ['ex-42', 40]),
+      ...S('warm-up', ['ex-38', 90]),
+      ...S('main', ['ex-04', 60], ['ex-14', 60], ['ex-11', 60], ['ex-51', 50], ['ex-18', 60], ['ex-23', 60]),
+      ...S('cool-down', ['ex-03', 50], ['ex-16', 60]),
+      ...S('close', ['ex-44', 30]),
+    ],
+    true
+  ),
+  routine(
+    'r-15',
+    'routine',
+    'Yin Release',
+    'Long, quiet holds',
+    'Supported poses held for a couple of minutes each, so your hips, back and shoulders can soften at their own pace.',
+    ['stress', 'flexibility', 'sleep'],
+    'beginner',
+    'yin',
+    'lavender',
+    [
+      ...S('settle', ['ex-44', 60]),
+      ...S('main', ['ex-32', 150], ['ex-19', 90], ['ex-20', 120], ['ex-16', 120], ['ex-31', 150]),
+      ...S('cool-down', ['ex-34', 90]),
+      ...S('close', ['ex-45', 40]),
+    ],
+    true
+  ),
+  routine(
+    'r-16',
+    'routine',
+    'Prenatal Gentle Stretch',
+    'Seated and supported',
+    'Easy seated stretches for shoulders, back and ankles. Please check with your doctor or midwife before you begin, and stop if anything feels uncomfortable.',
+    ['gentle', 'back-neck', 'stress'],
+    'beginner',
+    'prenatal',
+    'sage',
+    [
+      ...S('settle', ['ex-44', 40]),
+      ...S('warm-up', ['ex-27', 40], ['ex-30', 40]),
+      ...S('main', ['ex-47', 60], ['ex-07', 60], ['ex-46', 50], ['ex-06', 60]),
+      ...S('cool-down', ['ex-26', 40]),
+      ...S('close', ['ex-41', 40]),
+    ]
+  ),
   // ───────────── Quick relief (×5, 1–5 min) ─────────────
   routine(
     'qr-01',
@@ -305,7 +379,7 @@ export const routines: Routine[] = [
     'sand',
     [
       ...S('settle', ['ex-46', 25]),
-      ...S('main', ['ex-26', 50], ['ex-27', 35], ['ex-50', 50]),
+      ...S('main', ['ex-26', 50], ['ex-27', 35], ['ex-08', 50]),
       ...S('close', ['ex-43', 20]),
     ]
   ),
@@ -319,7 +393,7 @@ export const routines: Routine[] = [
     'beginner',
     'restorative',
     'lavender',
-    [...S('settle', ['ex-43', 90]), ...S('main', ['ex-19', 60], ['ex-20', 70]), ...S('close', ['ex-35', 80])]
+    [...S('settle', ['ex-43', 90]), ...S('main', ['ex-19', 60], ['ex-20', 70]), ...S('close', ['ex-34', 80])]
   ),
   routine(
     'qr-04',
@@ -347,6 +421,116 @@ export const routines: Routine[] = [
       ...S('settle', ['ex-46', 25]),
       ...S('main', ['ex-42', 70], ['ex-27', 30], ['ex-44', 35]),
       ...S('close', ['ex-41', 20]),
+    ]
+  ),
+  // ───────────── New-pose routines (hips, core, standing, upper back, calm, flow) ─────────────
+  routine(
+    'r-17',
+    'routine',
+    'Hip Release',
+    'For long days of sitting',
+    'Slow openers for the hips and the backs of the legs, with props for support. A good partner for desk days.',
+    ['flexibility', 'back-neck'],
+    'beginner',
+    'yin',
+    'sage',
+    [
+      ...S('settle', ['ex-43', 40]),
+      ...S('warm-up', ['ex-29', 40], ['ex-17', 50]),
+      ...S('main', ['ex-52', 100], ['ex-55', 70], ['ex-53', 100], ['ex-57', 90], ['ex-56', 50]),
+      ...S('cool-down', ['ex-54', 50], ['ex-19', 40]),
+      ...S('close', ['ex-45', 40]),
+    ]
+  ),
+  routine(
+    'r-18',
+    'routine',
+    'Back Strength Basics',
+    'Steady centre, kind to your back',
+    'Gentle strength for the muscles that support your spine: slow holds, easy rests and easier versions throughout.',
+    ['balance', 'back-neck'],
+    'beginner',
+    'hatha',
+    'mint',
+    [
+      ...S('settle', ['ex-41', 40]),
+      ...S('warm-up', ['ex-17', 60]),
+      ...S('main', ['ex-59', 80], ['ex-60', 50], ['ex-62', 50], ['ex-61', 60]),
+      ...S('cool-down', ['ex-16', 60], ['ex-19', 40]),
+      ...S('close', ['ex-44', 40]),
+    ]
+  ),
+  routine(
+    'r-19',
+    'routine',
+    'Standing Strong',
+    'Warrior, chair and goddess',
+    'Classic standing poses taken slowly, each with a wall or chair option so you always feel steady.',
+    ['balance', 'focus'],
+    'intermediate',
+    'power',
+    'coral',
+    [
+      ...S('settle', ['ex-44', 40]),
+      ...S('warm-up', ['ex-01', 40], ['ex-58', 40]),
+      ...S('main', ['ex-63', 90], ['ex-64', 45], ['ex-65', 90], ['ex-66', 60]),
+      ...S('cool-down', ['ex-03', 50], ['ex-16', 50]),
+      ...S('close', ['ex-42', 40]),
+    ],
+    true
+  ),
+  routine(
+    'r-20',
+    'routine',
+    'Shoulders & Upper Back Relief',
+    'Open the chest, free the neck',
+    'Easy stretches for the chest, shoulders and upper back after hours at a screen. Chair and wall options included.',
+    ['back-neck', 'stress'],
+    'beginner',
+    'gentle',
+    'sand',
+    [
+      ...S('settle', ['ex-42', 40]),
+      ...S('warm-up', ['ex-27', 40], ['ex-28', 40], ['ex-26', 40]),
+      ...S('main', ['ex-69', 75], ['ex-68', 90], ['ex-67', 90], ['ex-47', 60], ['ex-08', 60]),
+      ...S('cool-down', ['ex-16', 60]),
+      ...S('close', ['ex-41', 40]),
+    ]
+  ),
+  routine(
+    'r-21',
+    'routine',
+    'Twist, Open & Rest',
+    'A calm, supported wind-down',
+    'Supported twist, supported fish and a long rest. Everything is held by pillows, so your body can let go.',
+    ['sleep', 'stress'],
+    'beginner',
+    'restorative',
+    'lavender',
+    [
+      ...S('settle', ['ex-44', 60]),
+      ...S('main', ['ex-70', 120], ['ex-71', 150], ['ex-32', 120], ['ex-72', 60]),
+      ...S('cool-down', ['ex-34', 120]),
+      ...S('close', ['ex-43', 50]),
+    ],
+    true
+  ),
+  routine(
+    'r-22',
+    'routine',
+    'Gentle Sun Salutation',
+    'The classic flow, slowed down',
+    'A short, steady flow that links reaching, folding and stepping with your breath. Knees-down and chair versions always available.',
+    ['flexibility', 'focus'],
+    'beginner',
+    'vinyasa',
+    'coral',
+    [
+      ...S('settle', ['ex-43', 40]),
+      ...S('warm-up', ['ex-27', 40], ['ex-38', 90]),
+      ...S('main', ['ex-73', 180], ['ex-04', 70], ['ex-58', 40]),
+      ...S('cool-down', ['ex-03', 50], ['ex-16', 50]),
+      ...S('close', ['ex-44', 40]),
     ]
   ),
 ];

@@ -145,7 +145,7 @@ export default function SearchScreen() {
           >
             <Icon as={Sliders} size={20} />
             {active.length ? (
-              <View className="absolute end-1 top-1 size-4 items-center justify-center rounded-full bg-sunrise">
+              <View className="absolute end-1 top-1 size-4 items-center justify-center rounded-full bg-primary">
                 <Text variant="caption" className="font-sans-bold text-onLeaf">
                   {active.length}
                 </Text>

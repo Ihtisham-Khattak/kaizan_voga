@@ -2,7 +2,6 @@ import { CaretRight, Heart, Leaf } from 'phosphor-react-native';
 import { useState } from 'react';
 import { I18nManager, View } from 'react-native';
 
-import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -39,7 +38,6 @@ export function Scene2({ controls, width }: SceneProps) {
 
   return (
     <>
-      <AuroraBackground />
       <SceneScroll
         top={90}
         bandColor={colors.bg}
@@ -134,7 +132,7 @@ export function Scene2({ controls, width }: SceneProps) {
               >
                 <CharacterAvatar name={b.speaker} size={44} />
                 <View style={{ flex: 1, gap: 4 }}>
-                  <Text variant="callout" style={{ color: colors.forest, fontWeight: '700' }}>
+                  <Text className="font-sans-bold" variant="callout" style={{ color: colors.forest }}>
                     {name(b.speaker)}
                   </Text>
                   <View

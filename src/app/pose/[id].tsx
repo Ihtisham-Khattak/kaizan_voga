@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground } from '@/components/aurora-background';
 import { CoverArt, variantFor } from '@/components/cover-art';
+import { hasPoseVideo, PoseMedia } from '@/components/pose-media';
 import { EmptyState } from '@/components/empty-state';
 import { GlassCard } from '@/components/glass-card';
 import { SafetyNotice } from '@/components/safety-notice';
@@ -88,18 +89,33 @@ export default function PoseDetail() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
       >
-        {/* hero illustration (placeholder art) */}
+        {/* hero: the pose clip when there is one, otherwise the illustration */}
         <View style={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32, overflow: 'hidden' }}>
-          <CoverArt tint="mint" figure={figure} height={300} rounded={0} figureSize={190} figureShift={-6} />
-          <View style={{ position: 'absolute', bottom: 12, alignSelf: 'center' }}>
-            <GlassCard
-              radius={14}
-              shadow={false}
-              contentStyle={{ paddingHorizontal: 12, paddingVertical: 4 }}
-            >
-              <Text variant="caption">{t('pose.placeholder')}</Text>
-            </GlassCard>
-          </View>
+          <PoseMedia
+            exercise={e}
+            height={300}
+            fallback={
+              <CoverArt
+                tint="mint"
+                figure={figure}
+                height={300}
+                rounded={0}
+                figureSize={190}
+                figureShift={-6}
+              />
+            }
+          />
+          {hasPoseVideo(e) ? null : (
+            <View style={{ position: 'absolute', bottom: 12, alignSelf: 'center' }}>
+              <GlassCard
+                radius={14}
+                shadow={false}
+                contentStyle={{ paddingHorizontal: 12, paddingVertical: 4 }}
+              >
+                <Text variant="caption">{t('pose.placeholder')}</Text>
+              </GlassCard>
+            </View>
+          )}
         </View>
 
         <View className="gap-4 px-4 pt-6">

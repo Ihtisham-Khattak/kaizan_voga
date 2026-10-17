@@ -112,10 +112,10 @@ Create an account, sign in, recover a password, or **continue as a guest** ([`sr
 
 | Feature | Detail |
 |---|---|
-| **Pose library** | **50 poses**, each with steps, an easier and a harder version, cautions and a "good for" list. Filter by category, level, position (standing, seated, floor, chair) and equipment. |
-| **Routines** | **17 routines** from a 3‑minute desk reset to evening wind‑downs. Build and edit your own **custom routines**. |
-| **Programs** | **2 programs**, including the **30‑day Kaizen Path** and a desk‑worker program. Day‑by‑day, rest days built in. |
-| **Breathing** | **6 guided breathing sessions** with an animated breathing circle and gentle haptics. Always free. |
+| **Pose library** | **66 poses**, each with steps, an easier and a harder version, cautions and a "good for" list. Filter by category, level, position (standing, seated, floor, chair) and equipment. |
+| **Routines** | **27 routines** from a 3‑minute desk reset to evening wind‑downs. Build and edit your own **custom routines**. |
+| **Programs** | **8 programs**, including the **30‑day Kaizen Path**, Yoga for Beginners, Deep Relaxation, Better Sleep and Core Strength. Day‑by‑day, rest days built in. |
+| **Breathing** | **7 guided breathing sessions** with an animated breathing circle and gentle haptics. Always free. |
 | **Session setup** | Choose duration, focus, pace, a **chair‑friendly** option, voice and music before you start. |
 | **Session player** | Timer with **pause, skip, swap a pose for an easier one**, and **"Something hurts"** which pauses the clock, offers a modification or a rest, and never pushes you on. Leave early and **resume later** from where you stopped. |
 | **Completion** | A gentle finish with a before/after mood check, and any achievement you just earned. |
@@ -183,7 +183,7 @@ Find a screen you saw, or a file you are reading. Routes use [Expo Router](https
 | **Personalize** | Goals → plan reveal | `(onboarding)/goals · experience · time · schedule · movement · equipment · accessibility · voice · age · under-18 · safety · reminders · plan` |
 | **Account** | Gate, sign up, sign in, reset | `(auth)/gate · sign-up · sign-in · forgot-password · verify-code · reset-password` |
 | **Tabs** | Home, Explore, Practice, Progress, Profile | `(tabs)/home · explore · practice · progress · profile` |
-| **Library** | Search, categories, collections, styles | `search`, `library/category/[id] · collection/[id] · style/[id]` |
+| **Library** | Search, categories, collections, styles, programs | `search`, `library/styles · programs`, `library/category/[id] · collection/[id] · style/[id]` |
 | **Detail** | Pose, routine, custom routine, program | `pose/[id]`, `routine/[id]`, `routine/custom/[id]`, `program/[id]` |
 | **Session** | Setup, player, completion | `session/setup · player · complete` |
 | **Breathing** | Hub and guided player | `breathing/index`, `breathing/[id]` |
@@ -191,7 +191,8 @@ Find a screen you saw, or a file you are reading. Routes use [Expo Router](https
 | **Premium** | Paywall, success, affordability | `premium/index · success · help-affording` |
 | **Settings** | 13 settings screens | `settings/preferences · goals · reminders · accessibility · health · downloads · subscription · privacy · terms · safety · help · contact · about` |
 | **Support** | Helplines and resources | `support/resources` |
-| **Dev only** | Component and character galleries | `dev/ui-kit · characters · icons · states` (hidden in production builds) |
+| **Favorites** | Saved poses and routines | `favorites` |
+| **Dev only** | Screen showcase, component and character galleries | `dev/screens · ui-kit · characters · icons · states` (hidden in production builds) |
 
 ---
 
@@ -261,7 +262,7 @@ src/
 ├─ theme/         Design tokens, motion, story palette, illustration colours
 ├─ i18n/          en.ts, ur.ts, direction helpers
 └─ hooks/         Reduced motion, reduced transparency, screen loading
-assets/           Icons, fonts, images (including people portraits)
+assets/           Brand (logo SVG/PNG), icons, fonts, images (people portraits), audio loops
 docs/             Plan, UI build spec, character bible, content audit
 scripts/          validate-data, sync-theme, audit-copy
 ```
@@ -302,6 +303,7 @@ Install it with `adb install --user 0 -r app-release.apk`. The `arm64-v8a` build
 | `npm run validate:data` | Checks that content references (poses in routines, ids, levels) are consistent |
 | `npm run audit:copy` | Scans English copy for banned medical or absolute claims |
 | `python3 scripts/make-sounds.py` | Regenerates the original sound loops in `assets/audio` (rain, forest, soft piano, music). Replace with recorded audio before release. |
+| `scripts/make-brand.py` | Rebuilds the logo as vector + transparent PNGs from `assets/brand/source/` and regenerates the app icon, adaptive icon, splash and favicon (needs `potracer`, `pillow`, `numpy` in a venv). |
 | `npm run apk` | Builds the release APK as `dist-apk/KaizenYoga-<version>.apk`. Bump `version` (minor) and `android.versionCode` in `app.json` first. |
 | `npm run theme:sync` | Regenerates Tailwind tokens and `global.css` from `src/theme` |
 
@@ -327,7 +329,7 @@ Every change should pass these before it is called done:
 | Area | Today |
 |---|---|
 | Accounts | Mocked: sign up, sign in, password recovery and guest mode work locally; no server. |
-| Content | 50 poses, 17 routines, 2 programs and 6 breathing sessions are local data. |
+| Content | 66 poses, 27 routines, 8 programs, 10 yoga styles and 7 breathing sessions are local data. |
 | Subscriptions | Mock checkout and entitlement; no real payments. Prices are placeholders. |
 | Reminders, audio, downloads | The settings and flows exist; real notifications, voice and music packs, and offline files are not wired yet. |
 | Premium gating | Enforced for premium content and downloads; some feature gates are still partial. |
@@ -351,6 +353,7 @@ Every change should pass these before it is called done:
 | Doc | Read it for |
 |---|---|
 | [`docs/PLAN.md`](docs/PLAN.md) | Delivery plan, block order, backlog and Phase 2 decisions |
+| [`docs/ui-screens.md`](docs/ui-screens.md) | The 14-screen static UI brief mapped onto the app, with decisions |
 | [`docs/UI_Build.md`](docs/UI_Build.md) | The design system and screen‑by‑screen UI specification |
 | [`docs/character-bible.md`](docs/character-bible.md) | The four people and Kai: stories, visual spec, where each appears |
 | [`docs/content-audit.md`](docs/content-audit.md) | The copy rules and the banned‑claims scan |

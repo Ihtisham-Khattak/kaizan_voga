@@ -187,10 +187,10 @@ export default function VoiceScreen() {
               label={t(`onboardingR.voice.${id}`)}
               sublabel={
                 id === 'none'
-                  ? undefined
+                  ? t('onboardingR.voice.noneSub')
                   : sound.voice === id
                     ? t('onboardingR.voice.speaking')
-                    : t('onboardingR.voice.hearIt')
+                    : t(`onboardingR.voice.${id}Sub`)
               }
               selected={voice === id}
               onPress={() => pickVoice(id)}
@@ -221,7 +221,7 @@ export default function VoiceScreen() {
             )}
           </View>
           <View style={{ flex: 1, gap: 2 }}>
-            <Text variant="bodyLarge" style={{ color: colors.forest, fontWeight: '600' }}>
+            <Text className="font-sans-semibold" variant="bodyLarge" style={{ color: colors.forest }}>
               {t('onboardingR.voice.musicLabel')}
             </Text>
             <Text variant="callout" style={{ color: colors.muted }}>

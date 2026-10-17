@@ -77,6 +77,9 @@ const en = {
       haveAccount: 'I already have an account',
     },
     s1: {
+      chip: 'The daily reality',
+      subtitle: 'Three ordinary days, three familiar feelings.',
+      tags: { hamid: 'Stiff neck & back', hina: 'Packed days', sierra: 'Restless evenings' },
       title: 'Sound familiar?',
       hamid: "Ten hours at the desk… my back is stiff and I can't remember when I last moved.",
       hina: "Back-to-back all day. By 3 pm my neck is stuck and I'm out of energy.",
@@ -231,6 +234,7 @@ const en = {
     gentle: 'Gentle',
   },
   cards: {
+    category: '{{name}} yoga. {{about}}',
     seconds: '{{count}} sec',
     chairFriendly: 'Chair-friendly',
     premium: 'Premium',
@@ -258,9 +262,21 @@ const en = {
     experience: {
       title: 'How much yoga have you done?',
       subtitle: 'There is no wrong answer. This just helps us pick the right pace.',
-      beginner: { title: 'Beginner', sub: 'New to yoga, or coming back after a while' },
-      some: { title: 'Some experience', sub: 'I know a few poses and have practiced before' },
-      experienced: { title: 'Experienced', sub: 'I practice regularly and feel comfortable with most poses' },
+      beginner: {
+        title: 'Beginner',
+        sub: 'New to yoga, or coming back after a while',
+        plan: '5–10 minute sessions, easier versions first',
+      },
+      some: {
+        title: 'Some experience',
+        sub: 'I know a few poses and have practiced before',
+        plan: '10–15 minutes, a few new poses to try',
+      },
+      experienced: {
+        title: 'Experienced',
+        sub: 'I practice regularly and feel comfortable with most poses',
+        plan: '15–20 minutes, longer holds and flows',
+      },
       reaction: {
         beginner: "Beginner is a great place to start — we'll keep it gentle.",
         some: "Lovely — we'll build on what you already know.",
@@ -270,6 +286,9 @@ const en = {
   },
   onboardingQ: {
     time: {
+      unit: 'minutes a day',
+      poses: 'About {{count}} poses in each session',
+      week: 'About {{count}} minutes a week, with a rest day built in',
       title: 'How much time feels right each day?',
       subtitle: 'Small steps count. You can change this anytime.',
       reaction: {
@@ -312,6 +331,14 @@ const en = {
       },
     },
     equipment: {
+      matSub: 'For floor poses',
+      chairSub: 'Seated and supported poses',
+      blocksSub: 'Brings the floor closer',
+      strapSub: 'Eases hamstrings and shoulders',
+      cushionSub: 'Comfort and support',
+      noneSub: 'Everything still works',
+      canDo: 'You can do {{count}} of {{total}} poses',
+      canDoHint: 'A towel or pillow can stand in for most props.',
       title: 'What do you have at home?',
       subtitle: 'No equipment? No problem. A towel or cushion works too.',
       mat: 'Mat',
@@ -340,6 +367,9 @@ const en = {
   },
   onboardingR: {
     voice: {
+      femaleSub: 'Warm, light',
+      maleSub: 'Calm, deep',
+      noneSub: 'Text only',
       title: 'How would you like to be guided?',
       subtitle: 'Audio is optional. Captions are on by default.',
       voiceTitle: 'Voice',
@@ -380,6 +410,7 @@ const en = {
       back: 'Go back',
     },
     safety: {
+      cardTitle: 'Three gentle reminders',
       title: 'Before we begin',
       subtitle: 'A few gentle reminders for a safe practice.',
       stop: 'Stop if you feel sharp pain, dizziness, or unwell.',
@@ -526,6 +557,9 @@ const en = {
     quickTitle: 'Quick relief',
     quickSub: '1–5 minutes, whenever you need them',
     resume: 'Continue where you left off',
+    stylesTitle: 'Find your style',
+    stylesSub: 'Tap a style to see its routines',
+    popular: 'Popular programs',
     recommended: 'Recommended for you',
     favorites: 'Your favorites',
     favoritesEmpty: {
@@ -551,6 +585,40 @@ const en = {
     quickSub: '1–5 minute resets',
     resume: 'Resume last session',
     resumeSub: 'Pick up where you left off',
+  },
+  stylesScreen: {
+    title: 'Yoga styles',
+    subtitle: 'Find the pace that suits you. Every style has beginner-friendly routines.',
+    more: 'More ways to practice',
+    routines: '{{count}} routines',
+  },
+  programsScreen: {
+    title: 'Programs',
+    subtitle: 'Guided plans with rest days built in. Go at your own pace.',
+    featured: 'Featured',
+    all: 'All programs',
+    days: '{{count}} days',
+    themes: {
+      all: 'All',
+      beginners: 'Beginners',
+      flexibility: 'Flexibility',
+      stress: 'Stress relief',
+      sleep: 'Better sleep',
+      strength: 'Strength',
+      mobility: 'Mobility',
+    },
+    emptyTitle: 'No programs here yet',
+    emptyBody: 'Try another goal, or explore routines in the meantime.',
+  },
+  favoritesScreen: {
+    title: 'Favorites',
+    subtitle: 'Poses and routines you saved, all in one place.',
+    poses: 'Poses',
+    routines: 'Routines',
+    emptyTitle: 'Nothing saved yet',
+    emptyBody: 'Tap the heart on any pose or routine to keep it here.',
+    explore: 'Explore poses',
+    saved: '{{count}} saved',
   },
   explore: {
     title: 'Explore',
@@ -613,6 +681,9 @@ const en = {
     removeFilter: 'Remove filter {{name}}',
   },
   pose: {
+    videoLabel: '{{name}}, demonstration video. First step: {{step}}',
+    playVideo: 'Play video',
+    pauseVideo: 'Pause video',
     tabs: {
       steps: 'Steps',
       breathing: 'Breathing',
@@ -809,10 +880,16 @@ const en = {
     },
     stats: {
       minutes: 'Minutes practised',
+      minutesCaption: 'in total',
       sessions: 'Sessions',
+      sessionsCaption: 'so far',
+      streak: 'Day streak',
+      streakCaption: '{{count}} days in a row',
+      streakNone: 'Start on any day',
       favourite: 'Favourite style',
       none: 'Not yet',
     },
+    week: { title: 'This week', summary: '{{minutes}} min · {{days}} days' },
     lookCloser: 'Look a little closer',
     links: {
       calendar: 'Calendar',
@@ -977,6 +1054,7 @@ const en = {
       replayCta: 'Replay intro',
       save: 'Save',
       rows: {
+        favorites: 'Favorites',
         preferences: 'Preferences',
         reminders: 'Reminders',
         downloads: 'Downloads',

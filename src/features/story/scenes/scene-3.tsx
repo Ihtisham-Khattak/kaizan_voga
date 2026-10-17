@@ -3,7 +3,6 @@ import { MotiView } from 'moti';
 import { I18nManager, View } from 'react-native';
 
 import { LightRays } from '@/characters/props';
-import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -55,7 +54,6 @@ export function Scene3({ controls, width, height }: SceneProps) {
 
   return (
     <>
-      <AuroraBackground />
       {/* warm light enters from the corner */}
       <MotiView
         from={{ opacity: 0 }}
@@ -175,7 +173,7 @@ export function Scene3({ controls, width, height }: SceneProps) {
               >
                 <CharacterAvatar name={g.speaker} size={44} />
                 <View style={{ flex: 1, gap: 4 }}>
-                  <Text variant="callout" style={{ color: colors.forest, fontWeight: '700' }}>
+                  <Text className="font-sans-bold" variant="callout" style={{ color: colors.forest }}>
                     {name(g.speaker)}
                   </Text>
                   {g.lines.map((l) => (

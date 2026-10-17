@@ -1,7 +1,9 @@
+import type { Icon as PhosphorIcon } from 'phosphor-react-native';
 import { View } from 'react-native';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 import type { CoverTint, Exercise } from '@/data/types';
+import { Icon } from '@/components/ui/icon';
 import { KaizenIcon } from '@/icons';
 import { coverColor } from '@/theme/cover';
 import { useTheme } from '@/theme/theme-provider';
@@ -150,6 +152,8 @@ interface CoverProps {
   figureShift?: number;
   /** Override the figure size (px); defaults to ~80% of the height, max 110. */
   figureSize?: number;
+  /** Illustrated stand-in for a photo: a large duotone icon (used when there is no pose figure). */
+  motif?: PhosphorIcon;
 }
 
 /** Tinted cover art for routines/programs/exercises. Colours come from tokens so dark mode just works. */
@@ -161,6 +165,7 @@ export function CoverArt({
   rounded = 20,
   figureShift = 0,
   figureSize,
+  motif,
 }: CoverProps) {
   const { colors } = useTheme();
   const base = coverColor(colors, tint);
@@ -183,7 +188,7 @@ export function CoverArt({
       <View
         style={{ position: 'absolute', start: -18, bottom: -26, width: height * 0.9, height: height * 0.9 }}
       >
-        <Blob color={colors.sunriseSoft} size={height * 0.9} opacity={0.5} />
+        <Blob color={colors.skySoft} size={height * 0.9} opacity={0.5} />
       </View>
       <View style={{ transform: [{ translateY: figureShift }] }}>
         {figure ? (
@@ -192,6 +197,8 @@ export function CoverArt({
             size={figureSize ?? Math.min(height * 0.8, 110)}
             color={colors.primary}
           />
+        ) : motif ? (
+          <Icon as={motif} size={Math.min(height * 0.55, 72)} weight="duotone" color={colors.primary} />
         ) : (
           <KaizenIcon
             name="lotus"

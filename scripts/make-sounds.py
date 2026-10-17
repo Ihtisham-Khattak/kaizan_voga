@@ -178,5 +178,15 @@ def music(dur=28):
     return loopable(norm(reverb(out, 2.4, 0.35), 0.5), 3.5)
 
 
-for name, fn in [('rain', rain), ('forest', forest), ('piano', piano), ('music', music)]:
+def chime(dur=3.2):
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    for f, amp, dec in [(523.25, 1.0, 1.6), (784.0, 0.5, 1.2), (1046.5, 0.25, 0.9), (1318.5, 0.12, 0.6)]:
+        out += amp * np.sin(2 * np.pi * f * t) * np.exp(-t / dec)
+    out *= np.minimum(1, t / 0.004)
+    return norm(reverb(out, 1.4, 0.25), 0.6)
+
+
+for name, fn in [('rain', rain), ('forest', forest), ('piano', piano), ('music', music), ('chime', chime)]:
     save(name, fn())

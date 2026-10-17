@@ -46,6 +46,20 @@ export const breathingSessions: BreathingSession[] = [
     regions: ['Feet', 'Legs', 'Hips', 'Belly', 'Chest', 'Hands and arms', 'Shoulders', 'Neck', 'Face'],
   },
   {
+    id: 'alternate-nostril',
+    kind: 'breath',
+    title: 'Gentle alternate-nostril breathing',
+    description:
+      'Breathe in through one nostril and out through the other, slowly and without holding your breath.',
+    why: 'A quiet, even rhythm may help you feel calm and focused.',
+    pattern: [
+      { kind: 'inhale', ms: 4000 },
+      { kind: 'exhale', ms: 4000 },
+    ],
+    defaultMinutes: 3,
+    cover: 'mint',
+  },
+  {
     id: 'three-part-breath',
     kind: 'breath',
     title: 'Three-part breath',

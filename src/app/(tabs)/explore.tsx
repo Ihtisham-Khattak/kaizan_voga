@@ -5,6 +5,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground } from '@/components/aurora-background';
+import { CategoryCard } from '@/components/category-card';
 import { CoverArt, variantFor } from '@/components/cover-art';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -27,7 +28,7 @@ import {
 import { ExploreSkeleton } from '@/features/states/skeletons';
 import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
-import { openCollection, openProgram, openRoutine, openSearch } from '@/lib/nav';
+import { openCollection, openPrograms, openProgram, openRoutine, openSearch, openStyles } from '@/lib/nav';
 import { customToRoutine } from '@/lib/routines';
 import { useLibraryStore } from '@/store/library-store';
 import { usePrefsStore } from '@/store/prefs-store';
@@ -134,7 +135,7 @@ export default function ExploreScreen() {
         ) : null}
 
         <FadeUp delay={140} className="gap-3">
-          <SectionHeader title={t('explore.programs')} />
+          <SectionHeader title={t('explore.programs')} onSeeAll={openPrograms} />
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -174,25 +175,19 @@ export default function ExploreScreen() {
         </FadeUp>
 
         <FadeUp delay={240} className="gap-3">
-          <SectionHeader title={t('explore.styles')} />
+          <SectionHeader title={t('explore.styles')} onSeeAll={openStyles} />
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
           >
             {listStyles().map((s) => (
-              <Pressable
+              <CategoryCard
                 key={s.id}
+                style={s}
+                variant="mini"
                 onPress={() => openCollection('style', s.id)}
-                accessibilityRole="button"
-                accessibilityLabel={`${s.name}. ${s.explainer}`}
-                className="w-[250px] gap-2 rounded-card border border-border bg-card p-4 active:opacity-90"
-              >
-                <Text variant="heading">{s.name}</Text>
-                <Text variant="caption" numberOfLines={4}>
-                  {s.explainer}
-                </Text>
-              </Pressable>
+              />
             ))}
           </ScrollView>
         </FadeUp>

@@ -79,6 +79,9 @@ const ur: Translation = {
       haveAccount: 'میرا اکاؤنٹ پہلے سے موجود ہے',
     },
     s1: {
+      chip: 'روزمرہ کی حقیقت',
+      subtitle: 'تین عام دن، تین جانے پہچانے احساس۔',
+      tags: { hamid: 'اکڑی گردن اور کمر', hina: 'مصروف دن', sierra: 'بے چین شامیں' },
       title: 'کیا یہ جانا پہچانا لگتا ہے؟',
       hamid: 'دس گھنٹے ڈیسک پر… میری کمر اکڑی ہوئی ہے اور مجھے یاد نہیں میں نے آخری بار کب حرکت کی تھی۔',
       hina: 'سارا دن میٹنگز۔ تین بجے تک میری گردن جام ہو جاتی ہے اور توانائی ختم۔',
@@ -232,6 +235,7 @@ const ur: Translation = {
     gentle: 'ہلکا',
   },
   cards: {
+    category: '{{name}} یوگا۔ {{about}}',
     seconds: '{{count}} سیکنڈ',
     chairFriendly: 'کرسی کے لیے موزوں',
     premium: 'پریمیم',
@@ -259,11 +263,20 @@ const ur: Translation = {
     experience: {
       title: 'آپ نے کتنا یوگا کیا ہے؟',
       subtitle: 'کوئی جواب غلط نہیں۔ اس سے ہمیں آپ کی رفتار کے مطابق انتخاب میں مدد ملتی ہے۔',
-      beginner: { title: 'ابتدائی', sub: 'یوگا میں نیا ہوں، یا کافی عرصے بعد واپس آیا ہوں' },
-      some: { title: 'کچھ تجربہ', sub: 'مجھے کچھ آسن آتے ہیں اور پہلے مشق کی ہے' },
+      beginner: {
+        title: 'ابتدائی',
+        sub: 'یوگا میں نیا ہوں، یا کافی عرصے بعد واپس آیا ہوں',
+        plan: '5 سے 10 منٹ کے سیشن، پہلے آسان ورژن',
+      },
+      some: {
+        title: 'کچھ تجربہ',
+        sub: 'مجھے کچھ آسن آتے ہیں اور پہلے مشق کی ہے',
+        plan: '10 سے 15 منٹ، آزمانے کے لیے چند نئے آسن',
+      },
       experienced: {
         title: 'تجربہ کار',
         sub: 'میں باقاعدگی سے مشق کرتا ہوں اور زیادہ تر آسن آرام سے کر لیتا ہوں',
+        plan: '15 سے 20 منٹ، لمبے ٹھہراؤ اور بہاؤ',
       },
       reaction: {
         beginner: 'ابتدا کرنے کے لیے یہ بہترین جگہ ہے — ہم نرمی سے چلیں گے۔',
@@ -274,6 +287,9 @@ const ur: Translation = {
   },
   onboardingQ: {
     time: {
+      unit: 'منٹ روزانہ',
+      poses: 'ہر سیشن میں تقریباً {{count}} آسن',
+      week: 'ہفتے میں تقریباً {{count}} منٹ، آرام کے دن سمیت',
       title: 'روزانہ کتنا وقت مناسب رہے گا؟',
       subtitle: 'چھوٹے قدم بھی اہم ہیں۔ آپ اسے کبھی بھی بدل سکتے ہیں۔',
       reaction: {
@@ -316,6 +332,14 @@ const ur: Translation = {
       },
     },
     equipment: {
+      matSub: 'فرش پر کیے جانے والے آسن کے لیے',
+      chairSub: 'بیٹھ کر اور سہارے والے آسن',
+      blocksSub: 'زمین کو قریب لے آتے ہیں',
+      strapSub: 'ٹانگوں اور کندھوں میں آسانی',
+      cushionSub: 'آرام اور سہارا',
+      noneSub: 'پھر بھی سب کچھ ممکن ہے',
+      canDo: 'آپ {{total}} میں سے {{count}} آسن کر سکتے ہیں',
+      canDoHint: 'زیادہ تر چیزوں کی جگہ تولیہ یا تکیہ کام آ سکتا ہے۔',
       title: 'آپ کے پاس گھر پر کیا ہے؟',
       subtitle: 'کوئی سامان نہیں؟ کوئی مسئلہ نہیں۔ تولیہ یا تکیہ بھی کام آتا ہے۔',
       mat: 'چٹائی',
@@ -344,6 +368,9 @@ const ur: Translation = {
   },
   onboardingR: {
     voice: {
+      femaleSub: 'نرم، ہلکی',
+      maleSub: 'پرسکون، گہری',
+      noneSub: 'صرف تحریر',
       title: 'آپ کس طرح رہنمائی چاہیں گے؟',
       subtitle: 'آواز اختیاری ہے۔ کیپشنز پہلے سے آن ہیں۔',
       voiceTitle: 'آواز',
@@ -384,6 +411,7 @@ const ur: Translation = {
       back: 'واپس جائیں',
     },
     safety: {
+      cardTitle: 'تین نرم یاد دہانیاں',
       title: 'شروع کرنے سے پہلے',
       subtitle: 'محفوظ مشق کے لیے چند نرم یاد دہانیاں۔',
       stop: 'اگر تیز درد، چکر یا طبیعت خراب محسوس ہو تو رک جائیں۔',
@@ -530,6 +558,9 @@ const ur: Translation = {
     quickTitle: 'فوری سکون',
     quickSub: '1 سے 5 منٹ، جب بھی ضرورت ہو',
     resume: 'وہیں سے جاری رکھیں جہاں چھوڑا تھا',
+    stylesTitle: 'اپنا انداز تلاش کریں',
+    stylesSub: 'کسی انداز کو چھوئیں اور اس کے معمولات دیکھیں',
+    popular: 'مقبول پروگرام',
     recommended: 'آپ کے لیے تجویز کردہ',
     favorites: 'آپ کی پسندیدہ',
     favoritesEmpty: {
@@ -555,6 +586,40 @@ const ur: Translation = {
     quickSub: '1 سے 5 منٹ کے ری سیٹ',
     resume: 'پچھلا سیشن جاری رکھیں',
     resumeSub: 'وہیں سے شروع کریں جہاں چھوڑا تھا',
+  },
+  stylesScreen: {
+    title: 'یوگا کے انداز',
+    subtitle: 'اپنی رفتار کے مطابق انداز چنیں۔ ہر انداز میں ابتدائی افراد کے لیے آسان معمولات ہیں۔',
+    more: 'مشق کے مزید طریقے',
+    routines: '{{count}} معمولات',
+  },
+  programsScreen: {
+    title: 'پروگرام',
+    subtitle: 'آرام کے دنوں سمیت رہنمائی والے منصوبے۔ اپنی رفتار سے چلیں۔',
+    featured: 'نمایاں',
+    all: 'تمام پروگرام',
+    days: '{{count}} دن',
+    themes: {
+      all: 'سب',
+      beginners: 'ابتدائی',
+      flexibility: 'لچک',
+      stress: 'تناؤ میں سکون',
+      sleep: 'بہتر نیند',
+      strength: 'طاقت',
+      mobility: 'حرکت',
+    },
+    emptyTitle: 'یہاں ابھی کوئی پروگرام نہیں',
+    emptyBody: 'کوئی اور ہدف چنیں، یا اس دوران معمولات دیکھیں۔',
+  },
+  favoritesScreen: {
+    title: 'پسندیدہ',
+    subtitle: 'آپ کے محفوظ کردہ آسن اور معمولات، ایک جگہ۔',
+    poses: 'آسن',
+    routines: 'معمولات',
+    emptyTitle: 'ابھی کچھ محفوظ نہیں',
+    emptyBody: 'کسی آسن یا معمول پر دل کا نشان دبائیں تاکہ وہ یہاں رہے۔',
+    explore: 'آسن دیکھیں',
+    saved: '{{count}} محفوظ',
   },
   explore: {
     title: 'دریافت',
@@ -617,6 +682,9 @@ const ur: Translation = {
     removeFilter: 'فلٹر {{name}} ہٹائیں',
   },
   pose: {
+    videoLabel: '{{name}}، مظاہرے کی ویڈیو۔ پہلا قدم: {{step}}',
+    playVideo: 'ویڈیو چلائیں',
+    pauseVideo: 'ویڈیو روکیں',
     tabs: {
       steps: 'مراحل',
       breathing: 'سانس',
@@ -817,7 +885,18 @@ const ur: Translation = {
       upcoming: 'دن {{day}}، آنے والا',
       plain: 'دن {{day}}',
     },
-    stats: { minutes: 'مشق کے منٹ', sessions: 'سیشن', favourite: 'پسندیدہ طرز', none: 'ابھی نہیں' },
+    stats: {
+      minutes: 'مشق کے منٹ',
+      minutesCaption: 'کل ملا کر',
+      sessions: 'سیشن',
+      sessionsCaption: 'اب تک',
+      streak: 'مسلسل دن',
+      streakCaption: 'لگاتار {{count}} دن',
+      streakNone: 'کسی بھی دن شروع کریں',
+      favourite: 'پسندیدہ طرز',
+      none: 'ابھی نہیں',
+    },
+    week: { title: 'اس ہفتے', summary: '{{minutes}} منٹ · {{days}} دن' },
     lookCloser: 'ذرا قریب سے دیکھیں',
     links: {
       calendar: 'کیلنڈر',
@@ -982,6 +1061,7 @@ const ur: Translation = {
       replayCta: 'تعارف دوبارہ دیکھیں',
       save: 'محفوظ کریں',
       rows: {
+        favorites: 'پسندیدہ',
         preferences: 'ترجیحات',
         reminders: 'یاد دہانیاں',
         downloads: 'ڈاؤن لوڈز',

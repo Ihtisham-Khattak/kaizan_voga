@@ -40,7 +40,7 @@ export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, childre
         <Blob color={colors.leaf} size={280} opacity={0.14} />
       </View>
       <View style={{ position: 'absolute', start: -80, bottom: 60 }} pointerEvents="none">
-        <Blob color={colors.sunriseSoft} size={240} opacity={0.25} />
+        <Blob color={colors.skySoft} size={240} opacity={0.25} />
       </View>
 
       {!hideBack && router.canGoBack() ? (

@@ -15,20 +15,20 @@ interface Shot {
  */
 export const PHOTOS: Record<Person, { before: Shot; after: Shot; hairy?: boolean }> = {
   hina: {
-    before: { source: require('../../assets/images/people/hina.jpg'), face: { x: 0.5, y: 0.27 } },
-    after: { source: require('../../assets/images/people/hina-after.jpg'), face: { x: 0.51, y: 0.27 } },
+    before: { source: require('../../assets/images/people/hina.jpg'), face: { x: 0.52, y: 0.21 } },
+    after: { source: require('../../assets/images/people/hina-after.jpg'), face: { x: 0.5, y: 0.21 } },
   },
   arfa: {
-    before: { source: require('../../assets/images/people/arfa.jpg'), face: { x: 0.5, y: 0.27 } },
-    after: { source: require('../../assets/images/people/arfa-after.jpg'), face: { x: 0.5, y: 0.21 } },
+    before: { source: require('../../assets/images/people/arfa.jpg'), face: { x: 0.52, y: 0.21 } },
+    after: { source: require('../../assets/images/people/arfa-after.jpg'), face: { x: 0.5, y: 0.16 } },
   },
   hamid: {
-    before: { source: require('../../assets/images/people/hamid.jpg'), face: { x: 0.53, y: 0.28 } },
+    before: { source: require('../../assets/images/people/hamid.jpg'), face: { x: 0.5, y: 0.22 } },
     after: { source: require('../../assets/images/people/hamid-after.jpg'), face: { x: 0.5, y: 0.15 } },
   },
   sierra: {
-    before: { source: require('../../assets/images/people/sierra.jpg'), face: { x: 0.51, y: 0.3 } },
-    after: { source: require('../../assets/images/people/sierra-after.jpg'), face: { x: 0.52, y: 0.27 } },
+    before: { source: require('../../assets/images/people/sierra.jpg'), face: { x: 0.5, y: 0.21 } },
+    after: { source: require('../../assets/images/people/sierra-after.jpg'), face: { x: 0.5, y: 0.21 } },
     hairy: true,
   },
 };

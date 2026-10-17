@@ -8,7 +8,7 @@ import { routines } from './routines';
 export function validateData(): string[] {
   const issues: string[] = [];
   const ids = new Set(exercises.map((e) => e.id));
-  if (exercises.length !== 50) issues.push(`expected 50 exercises, got ${exercises.length}`);
+  if (exercises.length < 50) issues.push(`expected at least 50 exercises, got ${exercises.length}`);
   if (ids.size !== exercises.length) issues.push('duplicate exercise ids');
 
   const cats = new Map<string, number>();
@@ -32,7 +32,7 @@ export function validateData(): string[] {
   }
   const mins = (id: string) => routines.find((r) => r.id === id)!.totalSec / 60;
   const full = routines.filter((r) => r.kind !== 'quick-relief');
-  if (full.length !== 12) issues.push(`expected 12 routines, got ${full.length}`);
+  if (full.length < 12) issues.push(`expected at least 12 routines, got ${full.length}`);
   if (full.filter((r) => r.kind === 'sleep').length !== 2) issues.push('expected 2 sleep routines');
   for (const id of ['r-01', 'r-02', 'r-03'])
     if (Math.abs(mins(id) - 5) > 0.5) issues.push(`${id} should be ~5 min (${mins(id)})`);
@@ -44,7 +44,7 @@ export function validateData(): string[] {
   if (qr.length !== 5) issues.push(`expected 5 quick-relief, got ${qr.length}`);
   for (const r of qr) if (r.totalSec < 60 || r.totalSec > 300) issues.push(`${r.id} should be 1-5 min`);
 
-  if (programs.length !== 2) issues.push('expected 2 programs');
+  if (programs.length < 2) issues.push('expected at least 2 programs');
   const p30 = programs.find((p) => p.id === 'p-30');
   const pd = programs.find((p) => p.id === 'p-desk');
   if (p30?.days.length !== 30) issues.push(`30-day program has ${p30?.days.length} days`);
@@ -53,10 +53,10 @@ export function validateData(): string[] {
     for (const d of p.days)
       if (d.routineId && !routineIds.has(d.routineId)) issues.push(`${p.id} day ${d.day}: unknown routine`);
 
-  if (breathingSessions.length !== 6) issues.push('expected 6 breathing sessions');
+  if (breathingSessions.length < 6) issues.push('expected at least 6 breathing sessions');
   if (achievements.length !== 12) issues.push('expected 12 achievements');
   if (challenges.length !== 3) issues.push('expected 3 challenges');
-  if (styles.length !== 7) issues.push('expected 7 styles');
+  if (styles.length < 7) issues.push('expected at least 7 styles');
   return issues;
 }
 

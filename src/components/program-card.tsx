@@ -1,6 +1,8 @@
 import { Pressable, View } from 'react-native';
 
 import { CoverArt } from '@/components/cover-art';
+import { PROGRAM_MOTIF } from '@/components/cover-motifs';
+import { DifficultyBadge } from '@/components/difficulty-badge';
 import { ProgressRing } from '@/components/progress-ring';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
@@ -34,7 +36,7 @@ export function ProgramCard({ program: p, completedDays = 0, onPress, className 
       )}
     >
       <View>
-        <CoverArt tint={p.cover} height={130} />
+        <CoverArt tint={p.cover} motif={PROGRAM_MOTIF[p.theme]} height={130} />
         <PremiumBadge
           id={p.id}
           premium={p.premium}
@@ -51,9 +53,7 @@ export function ProgramCard({ program: p, completedDays = 0, onPress, className 
             <Badge variant="secondary">
               <Text>{weeks}</Text>
             </Badge>
-            <Badge variant="outline">
-              <Text>{t(`level.${p.level}`)}</Text>
-            </Badge>
+            <DifficultyBadge level={p.level} />
           </View>
         </View>
         {started ? (

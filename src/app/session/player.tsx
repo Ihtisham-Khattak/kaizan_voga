@@ -21,6 +21,7 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { BottomSheet } from '@/components/bottom-sheet';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { CoverArt, variantFor } from '@/components/cover-art';
+import { PoseMedia } from '@/components/pose-media';
 import { GlassCard } from '@/components/glass-card';
 import { ProgressRing } from '@/components/progress-ring';
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,7 @@ import { getExercise } from '@/data/repo';
 import { useT } from '@/i18n';
 import { formatDuration } from '@/lib/format';
 import { haptic } from '@/lib/haptics';
+import { playChime, releaseAll, setAmbience, setMusic, speak } from '@/lib/soundscape';
 import { resolveRoutine } from '@/lib/routines';
 import { buildPlan, planTotalSec } from '@/lib/session-plan';
 import type { BreathPhase } from '@/lib/breath';
@@ -79,7 +81,7 @@ function RoundButton({
 /** Immersive active session: breathing circle behind the pose, ring countdown, glass controls. Exit is always one tap away. */
 export default function SessionPlayer() {
   useKeepAwake();
-  const { t } = useT();
+  const { t, i18n } = useT();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const { extras } = useTheme();
@@ -120,8 +122,10 @@ export default function SessionPlayer() {
       if (done.current || !routine) return;
       done.current = true;
       const practicedSec = Math.round(practicedMs.current / 1000);
-      if (completed) setLastSession(null);
-      else
+      if (completed) {
+        setLastSession(null);
+        playChime();
+      } else
         setLastSession({
           contentId: routine.id,
           kind: routine.kind === 'quick-relief' ? 'quick-relief' : 'routine',
@@ -186,6 +190,29 @@ export default function SessionPlayer() {
     }, 250);
     return () => clearInterval(id);
   }, [running, step, index, goTo]);
+
+  // The sound the user chose in session setup: ambience and music play while the session runs and fade out on pause,
+  // mute or when a sheet is open. Everything is released when the player closes.
+  useEffect(() => {
+    if (!config) return;
+    const on = running && !muted;
+    setAmbience(on ? config.ambience : 'none');
+    setMusic(on && config.music);
+  }, [config, running, muted]);
+  useEffect(() => () => releaseAll(), []);
+
+  // A soft bell and the chosen voice announce each pose (name, side and the first breathing cue), once per pose.
+  const announced = useRef(-1);
+  useEffect(() => {
+    if (!config || !step || !exercise || !running || muted || announced.current === index) return;
+    announced.current = index;
+    playChime();
+    if (config.voice === 'none') return;
+    const side = step.side ? `. ${t(`session.player.${step.side}`)}` : '';
+    const line = `${exercise.name}${side}. ${exercise.breathingCues[0] ?? ''}`;
+    const id = setTimeout(() => void speak(config.voice, line, i18n.language), 1100);
+    return () => clearTimeout(id);
+  }, [config, step, exercise, running, muted, index, t, i18n.language]);
 
   if (!config || !routine || !step || !exercise) {
     return (
@@ -286,12 +313,20 @@ export default function SessionPlayer() {
             accessibilityLabel={t('session.player.timeLeft', { sec: remaining })}
           >
             <View className="size-[72%] overflow-hidden rounded-full">
-              <CoverArt
-                tint={routine.cover}
-                figure={variantFor(exercise)}
+              <PoseMedia
+                exercise={exercise}
                 height={ring * 0.72}
                 width={ring * 0.72}
                 rounded={ring}
+                fallback={
+                  <CoverArt
+                    tint={routine.cover}
+                    figure={variantFor(exercise)}
+                    height={ring * 0.72}
+                    width={ring * 0.72}
+                    rounded={ring}
+                  />
+                }
               />
             </View>
           </ProgressRing>

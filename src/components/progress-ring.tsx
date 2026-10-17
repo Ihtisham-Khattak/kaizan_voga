@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import Animated, { Easing, useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
+import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useTheme } from '@/theme/theme-provider';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -33,16 +34,17 @@ export function ProgressRing({
   accessibilityLabel,
 }: Props) {
   const { colors } = useTheme();
+  const reduce = useReduceMotion();
   const r = (size - strokeWidth) / 2;
   const c = 2 * Math.PI * r;
   const p = useSharedValue(Math.min(1, Math.max(0, progress)));
 
   useEffect(() => {
     p.value = withTiming(Math.min(1, Math.max(0, progress)), {
-      duration,
+      duration: reduce ? 0 : duration,
       easing: linear ? Easing.linear : Easing.inOut(Easing.ease),
     });
-  }, [progress, duration, linear, p]);
+  }, [progress, duration, linear, reduce, p]);
 
   const animatedProps = useAnimatedProps(() => ({ strokeDashoffset: c * (1 - p.value) }));
 

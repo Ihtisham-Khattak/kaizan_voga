@@ -1,7 +1,11 @@
 import { Hand } from 'phosphor-react-native';
 import { View } from 'react-native';
 
+import { FadeUp } from '@/components/fade-up';
+import { ProgressRing } from '@/components/progress-ring';
 import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
+import { listExercises } from '@/data/repo';
 import { ChoiceTile } from '@/features/onboarding/choice-tile';
 import { PersonalizationShell } from '@/features/onboarding/shell';
 import { useT } from '@/i18n';
@@ -25,6 +29,11 @@ export default function EquipmentScreen() {
   const { colors } = useTheme();
   const equipment = usePrefsStore((s) => s.equipment);
   const patch = usePrefsStore((s) => s.patch);
+
+  // live count: poses that need nothing beyond what the user ticked ("none" = no equipment at all)
+  const all = listExercises();
+  const have = new Set<string>(equipment.filter((e) => e !== 'none'));
+  const doable = all.filter((e) => e.tags.equipment.every((q) => have.has(q))).length;
 
   const toggle = (id: Equipment) => {
     if (id === 'none') return patch({ equipment: equipment.includes('none') ? [] : ['none'] });
@@ -51,9 +60,10 @@ export default function EquipmentScreen() {
           <ChoiceTile
             key={it.id}
             multi
-            widthPct={31}
+            widthPct={48}
             index={i}
             label={t(`onboardingQ.equipment.${it.id}`)}
+            sublabel={t(`onboardingQ.equipment.${it.id}Sub`)}
             selected={equipment.includes(it.id)}
             onPress={() => toggle(it.id)}
             leading={
@@ -68,6 +78,37 @@ export default function EquipmentScreen() {
           />
         ))}
       </View>
+
+      {equipment.length > 0 ? (
+        <FadeUp>
+          <View
+            accessible
+            accessibilityLiveRegion="polite"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              backgroundColor: colors.mint,
+              borderRadius: 20,
+              padding: 14,
+            }}
+          >
+            <ProgressRing progress={doable / all.length} size={56} strokeWidth={6} color="primary">
+              <Text variant="callout" className="font-sans-bold" style={{ color: colors.forest }}>
+                {String(doable)}
+              </Text>
+            </ProgressRing>
+            <View style={{ flex: 1, gap: 2 }}>
+              <Text variant="callout" className="font-sans-semibold" style={{ color: colors.forest }}>
+                {t('onboardingQ.equipment.canDo', { count: doable, total: all.length })}
+              </Text>
+              <Text variant="footnote" style={{ color: colors.muted }}>
+                {t('onboardingQ.equipment.canDoHint')}
+              </Text>
+            </View>
+          </View>
+        </FadeUp>
+      ) : null}
     </PersonalizationShell>
   );
 }

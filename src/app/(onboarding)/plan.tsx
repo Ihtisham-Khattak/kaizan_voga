@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Character, CharacterLook } from '@/characters/character';
 import type { CharacterName } from '@/characters/palette';
+import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { goalCharacter } from '@/data/story';
 import { ConfettiLeaves } from '@/characters/props';
@@ -225,6 +226,7 @@ export default function PlanScreen() {
   return (
     <CharacterLook value="clay">
       <View style={{ flex: 1, backgroundColor: sc.bg }}>
+        <AuroraBackground />
         <ConfettiLeaves width={width} height={height} count={ready ? 9 : 4} />
         <AnimatePresence exitBeforeEnter>{ready ? <Summary key="s" /> : <Loader key="l" />}</AnimatePresence>
       </View>

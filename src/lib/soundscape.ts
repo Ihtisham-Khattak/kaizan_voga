@@ -138,30 +138,36 @@ function setDucked(on: boolean) {
 const FEMALE = /female|woman|(^|[^a-z])f\d|samantha|karen|moira|tessa|victoria|ava|allison|susan|zira|fiona/i;
 const MALE = /(^|[^a-z])male|man\b|(^|[^a-z])m\d|daniel|alex|fred|tom|aaron|oliver|david|mark|rishi/i;
 
+/** Pick a phone voice of the right gender. `matched` = we are confident of its gender; otherwise pitch carries the difference. */
 async function pickVoice(kind: Exclude<VoicePreference, 'none'>, lang: string) {
   try {
     const all = await Speech.getAvailableVoicesAsync();
     const inLang = all.filter((v) => v.language?.toLowerCase().startsWith(lang));
     const re = kind === 'female' ? FEMALE : MALE;
     const other = kind === 'female' ? MALE : FEMALE;
-    return (
-      inLang.find((v) => re.test(`${v.name} ${v.identifier}`) && !other.test(`${v.name} ${v.identifier}`)) ??
-      inLang.find((v) => re.test(`${v.name} ${v.identifier}`))
-    )?.identifier;
+    const text = (v: (typeof all)[number]) => `${v.name} ${v.identifier}`;
+    const found = inLang.find((v) => re.test(text(v)) && !other.test(text(v)));
+    return found ? { id: found.identifier, matched: true } : { id: undefined, matched: false };
   } catch {
-    return undefined;
+    return { id: undefined, matched: false };
   }
 }
 
-/** Speak a short guidance sample in the chosen voice. The phone's voice is a preview until recorded guides ship. */
-export async function previewVoice(kind: VoicePreference, text: string, lang: string) {
+/**
+ * Speak guidance in the chosen voice. Female is higher and a little quicker, male lower and slower, so the two are
+ * clearly different even on phones that expose only one voice. The phone's own voice stands in until recorded guides
+ * ship (FN-06).
+ */
+export async function speak(kind: VoicePreference, text: string, lang: string) {
   stopVoice();
   if (kind === 'none') return;
   const code = lang.startsWith('ur') ? 'ur' : 'en';
-  // the phone's voice list can be slow to load; never let it delay the sample by more than a moment
-  const voice = await Promise.race([
+  // the phone's voice list can be slow to load; never let it delay speech by more than a moment
+  const pick = await Promise.race([
     pickVoice(kind, code),
-    new Promise<undefined>((r) => setTimeout(() => r(undefined), 900)),
+    new Promise<{ id: undefined; matched: false }>((r) =>
+      setTimeout(() => r({ id: undefined, matched: false }), 900)
+    ),
   ]);
   setDucked(true);
   emit({ voice: kind });
@@ -169,19 +175,38 @@ export async function previewVoice(kind: VoicePreference, text: string, lang: st
     setDucked(false);
     emit({ voice: null });
   };
+  const female = kind === 'female';
   try {
     Speech.speak(text, {
       language: code === 'ur' ? 'ur-PK' : 'en-US',
-      voice,
-      // when the phone exposes no gendered voice, nudge the pitch so the two still sound distinct
-      pitch: voice ? 1 : kind === 'female' ? 1.15 : 0.8,
-      rate: 0.86,
+      voice: pick.id,
+      pitch: pick.matched ? (female ? 1.08 : 0.9) : female ? 1.28 : 0.72,
+      rate: female ? 0.9 : 0.82,
       onDone: done,
       onStopped: done,
       onError: done,
     });
   } catch {
     done();
+  }
+}
+
+/** Kept for the Voice & music screen. */
+export const previewVoice = speak;
+
+// ───────────────────────────── chime ─────────────────────────────
+
+let chime: AudioPlayer | null = null;
+/** A soft bell: marks the start of a pose and the end of a session. Never throws. */
+export function playChime() {
+  try {
+    void ensureMode();
+    if (!chime) chime = createAudioPlayer(require('../../assets/audio/chime.wav'));
+    chime.volume = 0.7;
+    void chime.seekTo(0);
+    chime.play();
+  } catch {
+    /* sound is optional */
   }
 }
 

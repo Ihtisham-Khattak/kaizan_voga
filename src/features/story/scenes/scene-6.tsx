@@ -4,10 +4,10 @@ import { ScrollView, View } from 'react-native';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { ConfettiLeaves } from '@/characters/props';
 import { FadeUp } from '@/components/fade-up';
-import { SpeechBubble } from '@/components/speech-bubble';
 import { Text } from '@/components/ui/text';
 import { scenes } from '@/data/story';
 import { GoalsPicker } from '@/features/onboarding/goals-picker';
+import { KaiReaction } from '@/features/onboarding/kai-reaction';
 import { useT } from '@/i18n';
 import { usePrefsStore } from '@/store/prefs-store';
 
@@ -35,7 +35,7 @@ export function Scene6({ width, height }: SceneProps) {
         contentContainerStyle={{
           alignItems: 'center',
           paddingTop: insets.top + 56,
-          paddingBottom: bottom + 130,
+          paddingBottom: bottom + 270, // clears the footer (Kai's reply, Continue, step line) so the last goal is fully visible
           paddingHorizontal: 16,
         }}
       >
@@ -87,11 +87,11 @@ export function Scene6({ width, height }: SceneProps) {
           paddingTop: 16,
           paddingBottom: bottom,
           alignItems: 'center',
-          gap: 12,
+          gap: 0,
         }}
       >
         <View style={{ width: w }}>
-          <SpeechBubble speaker="kai" text={t('story.s6.kai')} visible={goals.length > 0} tail="none" />
+          <KaiReaction text={goals.length > 0 ? t('story.s6.kai') : null} />
         </View>
         <View style={{ width: w, alignItems: 'center' }}>
           <SceneCTA

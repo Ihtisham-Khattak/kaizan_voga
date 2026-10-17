@@ -211,10 +211,7 @@ export function Scene4({ controls, width }: SceneProps) {
               <Icon as={Heart} size={22} color={sc.title} />
             </View>
             <Text variant="body" style={{ flex: 1, color: sc.body }}>
-              <Text
-                variant="body"
-                style={{ color: sc.title, fontWeight: '700' }}
-              >{`${t('story.s4.reminderLead')} `}</Text>
+              <Text variant="body" style={{ color: sc.title }}>{`${t('story.s4.reminderLead')} `}</Text>
               {t('story.s4.reminder')}
             </Text>
           </View>

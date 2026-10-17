@@ -9,12 +9,13 @@ import { Easing, runOnJS } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CharacterLook } from '@/characters/character';
+import { AuroraBackground } from '@/components/aurora-background';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
-import { useStoryColors } from '@/theme/story';
+import { alpha } from '@/theme/colors';
 import { useTheme } from '@/theme/theme-provider';
 
 import { leaveStory } from './leave';
@@ -99,12 +100,8 @@ function EdgeArrow({ kind, onPress, label }: { kind: 'next' | 'prev'; onPress: (
  * The first-launch story: swipe or tap Next through the scenes. Skip is always visible (top-end),
  * the step line sits at the bottom, edge arrows show the way, and the ambient background shifts from muted to warm scene by scene.
  */
-/** Positions already rebuilt on the docs/UI_Build.md tokens (the other scenes still use the story palette). */
-const TOKEN_SCENES = new Set([2, 3, 4]);
-
 export function StoryShell({ scenes: SceneList }: Props) {
   const { t } = useT();
-  const sc = useStoryColors();
   const reduce = useReduceMotion();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
@@ -158,23 +155,23 @@ export function StoryShell({ scenes: SceneList }: Props) {
   const Scene = SceneList[index];
   // Scenes rebuilt strictly on the docs/UI_Build.md tokens sit on the theme `bg`, so the header band must match.
   const { colors } = useTheme();
-  const token = TOKEN_SCENES.has(index);
-  const surface = token ? colors.bg : sc.bg;
-  // header + footer colours: spec tokens for token scenes, the story palette for the rest
-  const chrome = token
-    ? {
-        circleBg: colors.mint,
-        title: colors.forest,
-        muted: colors.muted,
-        body: colors.ink,
-        positive: colors.primary,
-      }
-    : sc;
+  const surface = colors.bg;
+  const chrome = {
+    circleBg: colors.mint,
+    pillBg: colors.mint,
+    dotOn: colors.primary,
+    dotOff: alpha(colors.muted, 0.35),
+    title: colors.forest,
+    muted: colors.muted,
+    body: colors.ink,
+    positive: colors.primary,
+  };
   const slide = reduce ? 0 : 36 * direction * dir();
 
   return (
     <CharacterLook value="clay">
       <View style={{ flex: 1, backgroundColor: surface }}>
+        <AuroraBackground />
         <GestureDetector gesture={pan}>
           <View style={StyleSheet.absoluteFill}>
             <AnimatePresence>

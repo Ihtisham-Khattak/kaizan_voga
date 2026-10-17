@@ -2,10 +2,11 @@ import { MotiView } from 'moti';
 import { View } from 'react-native';
 
 import { Character } from '@/characters/character';
-import { ConfettiLeaves, LotusLogo } from '@/characters/props';
+import { ConfettiLeaves } from '@/characters/props';
 import { BreathingCircle } from '@/components/breathing-circle';
 import { FadeUp } from '@/components/fade-up';
 import { Button } from '@/components/ui/button';
+import { BrandLogo } from '@/components/brand-logo';
 import { Text } from '@/components/ui/text';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
@@ -36,14 +37,14 @@ export function Scene0({ controls, width, height }: SceneProps) {
         }
       >
         <FadeUp className="items-center gap-2">
-          <LotusLogo size={64} />
+          <BrandLogo size={72} />
           <Text variant="label" className="uppercase tracking-[3px]">
             {t('common.appName')}
           </Text>
         </FadeUp>
 
         <View style={{ width: size, height: size }} className="my-3 items-center justify-center">
-          <BreathingCircle size={size} soft tint="sunrise" />
+          <BreathingCircle size={size} soft tint="leaf" />
           <MotiView
             from={{ opacity: 0, translateY: reduce ? 0 : -240 }}
             animate={{ opacity: 1, translateY: 0 }}

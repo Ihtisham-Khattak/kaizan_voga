@@ -19,6 +19,7 @@ import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
 import { useSessionStore } from '@/store/session-store';
 import { useTheme } from '@/theme/theme-provider';
+import { releaseAll, setAmbience } from '@/lib/soundscape';
 
 const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 
@@ -29,7 +30,7 @@ export default function BreathingPlayer() {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const { colors } = useTheme();
-  const params = useLocalSearchParams<{ id: string; minutes?: string }>();
+  const params = useLocalSearchParams<{ id: string; minutes?: string; ambience?: string }>();
   const session = getBreathing(String(params.id));
   const setSummary = useSessionStore((s) => s.setSummary);
 
@@ -47,6 +48,15 @@ export default function BreathingPlayer() {
 
   const total = minutes * 60;
   const running = started && !paused && !exiting;
+
+  // the ambience chosen on the breathing hub plays while the practice runs and fades out on pause or exit
+  const ambience = (
+    ['rain', 'forest', 'piano'].includes(String(params.ambience)) ? params.ambience : 'none'
+  ) as 'rain' | 'forest' | 'piano' | 'none';
+  useEffect(() => {
+    setAmbience(running ? ambience : 'none');
+  }, [running, ambience]);
+  useEffect(() => () => releaseAll(), []);
 
   const finish = useCallback(
     (completed: boolean, practicedSec: number) => {

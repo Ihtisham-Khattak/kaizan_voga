@@ -55,10 +55,7 @@ export function ChoiceTile({
         >
           <View style={{ alignItems: 'center', gap: 8 }}>
             <View style={{ height: 72, alignItems: 'center', justifyContent: 'center' }}>{leading}</View>
-            <Text
-              variant="bodyLarge"
-              style={{ color: colors.forest, fontWeight: '600', textAlign: 'center' }}
-            >
+            <Text variant="bodyLarge" style={{ color: colors.forest, textAlign: 'center' }}>
               {label}
             </Text>
             {sublabel ? (

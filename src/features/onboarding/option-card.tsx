@@ -48,13 +48,13 @@ export function OptionCard({ title, subtitle, selected, onPress, leading, multi,
           contentStyle={{ minHeight: 64, justifyContent: 'center' }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-            {leading ? <View style={{ width: 48, alignItems: 'center' }}>{leading}</View> : null}
+            {leading ? <View style={{ width: 52, alignItems: 'center' }}>{leading}</View> : null}
             <View style={{ flex: 1, gap: 2 }}>
-              <Text variant="bodyLarge" style={{ color: colors.forest, fontWeight: '600' }}>
+              <Text className="font-sans-semibold" variant="bodyLarge" style={{ color: colors.forest }}>
                 {title}
               </Text>
               {subtitle ? (
-                <Text variant="callout" style={{ color: colors.muted, fontWeight: '400' }}>
+                <Text className="font-sans" variant="callout" style={{ color: colors.muted }}>
                   {subtitle}
                 </Text>
               ) : null}

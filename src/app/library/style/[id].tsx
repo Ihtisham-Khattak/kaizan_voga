@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { EmptyState } from '@/components/empty-state';
 import { RoutineCard } from '@/components/routine-card';
+import { SafetyNotice } from '@/components/safety-notice';
 import { Text } from '@/components/ui/text';
 import { getStyle, routinesByStyle } from '@/data/repo';
 import { CollectionScaffold } from '@/features/library/collection-scaffold';
@@ -31,6 +32,7 @@ export default function StyleScreen() {
           {style.suits}
         </Text>
       </View>
+      {style.note ? <SafetyNotice title={t('safety.title')} lines={[style.note]} /> : null}
       <Text variant="heading" className="pt-2">
         {t('explore.sampleRoutines')}
       </Text>

@@ -6,6 +6,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CoverArt } from '@/components/cover-art';
+import { PROGRAM_MOTIF } from '@/components/cover-motifs';
 import { EmptyState } from '@/components/empty-state';
 import { GlassCard } from '@/components/glass-card';
 import { ProgressRing } from '@/components/progress-ring';
@@ -128,7 +129,7 @@ export default function ProgramDetail() {
         contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
       >
         <View style={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32, overflow: 'hidden' }}>
-          <CoverArt tint={p.cover} height={230} rounded={0} />
+          <CoverArt tint={p.cover} motif={PROGRAM_MOTIF[p.theme]} height={230} rounded={0} />
           <View style={{ position: 'absolute', bottom: 12, start: 14 }}>
             <PremiumBadge id={p.id} premium={p.premium} contentKind={'program'} />
           </View>

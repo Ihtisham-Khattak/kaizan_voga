@@ -124,6 +124,7 @@ function RootStack() {
         <Stack.Screen name="support" options={{ animation: 'slide_from_right' }} />
         <Stack.Screen name="library" options={{ animation: 'slide_from_right' }} />
         <Stack.Screen name="journey" options={{ animation: 'slide_from_right' }} />
+        <Stack.Screen name="favorites" options={{ animation: 'slide_from_right' }} />
         <Stack.Screen name="coming-soon" options={{ presentation: 'modal' }} />
       </Stack.Protected>
 

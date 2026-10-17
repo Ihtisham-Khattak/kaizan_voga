@@ -3,7 +3,11 @@ import {
   CalendarBlank,
   CaretRight,
   ChartLineUp,
+  CheckCircle,
+  Clock,
   ClockCounterClockwise,
+  Flame,
+  Heart,
   Medal,
   NotePencil,
 } from 'phosphor-react-native';
@@ -12,17 +16,19 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground } from '@/components/aurora-background';
 import { EmptyState } from '@/components/empty-state';
+import { ProgressCard } from '@/components/progress-card';
 import { FadeUp } from '@/components/fade-up';
 import { TAB_BAR_CLEARANCE } from '@/components/tab-bar';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { JourneyPath } from '@/features/progress/journey-path';
+import { WeekChart } from '@/features/progress/week-chart';
 import { ProgressSkeleton } from '@/features/states/skeletons';
 import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { journeyDay, JOURNEY_DAYS, useTodayPlan } from '@/lib/journey';
 import { startSession } from '@/lib/nav';
-import { favouriteStyle, practicedKeys, totalMinutes } from '@/lib/stats';
+import { currentStreak, favouriteStyle, practicedKeys, totalMinutes } from '@/lib/stats';
 import { useAppStore } from '@/store/app-store';
 import { useProgressStore } from '@/store/progress-store';
 
@@ -33,19 +39,6 @@ const LINKS = [
   { key: 'achievements', href: '/journey/achievements', icon: Medal },
   { key: 'history', href: '/journey/history', icon: ClockCounterClockwise },
 ] as const;
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <View className="flex-1 items-center gap-1 rounded-2xl border border-border bg-card px-2 py-3">
-      <Text variant="title" numberOfLines={1} adjustsFontSizeToFit>
-        {value}
-      </Text>
-      <Text variant="caption" className="text-center" numberOfLines={2}>
-        {label}
-      </Text>
-    </View>
-  );
-}
 
 /** Progress tab: the 30-day journey path, three honest numbers, and doors to the deeper views. */
 export default function ProgressScreen() {
@@ -61,6 +54,7 @@ export default function ProgressScreen() {
   const practiced = practicedKeys(sessions);
   const minutes = totalMinutes(sessions);
   const fav = favouriteStyle(sessions);
+  const streak = currentStreak(sessions);
 
   if (loading) return <ProgressSkeleton />;
 
@@ -114,13 +108,54 @@ export default function ProgressScreen() {
                 }
               />
             ) : (
-              <FadeUp delay={120}>
-                <View className="flex-row gap-3">
-                  <Stat label={t('prog.stats.minutes')} value={String(minutes)} />
-                  <Stat label={t('prog.stats.sessions')} value={String(sessions.length)} />
-                  <Stat label={t('prog.stats.favourite')} value={fav ?? t('prog.stats.none')} />
-                </View>
-              </FadeUp>
+              <>
+                <FadeUp delay={120}>
+                  <View style={{ gap: 12 }}>
+                    <View style={{ flexDirection: 'row', gap: 12 }}>
+                      <View style={{ flex: 1 }}>
+                        <ProgressCard
+                          label={t('prog.stats.sessions')}
+                          value={String(sessions.length)}
+                          caption={t('prog.stats.sessionsCaption')}
+                          icon={CheckCircle}
+                        />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <ProgressCard
+                          label={t('prog.stats.minutes')}
+                          value={String(minutes)}
+                          caption={t('prog.stats.minutesCaption')}
+                          icon={Clock}
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', gap: 12 }}>
+                      <View style={{ flex: 1 }}>
+                        <ProgressCard
+                          label={t('prog.stats.streak')}
+                          value={String(streak)}
+                          caption={
+                            streak > 0
+                              ? t('prog.stats.streakCaption', { count: streak })
+                              : t('prog.stats.streakNone')
+                          }
+                          icon={Flame}
+                        />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <ProgressCard
+                          label={t('prog.stats.favourite')}
+                          value={fav ?? t('prog.stats.none')}
+                          icon={Heart}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </FadeUp>
+                <FadeUp delay={180}>
+                  <WeekChart sessions={sessions} />
+                </FadeUp>
+              </>
             )}
 
             <FadeUp delay={200}>

@@ -18,3 +18,6 @@ export const openCollection = (kind: 'style' | 'category' | 'collection', id: st
   router.push(`/library/${kind}/${id}` as Href);
 export const openSearch = (params?: Record<string, string>) =>
   router.push({ pathname: '/search', params } as Href);
+export const openStyles = () => router.push('/library/styles' as Href);
+export const openPrograms = () => router.push('/library/programs' as Href);
+export const openFavorites = () => router.push('/favorites' as Href);

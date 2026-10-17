@@ -19,6 +19,7 @@ import {
   PlayCircle,
   Crown,
   CaretRight,
+  Heart,
 } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -211,8 +212,8 @@ export default function ProfileScreen() {
         ) : null}
 
         <Group title={t('pf.profile.settings')}>
+          <Row first icon={Heart} label={t('pf.profile.rows.favorites')} onPress={go('/favorites')} />
           <Row
-            first
             icon={SlidersHorizontal}
             label={t('pf.profile.rows.preferences')}
             onPress={go('/settings/preferences')}
@@ -244,7 +245,8 @@ export default function ProfileScreen() {
 
         {__DEV__ ? (
           <Group title="Developer">
-            <Row first icon={Info} label="State components and toggles" onPress={go('/dev/states')} />
+            <Row first icon={Info} label="Screen showcase (all 14 screens)" onPress={go('/dev/screens')} />
+            <Row icon={Info} label="State components and toggles" onPress={go('/dev/states')} />
           </Group>
         ) : null}
 

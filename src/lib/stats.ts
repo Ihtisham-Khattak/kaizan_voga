@@ -37,3 +37,38 @@ export function startOfWeek(d: Date) {
 }
 
 export const addDays = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+
+/** Minutes practised on each of the 7 days of the week containing `today` (first weekday follows the device). */
+export function weekMinutes(sessions: SessionRecord[], today = new Date()) {
+  const start = startOfWeek(today);
+  return Array.from({ length: 7 }, (_, i) => {
+    const day = addDays(start, i);
+    const key = dayKey(day);
+    const sec = sessions
+      .filter((s) => dayKey(new Date(s.at)) === key)
+      .reduce((n, s) => n + s.practicedSec, 0);
+    return {
+      date: day,
+      key,
+      minutes: Math.round(sec / 60),
+      isToday: key === dayKey(today),
+      isFuture: day > today && key !== dayKey(today),
+    };
+  });
+}
+
+/**
+ * Days in a row with some practice, counted back from today. Today not being practised yet does not break it
+ * (the day is not over); only a fully missed day ends it. Rest days are never described as failure in the UI.
+ */
+export function currentStreak(sessions: SessionRecord[], today = new Date()) {
+  const days = practicedKeys(sessions);
+  let d = startOfDay(today);
+  if (!days.has(dayKey(d))) d = addDays(d, -1);
+  let n = 0;
+  while (days.has(dayKey(d))) {
+    n += 1;
+    d = addDays(d, -1);
+  }
+  return n;
+}

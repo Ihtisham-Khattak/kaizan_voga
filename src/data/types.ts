@@ -65,7 +65,19 @@ export interface Exercise {
 export type RoutinePhase = 'settle' | 'warm-up' | 'main' | 'cool-down' | 'close';
 export type CoverTint = 'sage' | 'mint' | 'sand' | 'coral' | 'lavender';
 export type StyleId =
-  'hatha' | 'gentle' | 'chair' | 'restorative' | 'vinyasa' | 'mobility-balance' | 'breathing-mindfulness';
+  | 'hatha'
+  | 'gentle'
+  | 'chair'
+  | 'restorative'
+  | 'vinyasa'
+  | 'yin'
+  | 'power'
+  | 'prenatal'
+  | 'mobility-balance'
+  | 'breathing-mindfulness';
+
+/** What a program is for; drives the filter chips on the Programs screen. */
+export type ProgramTheme = 'beginners' | 'flexibility' | 'stress' | 'sleep' | 'strength' | 'mobility';
 
 export interface RoutineStep {
   exerciseId: string;
@@ -119,6 +131,7 @@ export interface Program {
   days: ProgramDay[];
   level: Level;
   goals: Goal[];
+  theme: ProgramTheme;
   premium: boolean;
   cover: CoverTint;
 }
@@ -147,6 +160,9 @@ export interface YogaStyle {
   /** Plain-language explainer. */
   explainer: string;
   suits: string;
+  cover: CoverTint;
+  /** A short, careful note shown with the style (e.g. Prenatal: check with your healthcare professional first). */
+  note?: string;
 }
 
 export interface Helpline {

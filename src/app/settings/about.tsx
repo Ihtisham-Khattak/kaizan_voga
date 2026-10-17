@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import { View } from 'react-native';
 
-import { LotusLogo } from '@/characters/props';
+import { BrandLogo } from '@/components/brand-logo';
 import { Text } from '@/components/ui/text';
 import { SettingsScreen } from '@/features/settings/ui';
 import { useT } from '@/i18n';
@@ -13,7 +13,7 @@ export default function AboutScreen() {
   return (
     <SettingsScreen title={t('pf.info.aboutTitle')}>
       <View className="items-center gap-3 px-6">
-        <LotusLogo size={104} />
+        <BrandLogo size={120} />
         <Text variant="title">{t('common.appName')}</Text>
         <Text variant="caption">{t('pf.info.aboutVersion', { version })}</Text>
         <Text variant="body" className="text-center">

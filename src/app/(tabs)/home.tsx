@@ -4,16 +4,25 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AuroraBackground } from '@/components/aurora-background';
+import { CategoryCard } from '@/components/category-card';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { EmptyFor } from '@/features/states/empty';
 import { ExerciseCard } from '@/components/exercise-card';
 import { FadeUp } from '@/components/fade-up';
+import { ProgramCard } from '@/components/program-card';
 import { RoutineCard } from '@/components/routine-card';
 import { SectionHeader } from '@/components/section-header';
 import { TAB_BAR_CLEARANCE } from '@/components/tab-bar';
 import { toast } from '@/components/toast';
 import { Text } from '@/components/ui/text';
-import { getExercise, getRoutine, listQuickRelief, listRoutines } from '@/data/repo';
+import {
+  getExercise,
+  getRoutine,
+  listPrograms,
+  listQuickRelief,
+  listRoutines,
+  listStyles,
+} from '@/data/repo';
 import {
   GuestBanner,
   MoodCheckin,
@@ -27,7 +36,17 @@ import { HomeSkeleton } from '@/features/states/skeletons';
 import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { isSameDay, partOfDay, useTodayPlan } from '@/lib/journey';
-import { openCollection, openPose, openRoutine, startBreathing, startSession } from '@/lib/nav';
+import {
+  openCollection,
+  openFavorites,
+  openPose,
+  openPrograms,
+  openProgram,
+  openRoutine,
+  openStyles,
+  startBreathing,
+  startSession,
+} from '@/lib/nav';
 import { useAuthStore } from '@/store/auth-store';
 import { useLibraryStore } from '@/store/library-store';
 import { usePrefsStore } from '@/store/prefs-store';
@@ -174,8 +193,45 @@ export default function HomeScreen() {
           </ScrollView>
         </FadeUp>
 
+        <FadeUp delay={320} className="gap-3">
+          <SectionHeader title={t('home.stylesTitle')} subtitle={t('home.stylesSub')} onSeeAll={openStyles} />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+          >
+            {listStyles()
+              .slice(0, 6)
+              .map((s) => (
+                <CategoryCard
+                  key={s.id}
+                  style={s}
+                  variant="mini"
+                  onPress={() => openCollection('style', s.id)}
+                />
+              ))}
+          </ScrollView>
+        </FadeUp>
+
+        <FadeUp delay={330} className="gap-3">
+          <SectionHeader title={t('home.popular')} onSeeAll={openPrograms} />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
+          >
+            {listPrograms()
+              .slice(0, 4)
+              .map((p) => (
+                <View key={p.id} style={{ width: 300 }}>
+                  <ProgramCard program={p} onPress={() => openProgram(p.id)} />
+                </View>
+              ))}
+          </ScrollView>
+        </FadeUp>
+
         <FadeUp delay={340} className="gap-3">
-          <SectionHeader title={t('home.favorites')} />
+          <SectionHeader title={t('home.favorites')} onSeeAll={openFavorites} />
           {favExercises.length + favRoutines.length === 0 ? (
             <View style={px}>
               <View className="rounded-card border border-border bg-card">

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { I18nManager, Pressable, useWindowDimensions, View } from 'react-native';
 
 import { signature, type CharacterName } from '@/characters/palette';
-import { AuroraBackground } from '@/components/aurora-background';
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
 import { GlassCard } from '@/components/glass-card';
@@ -104,7 +103,6 @@ export function Scene5({ controls, width }: SceneProps) {
 
   return (
     <>
-      <AuroraBackground />
       <SceneScroll
         top={90}
         bandColor={colors.bg}
@@ -178,7 +176,8 @@ export function Scene5({ controls, width }: SceneProps) {
                     </View>
                     <Text
                       variant="callout"
-                      style={{ color: on ? colors.forest : colors.muted, fontWeight: on ? '700' : '500' }}
+                      className={on ? 'font-sans-bold' : 'font-sans-medium'}
+                      style={{ color: on ? colors.forest : colors.muted }}
                     >
                       {t(`story.s5.people.${id}.name`)}
                     </Text>
