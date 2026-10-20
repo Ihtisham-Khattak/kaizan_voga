@@ -21,10 +21,10 @@ export default function StylesScreen() {
   const main = MAIN.map((id) => all.find((s) => s.id === id)).filter((s): s is NonNullable<typeof s> => !!s);
   const more = all.filter((s) => !MAIN.includes(s.id));
 
-  const grid = (list: typeof all, base = 0) => (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 }}>
-      {list.map((s, i) => (
-        <FadeUp key={s.id} delay={base + i * 60} distance={14} style={{ width: '48.5%' }}>
+  const list = (items: typeof all, base = 0) => (
+    <View style={{ gap: 12 }}>
+      {items.map((s, i) => (
+        <FadeUp key={s.id} delay={base + i * 50} distance={14}>
           <CategoryCard style={s} onPress={() => openCollection('style', s.id)} />
         </FadeUp>
       ))}
@@ -33,13 +33,13 @@ export default function StylesScreen() {
 
   return (
     <CollectionScaffold title={t('stylesScreen.title')} subtitle={t('stylesScreen.subtitle')}>
-      {grid(main)}
+      {list(main)}
       {more.length ? (
         <View style={{ gap: 12, paddingTop: 8 }}>
           <Text variant="title2" style={{ color: colors.forest }}>
             {t('stylesScreen.more')}
           </Text>
-          {grid(more, 500)}
+          {list(more, 400)}
         </View>
       ) : null}
     </CollectionScaffold>

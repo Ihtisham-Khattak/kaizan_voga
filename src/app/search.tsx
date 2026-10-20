@@ -16,7 +16,7 @@ import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
 import { search, type ExerciseCategory, type Level, type Position, type SearchFilters } from '@/data/repo';
 import { useT } from '@/i18n';
-import { openPose, openRoutine } from '@/lib/nav';
+import { openPose, openRoutine, safeBack } from '@/lib/nav';
 import { useLibraryStore } from '@/store/library-store';
 import type { Equipment, Goal } from '@/store/types';
 import { useTheme } from '@/theme/theme-provider';
@@ -90,7 +90,7 @@ export default function SearchScreen() {
       <View style={{ paddingTop: insets.top + 8 }} className="flex-row items-center gap-2 px-3 pb-2">
         <GlassCard radius="pill" shadow={false}>
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => safeBack()}
             accessibilityRole="button"
             accessibilityLabel={t('a11y.goBack')}
             className="size-11 items-center justify-center"

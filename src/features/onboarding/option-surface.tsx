@@ -9,6 +9,8 @@ interface Props {
   /** Inner padding (the selected variant subtracts the extra border pixel so both sizes match). */
   pad?: number;
   contentStyle?: StyleProp<ViewStyle>;
+  /** Fill the height of the slot it is in (tiles in a grid row end up equally tall). */
+  fill?: boolean;
   children: ReactNode;
 }
 
@@ -17,7 +19,7 @@ interface Props {
  * `mint` with a 2px `leaf` edge (never glass on glass, never colour alone: a check mark is always drawn too).
  * Both states are exactly the same size, so selecting never shifts the layout.
  */
-export function OptionSurface({ selected, pad = 16, contentStyle, children }: Props) {
+export function OptionSurface({ selected, pad = 16, contentStyle, fill, children }: Props) {
   const { colors } = useTheme();
   if (selected) {
     return (
@@ -30,6 +32,7 @@ export function OptionSurface({ selected, pad = 16, contentStyle, children }: Pr
             backgroundColor: colors.mint,
             padding: pad - 1,
           },
+          fill ? { flex: 1 } : null,
           contentStyle,
         ]}
       >
@@ -38,7 +41,11 @@ export function OptionSurface({ selected, pad = 16, contentStyle, children }: Pr
     );
   }
   return (
-    <GlassCard shadow={false} contentStyle={[{ padding: pad }, contentStyle]}>
+    <GlassCard
+      shadow={false}
+      style={fill ? { flex: 1 } : undefined}
+      contentStyle={[{ padding: pad }, fill ? { flex: 1 } : null, contentStyle]}
+    >
       {children}
     </GlassCard>
   );

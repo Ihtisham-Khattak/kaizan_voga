@@ -12,6 +12,7 @@ import { SettingsScreen } from '@/features/settings/ui';
 import { useT } from '@/i18n';
 import { useAuthStore } from '@/store/auth-store';
 import { usePrefsStore } from '@/store/prefs-store';
+import { safeBack } from '@/lib/nav';
 
 const DURATIONS = ['three', 'six', 'twelve'] as const;
 
@@ -39,7 +40,7 @@ export default function HelpAffording() {
         <Text variant="bodyLarge" className="text-center text-muted-foreground">
           {t('premium.hardship.thanksBody')}
         </Text>
-        <Button size="lg" onPress={() => router.back()}>
+        <Button size="lg" onPress={() => safeBack()}>
           <Text>{t('premium.hardship.done')}</Text>
         </Button>
       </View>

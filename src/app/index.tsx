@@ -10,7 +10,9 @@ export default function Index() {
   const authStatus = useAuthStore((s) => s.status);
 
   if (!hasSeenStory) return <Redirect href={'/story' as Href} />;
-  if (!onboardingComplete) return <Redirect href={(onboardingStep ?? '/goals') as Href} />;
+  // '/age' no longer exists: it was merged into the safety screen
+  if (!onboardingComplete)
+    return <Redirect href={((onboardingStep === '/age' ? '/safety' : onboardingStep) ?? '/goals') as Href} />;
   if (authStatus === 'none') return <Redirect href="/gate" />;
   return <Redirect href="/home" />;
 }

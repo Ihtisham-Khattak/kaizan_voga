@@ -1,5 +1,7 @@
 import { getProgram, getRoutine, type ProgramDay, type Routine } from '@/data/repo';
+import { adaptRoutine, type Profile } from '@/lib/recommend';
 import { useAppStore } from '@/store/app-store';
+import { usePrefsStore } from '@/store/prefs-store';
 import { useProgressStore } from '@/store/progress-store';
 import type { SessionRecord } from '@/store/types';
 
@@ -26,8 +28,8 @@ export interface TodayPlan {
   isRest: boolean;
 }
 
-/** Mock rule: today's entry in the 30-day program. FN-09 replaces this with the real plan engine. */
-export function todayPlan(startedAt: string | null, now = new Date()): TodayPlan {
+/** Today's entry in the 30-day program, adapted to the person (a routine that is unsafe for them is swapped for a similar one). */
+export function todayPlan(startedAt: string | null, now = new Date(), profile?: Profile): TodayPlan {
   const program = getProgram(JOURNEY_ID);
   const day = journeyDay(startedAt, now);
   const entry = program.days[day - 1];
@@ -35,12 +37,23 @@ export function todayPlan(startedAt: string | null, now = new Date()): TodayPlan
     day,
     total: JOURNEY_DAYS,
     entry,
-    routine: entry.routineId ? getRoutine(entry.routineId) : undefined,
+    routine: entry.routineId
+      ? profile
+        ? adaptRoutine(getRoutine(entry.routineId), profile)
+        : getRoutine(entry.routineId)
+      : undefined,
     isRest: entry.kind === 'rest',
   };
 }
 
-export const useTodayPlan = () => todayPlan(useAppStore((s) => s.journeyStartedAt));
+export const useTodayPlan = () => {
+  const prefs = usePrefsStore();
+  return todayPlan(
+    useAppStore((s) => s.journeyStartedAt),
+    new Date(),
+    prefs
+  );
+};
 
 /** Sessions that happened on `day`. */
 export const sessionsOn = (sessions: SessionRecord[], day: Date) =>

@@ -39,6 +39,7 @@ import type { BreathPhase } from '@/lib/breath';
 import { useLibraryStore } from '@/store/library-store';
 import { useSessionStore } from '@/store/session-store';
 import { useTheme } from '@/theme/theme-provider';
+import { safeBack } from '@/lib/nav';
 
 const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 
@@ -134,7 +135,7 @@ export default function SessionPlayer() {
           at: new Date().toISOString(),
         });
       if (!completed && practicedSec < 10) {
-        router.back();
+        safeBack();
         return;
       }
       setSummary({
@@ -221,7 +222,7 @@ export default function SessionPlayer() {
         <Text variant="heading" className="text-center">
           {t('breathingUi.notFound')}
         </Text>
-        <Button onPress={() => router.back()}>
+        <Button onPress={() => safeBack()}>
           <Text>{t('common.back')}</Text>
         </Button>
       </View>

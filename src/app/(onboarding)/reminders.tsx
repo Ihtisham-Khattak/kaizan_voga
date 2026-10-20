@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { Minus, Plus } from 'phosphor-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, View } from 'react-native';
 
 import { Character } from '@/characters/character';
@@ -70,7 +70,10 @@ export default function RemindersScreen() {
   const setTime = (time: string) => patch({ reminder: { ...reminder, time } });
   const locale = i18n.language;
 
+  const busy = useRef(false);
   const yes = async () => {
+    if (busy.current) return; // one tap is enough: ignore taps while the permission prompt is open
+    busy.current = true;
     const granted = await askPermission();
     patch({ reminder: { ...reminder, enabled: granted } });
     setMessage(granted ? t('onboardingR.reminders.granted') : t('onboardingR.reminders.denied'));

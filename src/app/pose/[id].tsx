@@ -26,6 +26,7 @@ import { formatDuration } from '@/lib/format';
 import { haptic } from '@/lib/haptics';
 import { cn } from '@/lib/utils';
 import { useLibraryStore } from '@/store/library-store';
+import { safeBack } from '@/lib/nav';
 
 type Tab = 'steps' | 'breathing' | 'setup' | 'mistakes' | 'mods' | 'cautions';
 const TABS: Tab[] = ['steps', 'breathing', 'setup', 'mistakes', 'mods', 'cautions'];
@@ -69,7 +70,7 @@ export default function PoseDetail() {
           mood="tired"
           title={t('pose.notFound.title')}
           body={t('pose.notFound.body')}
-          cta={{ label: t('common.back'), onPress: () => router.back() }}
+          cta={{ label: t('common.back'), onPress: () => safeBack() }}
         />
       </View>
     );
@@ -267,7 +268,7 @@ export default function PoseDetail() {
       {/* floating glass buttons */}
       <GlassCard radius="pill" style={{ position: 'absolute', top: insets.top + 8, start: 12 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => safeBack()}
           accessibilityRole="button"
           accessibilityLabel={t('a11y.goBack')}
           className="size-11 items-center justify-center"

@@ -17,7 +17,7 @@ import { HeroActions } from '@/features/pose/hero-actions';
 import { useT } from '@/i18n';
 import { formatDuration } from '@/lib/format';
 import { haptic } from '@/lib/haptics';
-import { startSession } from '@/lib/nav';
+import { startSession, safeBack } from '@/lib/nav';
 import { useLibraryStore } from '@/store/library-store';
 
 function IconBtn({
@@ -63,7 +63,7 @@ export default function CustomRoutineScreen() {
         <EmptyState
           title={t('pose.notFound.title')}
           body={t('pose.notFound.body')}
-          cta={{ label: t('common.back'), onPress: () => router.back() }}
+          cta={{ label: t('common.back'), onPress: () => safeBack() }}
         />
       </View>
     );
@@ -188,7 +188,7 @@ export default function CustomRoutineScreen() {
           onPress={() => {
             remove(routine.id);
             toast.info(t('custom.deleted'));
-            router.back();
+            safeBack();
           }}
         >
           <Text>{t('custom.delete')}</Text>

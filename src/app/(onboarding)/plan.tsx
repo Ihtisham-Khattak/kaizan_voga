@@ -85,7 +85,7 @@ function Summary() {
   const sc = useStoryColors();
   const insets = useSafeAreaInsets();
   const prefs = usePrefsStore();
-  const routine = firstSession();
+  const routine = firstSession(prefs);
   // the person whose story is closest to the user's first goal (falls back to Arif, the beginner's way in)
   const like = (goalCharacter[prefs.goals[0] ?? ''] ?? 'arfa') as Exclude<CharacterName, 'kai'>;
   const order = weekdayOrder();

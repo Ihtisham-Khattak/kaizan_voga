@@ -6,7 +6,7 @@ import { ProgressRing } from '@/components/progress-ring';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { listExercises } from '@/data/repo';
-import { ChoiceTile } from '@/features/onboarding/choice-tile';
+import { ChipIcon, ChoiceChip, ChoiceFlow } from '@/features/onboarding/choice-flow';
 import { PersonalizationShell } from '@/features/onboarding/shell';
 import { useT } from '@/i18n';
 import { KaizenIcon, type KaizenIconName } from '@/icons';
@@ -55,29 +55,28 @@ export default function EquipmentScreen() {
             : t('onboardingQ.equipment.reactionSome')
       }
     >
-      <View className="flex-row flex-wrap justify-between gap-y-3" role="group">
+      <ChoiceFlow>
         {ITEMS.map((it, i) => (
-          <ChoiceTile
+          <ChoiceChip
             key={it.id}
             multi
-            widthPct={48}
             index={i}
             label={t(`onboardingQ.equipment.${it.id}`)}
             sublabel={t(`onboardingQ.equipment.${it.id}Sub`)}
             selected={equipment.includes(it.id)}
             onPress={() => toggle(it.id)}
             leading={
-              <View className="size-14 items-center justify-center rounded-full bg-secondary">
+              <ChipIcon>
                 {it.icon ? (
-                  <KaizenIcon name={it.icon} size={30} color={colors.primary} />
+                  <KaizenIcon name={it.icon} size={22} color={colors.primary} />
                 ) : (
-                  <Icon as={Hand} size={28} weight="duotone" className="text-primary" />
+                  <Icon as={Hand} size={22} weight="duotone" color={colors.primary} />
                 )}
-              </View>
+              </ChipIcon>
             }
           />
         ))}
-      </View>
+      </ChoiceFlow>
 
       {equipment.length > 0 ? (
         <FadeUp>

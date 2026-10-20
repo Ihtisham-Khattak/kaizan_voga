@@ -21,6 +21,7 @@ import { Text } from '@/components/ui/text';
 import { MOODS, type Mood } from '@/store/types';
 import { useAppStore } from '@/store';
 import { useTheme } from '@/theme/theme-provider';
+import { safeBack } from '@/lib/nav';
 
 const NAMES: CharacterName[] = ['hina', 'arfa', 'hamid', 'sierra', 'kai'];
 const SIGNATURE: Record<CharacterName, string> = {
@@ -198,7 +199,7 @@ export default function CharacterSheet() {
         </View>
       </View>
 
-      <Button variant="ghost" onPress={() => router.back()}>
+      <Button variant="ghost" onPress={() => safeBack()}>
         <Text>Back</Text>
       </Button>
     </ScrollView>

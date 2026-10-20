@@ -21,3 +21,13 @@ export const openSearch = (params?: Record<string, string>) =>
 export const openStyles = () => router.push('/library/styles' as Href);
 export const openPrograms = () => router.push('/library/programs' as Href);
 export const openFavorites = () => router.push('/favorites' as Href);
+
+/**
+ * Go back one screen, or, when there is nothing behind this one (opened directly, after a refresh, after a replace),
+ * go to the app's entry point, which sends you to the right place for where you are (story, onboarding, gate or Home).
+ * Always use this instead of router.back(): a bare back() with no history throws "GO_BACK was not handled".
+ */
+export function safeBack(fallback: Href = '/' as Href) {
+  if (router.canGoBack()) router.back();
+  else router.replace(fallback);
+}

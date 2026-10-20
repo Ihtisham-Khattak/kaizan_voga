@@ -10,7 +10,7 @@ Status on 2026-10-18. This is a UI prototype on local mock data; the items below
 | Content | 66 poses, 27 routines, 8 programs bundled in the app; no content API | FN-03 |
 | Data sync | Everything stays on the device; no backup or sync between devices | FN-04 |
 | Payments | Mock paywall and checkout; no real purchase; placeholder prices | FN-08 |
-| Reminders | Settings exist; no real scheduled notifications | FN-07 |
+| Reminders | Real weekly notifications are scheduled (days, time, quiet hours) but could only be checked in unit tests, not on a phone | FN-07 |
 | Voice guidance | The phone's text-to-speech reads each pose; no recorded voice packs | FN-06 |
 | Sound | Rain, forest, piano, music and chime are synthesised placeholders | FN-06 |
 | Downloads | UI only; no offline files | FN-10 |
@@ -35,7 +35,8 @@ Status on 2026-10-18. This is a UI prototype on local mock data; the items below
 ## Known technical gaps
 
 - **Android blur:** frosted glass falls back to solid fills on Android (needs `BlurTargetView`).
-- **Storage:** user data is saved as one JSON blob per store in AsyncStorage and session history grows without limit (PERF-02, PERF-03).
+- **Storage:** user data is saved as one JSON blob per store in AsyncStorage. The history list is virtualised (PERF-02), but the data still grows without limit; moving to MMKV needs a native build (PERF-03).
+- **Bundle size:** the Android JavaScript bundle is 13.9 MB; worth analysing (PERF-04).
 - **Dependencies:** a few Expo packages are a patch release behind (`npx expo install --check`).
 - **Push:** no `google-services.json` yet.
 - **Licence:** the root `LICENSE` is still the Expo template's text.

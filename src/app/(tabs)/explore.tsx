@@ -8,6 +8,7 @@ import { AuroraBackground } from '@/components/aurora-background';
 import { CategoryCard } from '@/components/category-card';
 import { CoverArt, variantFor } from '@/components/cover-art';
 import { FadeUp } from '@/components/fade-up';
+import { ListCard } from '@/components/list-card';
 import { GlassCard } from '@/components/glass-card';
 import { ProgramCard } from '@/components/program-card';
 import { RoutineCard } from '@/components/routine-card';
@@ -194,22 +195,26 @@ export default function ExploreScreen() {
 
         <FadeUp delay={290} className="gap-3">
           <SectionHeader title={t('explore.poses')} />
-          <View style={px} className="flex-row flex-wrap justify-between gap-y-3">
+          <View style={[px, { gap: 12 }]}>
             {CATEGORIES.map((c) => {
               const list = exercisesByCategory(c);
               return (
-                <Pressable
+                <ListCard
                   key={c}
+                  cover={
+                    <CoverArt
+                      tint="mint"
+                      figure={variantFor(getExercise(list[0].id))}
+                      height={72}
+                      width={72}
+                      rounded={0}
+                      figureSize={56}
+                    />
+                  }
+                  title={t(`explore.categoryName.${c}`)}
+                  subtitle={t('explore.poseCount', { count: list.length })}
                   onPress={() => openCollection('category', c)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${t(`explore.categoryName.${c}`)}, ${t('explore.poseCount', { count: list.length })}`}
-                  style={{ width: '48%' }}
-                  className="gap-2 active:opacity-90"
-                >
-                  <CoverArt tint="mint" figure={variantFor(getExercise(list[0].id))} height={104} />
-                  <Text variant="label">{t(`explore.categoryName.${c}`)}</Text>
-                  <Text variant="caption">{t('explore.poseCount', { count: list.length })}</Text>
-                </Pressable>
+                />
               );
             })}
           </View>

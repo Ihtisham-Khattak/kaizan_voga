@@ -13,7 +13,7 @@ import {
   Waveform,
 } from 'phosphor-react-native';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
 
 import { CharacterAvatar } from '@/components/character-avatar';
 import { FadeUp } from '@/components/fade-up';
@@ -22,13 +22,14 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Switch } from '@/components/ui/switch';
 import { Text } from '@/components/ui/text';
-import { ChoiceTile } from '@/features/onboarding/choice-tile';
+import { ChipIcon, ChoiceChip, ChoiceFlow } from '@/features/onboarding/choice-flow';
 import { PersonalizationShell } from '@/features/onboarding/shell';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
 import { useT } from '@/i18n';
 import {
   previewVoice,
   releaseAll,
+  voiceSupport,
   setAmbience,
   setMusic,
   stopAll,
@@ -71,6 +72,9 @@ function SoundOrb({ playing, label, onStop }: { playing: boolean; label: string;
   const { colors } = useTheme();
   const reduce = useReduceMotion();
   const breathe = playing && !reduce;
+  const { width } = useWindowDimensions();
+  // the orb scales with the screen so it never crowds small phones or large text
+  const box = Math.min(168, Math.max(116, Math.round(width * 0.42)));
   const ring = (size: number, color: string, delay: number, opacity: number) => (
     <MotiView
       key={size}
@@ -87,10 +91,10 @@ function SoundOrb({ playing, label, onStop }: { playing: boolean; label: string;
   );
   return (
     <GlassCard radius="hero" strong contentStyle={{ padding: 20, alignItems: 'center', gap: 14 }}>
-      <View style={{ width: 168, height: 168, alignItems: 'center', justifyContent: 'center' }}>
-        {ring(168, colors.auroraMint, 0, 0.9)}
-        {ring(124, colors.auroraSky, 350, 0.9)}
-        {ring(84, colors.leaf, 700, 1)}
+      <View style={{ width: box, height: box, alignItems: 'center', justifyContent: 'center' }}>
+        {ring(box, colors.auroraMint, 0, 0.9)}
+        {ring(Math.round(box * 0.74), colors.auroraSky, 350, 0.9)}
+        {ring(Math.round(box * 0.5), colors.leaf, 700, 1)}
         {/* drawn last and absolutely positioned so the rings (also absolute) never paint over it */}
         <View style={{ position: 'absolute' }} pointerEvents="none">
           <Icon as={playing ? Waveform : SpeakerHigh} size={34} weight="bold" color={colors.onPrimary} />
@@ -131,6 +135,11 @@ export default function VoiceScreen() {
   const patch = usePrefsStore((s) => s.patch);
   const sound = useSoundscape();
   const [touched, setTouched] = useState(false);
+  // what voices this phone has: if there is no male voice we say so (and lower the pitch of the standard one)
+  const [support, setSupport] = useState<{ male: boolean; female: boolean } | null>(null);
+  useEffect(() => {
+    void voiceSupport(i18n.language).then(setSupport);
+  }, [i18n.language]);
 
   // sound stops when this screen loses focus (Continue / Back) and the players are freed when it is gone
   useFocusEffect(useCallback(() => () => stopAll(), []));
@@ -178,11 +187,10 @@ export default function VoiceScreen() {
         <Text variant="title3" style={{ color: colors.forest }}>
           {t('onboardingR.voice.voiceTitle')}
         </Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} role="radiogroup">
+        <ChoiceFlow>
           {(['female', 'male', 'none'] as VoicePreference[]).map((id, i) => (
-            <ChoiceTile
+            <ChoiceChip
               key={id}
-              widthPct={31}
               index={i}
               label={t(`onboardingR.voice.${id}`)}
               sublabel={
@@ -196,16 +204,21 @@ export default function VoiceScreen() {
               onPress={() => pickVoice(id)}
               leading={
                 id === 'none' ? (
-                  <View className="size-14 items-center justify-center rounded-full bg-secondary">
-                    <Icon as={MicrophoneSlash} size={28} weight="duotone" color={colors.primary} />
-                  </View>
+                  <ChipIcon>
+                    <Icon as={MicrophoneSlash} size={22} weight="duotone" color={colors.primary} />
+                  </ChipIcon>
                 ) : (
-                  <CharacterAvatar name={id === 'female' ? 'hina' : 'hamid'} size={56} mood="happy" />
+                  <CharacterAvatar name={id === 'female' ? 'hina' : 'hamid'} size={40} mood="happy" />
                 )
               }
             />
           ))}
-        </View>
+        </ChoiceFlow>
+        {support && !support.male ? (
+          <Text variant="footnote" style={{ color: colors.muted }}>
+            {t('onboardingR.voice.noMale')}
+          </Text>
+        ) : null}
       </View>
 
       <FadeUp delay={300} style={{ gap: 12 }}>
@@ -261,14 +274,11 @@ export default function VoiceScreen() {
         <Text variant="title3" style={{ color: colors.forest }}>
           {t('onboardingR.voice.ambienceTitle')}
         </Text>
-        <View
-          style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 }}
-          role="radiogroup"
-        >
+        <ChoiceFlow>
           {AMBIENCES.map((a, i) => {
             const on = sound.ambience === a.id;
             return (
-              <ChoiceTile
+              <ChoiceChip
                 key={a.id}
                 index={i + 3}
                 label={t(`onboardingR.voice.${a.key}.title`)}
@@ -277,19 +287,19 @@ export default function VoiceScreen() {
                 onPress={() => pickAmbience(a.id)}
                 leading={
                   on ? (
-                    <View className="size-14 items-center justify-center rounded-full bg-secondary">
-                      <Bars playing count={4} height={22} />
-                    </View>
+                    <ChipIcon>
+                      <Bars playing count={3} height={16} />
+                    </ChipIcon>
                   ) : (
-                    <View className="size-14 items-center justify-center rounded-full bg-secondary">
-                      <Icon as={a.icon} size={28} weight="duotone" color={colors.primary} />
-                    </View>
+                    <ChipIcon>
+                      <Icon as={a.icon} size={22} weight="duotone" color={colors.primary} />
+                    </ChipIcon>
                   )
                 }
               />
             );
           })}
-        </View>
+        </ChoiceFlow>
       </View>
 
       <View style={{ flexDirection: 'row', gap: 8, alignItems: 'flex-start' }}>

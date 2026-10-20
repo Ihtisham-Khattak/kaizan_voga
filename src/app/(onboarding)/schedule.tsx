@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FadeUp } from '@/components/fade-up';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { ChoiceTile } from '@/features/onboarding/choice-tile';
+import { ChipIcon, ChoiceChip, ChoiceFlow } from '@/features/onboarding/choice-flow';
 import { PersonalizationShell } from '@/features/onboarding/shell';
 import { goNext } from '@/features/onboarding/steps';
 import { useReduceMotion } from '@/hooks/use-reduced-motion';
@@ -25,14 +25,14 @@ function TimeIcon({ id }: { id: PreferredTime }) {
   const icon =
     id === 'morning' ? SunHorizon : id === 'afternoon' ? Sun : id === 'evening' ? MoonStars : Shuffle;
   return (
-    <View className="size-14 items-center justify-center rounded-full bg-secondary">
+    <ChipIcon>
       <Icon
         as={icon}
-        size={30}
+        size={22}
         weight="duotone"
         color={id === 'evening' ? colors.lavender : colors.primary}
       />
-    </View>
+    </ChipIcon>
   );
 }
 
@@ -107,9 +107,9 @@ export default function ScheduleScreen() {
         goNext('schedule');
       }}
     >
-      <View className="flex-row flex-wrap justify-between gap-y-3" role="radiogroup">
+      <ChoiceFlow>
         {TIMES.map((id, i) => (
-          <ChoiceTile
+          <ChoiceChip
             key={id}
             index={i}
             label={t(`onboardingQ.schedule.${id}.title`)}
@@ -119,11 +119,11 @@ export default function ScheduleScreen() {
             leading={<TimeIcon id={id} />}
           />
         ))}
-      </View>
+      </ChoiceFlow>
 
       <FadeUp delay={500} className="gap-3">
         <Text variant="heading">{t('onboardingQ.schedule.daysTitle')}</Text>
-        <View className="flex-row justify-between" role="group">
+        <View style={{ flexDirection: 'row', gap: 8 }} role="group">
           {order.map((d) => {
             const on = days.includes(d);
             return (
@@ -135,7 +135,7 @@ export default function ScheduleScreen() {
                 accessibilityLabel={weekdayLabel(d, 'long', i18n.language)}
                 onPress={() => toggleDay(d)}
                 className={cn(
-                  'size-11 items-center justify-center rounded-full border-2',
+                  'aspect-square flex-1 items-center justify-center rounded-full border-2',
                   on ? 'border-primary bg-primary' : 'border-hairline bg-mint'
                 )}
               >

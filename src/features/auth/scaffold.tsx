@@ -14,6 +14,7 @@ import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
 import type { Mood } from '@/store/types';
 import { useTheme } from '@/theme/theme-provider';
+import { safeBack } from '@/lib/nav';
 
 interface Props {
   title: string;
@@ -46,7 +47,7 @@ export function AuthScaffold({ title, subtitle, mood = 'calm', hideBack, childre
       {!hideBack && router.canGoBack() ? (
         <GlassCard radius={22} style={{ position: 'absolute', top: insets.top + 8, start: 12, zIndex: 5 }}>
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => safeBack()}
             accessibilityRole="button"
             accessibilityLabel={t('a11y.goBack')}
             className="size-11 items-center justify-center"

@@ -20,6 +20,7 @@ import { haptic } from '@/lib/haptics';
 import { useSessionStore } from '@/store/session-store';
 import { useTheme } from '@/theme/theme-provider';
 import { releaseAll, setAmbience } from '@/lib/soundscape';
+import { safeBack } from '@/lib/nav';
 
 const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 
@@ -62,7 +63,7 @@ export default function BreathingPlayer() {
     (completed: boolean, practicedSec: number) => {
       if (done.current || !session) return;
       done.current = true;
-      if (practicedSec < 10) return router.back();
+      if (practicedSec < 10) return safeBack();
       setSummary({
         id: `b${Date.now().toString(36)}`,
         contentId: session.id,
@@ -107,7 +108,7 @@ export default function BreathingPlayer() {
         <Text variant="heading" className="text-center">
           {t('breathingUi.notFound')}
         </Text>
-        <Button onPress={() => router.back()}>
+        <Button onPress={() => safeBack()}>
           <Text>{t('common.back')}</Text>
         </Button>
       </View>
@@ -137,7 +138,7 @@ export default function BreathingPlayer() {
         >
           <View className="w-full flex-row">
             <Pressable
-              onPress={() => router.back()}
+              onPress={() => safeBack()}
               accessibilityRole="button"
               accessibilityLabel={t('common.back')}
               className="size-12 items-center justify-center rounded-full"

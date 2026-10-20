@@ -3,6 +3,7 @@ import { Pressable, View } from 'react-native';
 import { CoverArt } from '@/components/cover-art';
 import { STYLE_MOTIF } from '@/components/cover-motifs';
 import { GlassCard } from '@/components/glass-card';
+import { ListCard } from '@/components/list-card';
 import { Text } from '@/components/ui/text';
 import type { YogaStyle } from '@/data/types';
 import { useT } from '@/i18n';
@@ -10,16 +11,26 @@ import { useTheme } from '@/theme/theme-provider';
 
 interface Props {
   style: YogaStyle;
-  /** tile = 2-up grid card; mini = compact shortcut for horizontal rows. */
-  variant?: 'tile' | 'mini';
+  /** row = full-width flowing card (lists); mini = compact shortcut for horizontal rows. */
+  variant?: 'row' | 'mini';
   onPress?: () => void;
 }
 
 /** A yoga style (Hatha, Yin, Prenatal…) as a card: tinted cover, name and a one-line plain-language explainer. */
-export function CategoryCard({ style: s, variant = 'tile', onPress }: Props) {
+export function CategoryCard({ style: s, variant = 'row', onPress }: Props) {
   const { t } = useT();
   const { colors } = useTheme();
   const mini = variant === 'mini';
+  if (!mini)
+    return (
+      <ListCard
+        cover={<CoverArt tint={s.cover} motif={STYLE_MOTIF[s.id]} height={72} width={72} rounded={0} />}
+        title={s.name}
+        subtitle={s.explainer}
+        label={t('cards.category', { name: s.name, about: s.explainer })}
+        onPress={onPress}
+      />
+    );
   return (
     <Pressable
       onPress={onPress}

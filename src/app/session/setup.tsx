@@ -21,6 +21,7 @@ import { usePrefsStore } from '@/store/prefs-store';
 import { useTheme } from '@/theme/theme-provider';
 import { useSessionStore } from '@/store/session-store';
 import type { Ambience, VoicePreference } from '@/store/types';
+import { safeBack } from '@/lib/nav';
 
 const FOCUS = ['Back', 'Hips', 'Shoulders', 'Posture', 'Balance', 'Relaxation'] as const;
 const AMBIENCES: Ambience[] = ['rain', 'forest', 'piano', 'none'];
@@ -89,7 +90,7 @@ export default function SessionSetup() {
           end: 0,
           backgroundColor: extras.scrim,
         }}
-        onPress={() => router.back()}
+        onPress={() => safeBack()}
         accessibilityRole="button"
         accessibilityLabel={t('common.close')}
       />

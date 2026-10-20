@@ -8,6 +8,7 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { KaizenIcon, kaizenIconNames } from '@/icons';
 import { useTheme } from '@/theme/theme-provider';
+import { safeBack } from '@/lib/nav';
 
 /** Card F-12 – Kaizen icon set preview at 16 / 24 / 32 / 48, plus the Phosphor wrapper. */
 export default function IconsScreen() {
@@ -51,7 +52,7 @@ export default function IconsScreen() {
         <Icon as={PhLeaf} size={28} weight="duotone" className="text-leaf" />
         <Icon as={PhLeaf} size={28} weight="fill" className="text-sunrise" />
       </View>
-      <Button variant="ghost" onPress={() => router.back()}>
+      <Button variant="ghost" onPress={() => safeBack()}>
         <Text>Back</Text>
       </Button>
     </ScrollView>

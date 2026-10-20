@@ -37,6 +37,7 @@ import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
 import { useAppStore } from '@/store';
 import { useTheme } from '@/theme/theme-provider';
+import { safeBack } from '@/lib/nav';
 
 const SWATCHES = [
   'bg',
@@ -432,7 +433,7 @@ export default function UiKit() {
         </Button>
       </Section>
 
-      <Button variant="ghost" onPress={() => router.back()}>
+      <Button variant="ghost" onPress={() => safeBack()}>
         <Text>Back</Text>
       </Button>
     </ScrollView>

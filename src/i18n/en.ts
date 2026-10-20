@@ -367,6 +367,8 @@ const en = {
   },
   onboardingR: {
     voice: {
+      noMale:
+        "This phone has no male voice installed, so we lower the pitch of its standard voice. You can add voices in your phone's text-to-speech settings.",
       femaleSub: 'Warm, light',
       maleSub: 'Calm, deep',
       noneSub: 'Text only',
@@ -410,6 +412,7 @@ const en = {
       back: 'Go back',
     },
     safety: {
+      hintBoth: 'Tick both boxes to continue',
       cardTitle: 'Three gentle reminders',
       title: 'Before we begin',
       subtitle: 'A few gentle reminders for a safe practice.',
@@ -996,6 +999,7 @@ const en = {
       ring: '{{done}} of {{days}} days',
     },
     hist: {
+      count: '{{count}} sessions in total',
       title: 'History',
       subtitle: 'Every session, in order.',
       all: 'All',
@@ -1177,6 +1181,7 @@ const en = {
       soon: 'Coming soon',
     },
     privacy: {
+      exportFailed: 'Could not create the file. Please try again.',
       title: 'Privacy & data',
       subtitle: 'Plain words about what we keep.',
       store: 'What we store and why',
@@ -1197,7 +1202,7 @@ const en = {
       },
       export: 'Export my data',
       exportBody: 'Get a copy of everything we keep about you.',
-      exportDone: 'Your export is being prepared. This is a preview.',
+      exportDone: 'Your data file is ready to save or share.',
       analytics: 'Share anonymous usage stats',
       analyticsSub: 'Helps us improve. Off unless you turn it on.',
       deleteTitle: 'Delete my data',
@@ -1501,6 +1506,19 @@ const en = {
       },
     },
     loading: 'Loading',
+  },
+  reminders: {
+    notify: {
+      title: 'Kaizen Yoga',
+      channel: 'Gentle reminders',
+      l1: 'A few easy minutes are waiting whenever you are ready.',
+      l2: 'Small steps count. How about a short stretch?',
+      l3: 'Take a breath. Your practice is here when you want it.',
+      l4: 'No pressure: a calm moment is just a tap away.',
+      l5: 'Even three minutes can be enough today.',
+      l6: 'A gentle moment for you. Rest is part of practice too.',
+      l7: 'Slow down for a few minutes. You deserve it.',
+    },
   },
   companions: {
     pick: "{{name}}'s pick",

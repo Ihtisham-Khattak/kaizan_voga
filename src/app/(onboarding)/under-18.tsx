@@ -7,6 +7,7 @@ import { FadeUp } from '@/components/fade-up';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
+import { safeBack } from '@/lib/nav';
 
 /** Polite information screen for under-18 visitors. No account is created; points to support resources. */
 export default function Under18Screen() {
@@ -30,7 +31,7 @@ export default function Under18Screen() {
         <Button size="lg" onPress={() => router.push('/support/resources')}>
           <Text>{t('onboardingR.age.resources')}</Text>
         </Button>
-        <Button variant="ghost" onPress={() => router.back()}>
+        <Button variant="ghost" onPress={() => safeBack()}>
           <Text>{t('onboardingR.age.back')}</Text>
         </Button>
       </FadeUp>

@@ -101,7 +101,9 @@
     "validate:data": "tsx scripts/validate-data.ts",
     "theme:sync": "tsx scripts/sync-theme.ts",
     "audit:copy": "tsx scripts/audit-copy.ts",
-    "apk": "bash scripts/build-apk.sh"
+    "apk": "bash scripts/build-apk.sh",
+    "test": "tsx --test tests/*.test.ts",
+    "audit:i18n": "tsx scripts/audit-i18n.ts"
   },
   "private": true
 }

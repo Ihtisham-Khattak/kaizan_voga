@@ -14,6 +14,7 @@ import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
 import { usePrefsStore } from '@/store/prefs-store';
 import type { Ambience } from '@/store/types';
+import { safeBack } from '@/lib/nav';
 
 const DURATIONS = [3, 5, 10];
 const AMBIENCES: Ambience[] = ['rain', 'forest', 'piano', 'none'];
@@ -42,7 +43,7 @@ export default function BreathingHub() {
       >
         <View className="flex-row items-center gap-2 px-2">
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => safeBack()}
             accessibilityRole="button"
             accessibilityLabel={t('common.back')}
             className="size-12 items-center justify-center rounded-full"

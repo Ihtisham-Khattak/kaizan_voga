@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
+import { safeBack } from '@/lib/nav';
 
 interface Props {
   title: string;
@@ -24,7 +25,7 @@ export function ScreenHeader({ title, subtitle, right, onBack }: Props) {
     <View style={{ paddingTop: insets.top + 4 }} className="gap-2 px-2 pb-2">
       <View className="flex-row items-center justify-between">
         <Pressable
-          onPress={onBack ?? (() => router.back())}
+          onPress={onBack ?? (() => safeBack())}
           accessibilityRole="button"
           accessibilityLabel={t('common.back')}
           className="size-12 items-center justify-center rounded-full active:bg-secondary"

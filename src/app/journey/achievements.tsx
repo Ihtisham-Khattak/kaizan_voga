@@ -47,11 +47,15 @@ export default function AchievementsScreen() {
 
         <View className="gap-3 px-4">
           <Text variant="label">{t('prog.ach.unlocked', { count, total: all.length })}</Text>
-          <View className="flex-row flex-wrap">
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
             {all.map((a) => {
               const on = Boolean(unlocked[a.id]);
               return (
-                <View key={a.id} style={{ width: '33.333%' }} className="items-center px-1 pb-4">
+                <View
+                  key={a.id}
+                  style={{ flexGrow: 1, flexBasis: 96, maxWidth: '100%' }}
+                  className="items-center pb-2"
+                >
                   <Pressable
                     onPress={() => {
                       haptic.select();

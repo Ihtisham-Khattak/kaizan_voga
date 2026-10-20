@@ -10,6 +10,7 @@ import { SettingsScreen } from '@/features/settings/ui';
 import { useT } from '@/i18n';
 import { useAuthStore } from '@/store/auth-store';
 import { usePrefsStore } from '@/store/prefs-store';
+import { safeBack } from '@/lib/nav';
 
 /** Contact support form (UI only – FN-15 wires it to a real inbox). */
 export default function ContactScreen() {
@@ -27,7 +28,7 @@ export default function ContactScreen() {
     setTouched(true);
     if (!message.trim()) return;
     toast.success(t('pf.info.contactSent'));
-    router.back();
+    safeBack();
   };
 
   return (

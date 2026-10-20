@@ -21,7 +21,7 @@ import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { KaizenIcon, type KaizenIconName } from '@/icons';
 import { formatDuration, minutesOf } from '@/lib/format';
-import { openPose, startSession } from '@/lib/nav';
+import { openPose, startSession, safeBack } from '@/lib/nav';
 import { resolveRoutine } from '@/lib/routines';
 import { useDownload } from '@/lib/use-download';
 import { useLibraryStore } from '@/store/library-store';
@@ -55,7 +55,7 @@ export default function RoutineDetail() {
           mood="tired"
           title={t('pose.notFound.title')}
           body={t('pose.notFound.body')}
-          cta={{ label: t('common.back'), onPress: () => router.back() }}
+          cta={{ label: t('common.back'), onPress: () => safeBack() }}
         />
       </View>
     );

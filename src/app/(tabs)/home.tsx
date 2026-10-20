@@ -36,6 +36,7 @@ import { HomeSkeleton } from '@/features/states/skeletons';
 import { useScreenLoading } from '@/hooks/use-screen-loading';
 import { useT } from '@/i18n';
 import { isSameDay, partOfDay, useTodayPlan } from '@/lib/journey';
+import { recommend } from '@/lib/recommend';
 import {
   openCollection,
   openFavorites,
@@ -79,13 +80,21 @@ export default function HomeScreen() {
     day: 'numeric',
   }).format(new Date());
 
-  const recommended = useMemo(() => {
-    const score = (g: string[]) => g.filter((x) => prefs.goals.includes(x as never)).length;
-    return listRoutines()
-      .filter((r) => r.kind !== 'quick-relief' && r.id !== plan.routine?.id)
-      .sort((a, b) => score(b.goals) - score(a.goals))
-      .slice(0, 6);
-  }, [prefs.goals, plan.routine?.id]);
+  const recommended = useMemo(
+    () =>
+      recommend(
+        prefs,
+        {
+          routineIds: sessions
+            .filter((x) => x.kind === 'routine')
+            .slice(0, 5)
+            .map((x) => x.contentId),
+        },
+        6,
+        plan.routine ? [plan.routine.id] : []
+      ).map((x) => x.routine),
+    [prefs, sessions, plan.routine]
+  );
 
   const favExercises = favorites
     .filter((k) => k.startsWith('exercise:'))

@@ -135,19 +135,42 @@ function setDucked(on: boolean) {
 
 // ───────────────────────────── voice sample ─────────────────────────────
 
-const FEMALE = /female|woman|(^|[^a-z])f\d|samantha|karen|moira|tessa|victoria|ava|allison|susan|zira|fiona/i;
-const MALE = /(^|[^a-z])male|man\b|(^|[^a-z])m\d|daniel|alex|fred|tom|aaron|oliver|david|mark|rishi/i;
+// Phone voices rarely say their gender outright, so recognise the usual markers: Google ("#male_1", "female"), Samsung
+// ("SMTf00" / "SMTm00"), Apple and Microsoft first names. The `\b`-style guards stop "female" matching as "male".
+const FEMALE =
+  /female|woman|(^|[^a-z])f\d|smtf|samantha|karen|moira|tessa|victoria|ava|allison|susan|zira|fiona|serena|kate|hazel|libby|sonia|natasha|jenny|aria|emma|amy|joanna|salli|kimberly|ivy|nicole/i;
+const MALE =
+  /(^|[^a-z])male|(^|[^a-z])man\b|(^|[^a-z])m\d|smtm|daniel|alex|fred|tom|aaron|oliver|david|mark|rishi|george|james|ryan|guy|brian|matthew|justin|russell|arthur|thomas|gordon|ravi/i;
 
-/** Pick a phone voice of the right gender. `matched` = we are confident of its gender; otherwise pitch carries the difference. */
-async function pickVoice(kind: Exclude<VoicePreference, 'none'>, lang: string) {
+type Gendered = Exclude<VoicePreference, 'none'>;
+const label = (v: { name?: string; identifier: string }) => `${v.name ?? ''} ${v.identifier}`;
+const isFemale = (v: { name?: string; identifier: string }) =>
+  FEMALE.test(label(v)) && !MALE.test(label(v).replace(/female/gi, ''));
+const isMale = (v: { name?: string; identifier: string }) =>
+  MALE.test(label(v).replace(/female/gi, '')) && !FEMALE.test(label(v).replace(/female/gi, 'x'));
+
+/** What this phone offers, so the screen can say so honestly (a missing male voice is made deeper instead). */
+export async function voiceSupport(lang: string) {
+  try {
+    const code = lang.startsWith('ur') ? 'ur' : 'en';
+    const all = (await Speech.getAvailableVoicesAsync()).filter((v) =>
+      v.language?.toLowerCase().startsWith(code)
+    );
+    return { female: all.some(isFemale), male: all.some(isMale), total: all.length };
+  } catch {
+    return { female: false, male: false, total: 0 };
+  }
+}
+
+/** Pick a phone voice of the right gender. `matched` = we are confident of its gender; otherwise pitch carries it. */
+async function pickVoice(kind: Gendered, lang: string) {
   try {
     const all = await Speech.getAvailableVoicesAsync();
     const inLang = all.filter((v) => v.language?.toLowerCase().startsWith(lang));
-    const re = kind === 'female' ? FEMALE : MALE;
-    const other = kind === 'female' ? MALE : FEMALE;
-    const text = (v: (typeof all)[number]) => `${v.name} ${v.identifier}`;
-    const found = inLang.find((v) => re.test(text(v)) && !other.test(text(v)));
-    return found ? { id: found.identifier, matched: true } : { id: undefined, matched: false };
+    // prefer the best quality voice of the right gender
+    const pool = inLang.filter(kind === 'female' ? isFemale : isMale);
+    pool.sort((a, b) => Number(b.quality === 'Enhanced') - Number(a.quality === 'Enhanced'));
+    return pool[0] ? { id: pool[0].identifier, matched: true } : { id: undefined, matched: false };
   } catch {
     return { id: undefined, matched: false };
   }
@@ -180,8 +203,8 @@ export async function speak(kind: VoicePreference, text: string, lang: string) {
     Speech.speak(text, {
       language: code === 'ur' ? 'ur-PK' : 'en-US',
       voice: pick.id,
-      pitch: pick.matched ? (female ? 1.08 : 0.9) : female ? 1.28 : 0.72,
-      rate: female ? 0.9 : 0.82,
+      pitch: pick.matched ? (female ? 1.06 : 0.92) : female ? 1.3 : 0.6,
+      rate: female ? 0.9 : 0.8,
       onDone: done,
       onStopped: done,
       onError: done,

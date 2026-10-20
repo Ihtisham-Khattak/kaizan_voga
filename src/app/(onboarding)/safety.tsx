@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Check, Heartbeat, HandPalm, Stethoscope } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -20,6 +21,57 @@ const ROWS = [
   { key: 'notMedical', icon: Heartbeat },
 ] as const;
 
+/** A large tick-box card: the whole card is the control, never colour alone (a check mark is drawn too). */
+function ConfirmCard({
+  checked,
+  onToggle,
+  label,
+  hint,
+}: {
+  checked: boolean;
+  onToggle: () => void;
+  label: string;
+  hint?: string;
+}) {
+  const { colors } = useTheme();
+  return (
+    <Pressable
+      role="checkbox"
+      aria-checked={checked}
+      accessibilityState={{ checked }}
+      accessibilityLabel={label}
+      accessibilityHint={hint}
+      onPress={() => {
+        haptic.select();
+        onToggle();
+      }}
+      style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+    >
+      <OptionSurface selected={checked} pad={16}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+          <View
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: 10,
+              borderWidth: 2,
+              borderColor: checked ? colors.leaf : colors.hairline,
+              backgroundColor: checked ? colors.leaf : 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {checked ? <Icon as={Check} size={16} weight="bold" color={colors.onPrimary} /> : null}
+          </View>
+          <Text variant="bodyLarge" className="font-sans-semibold" style={{ flex: 1, color: colors.forest }}>
+            {label}
+          </Text>
+        </View>
+      </OptionSurface>
+    </Pressable>
+  );
+}
+
 /**
  * Onboarding Q9 — safety notice. Required: Continue stays disabled until "I understand" is ticked.
  * The notice itself is a solid surface with a `danger` edge (the spec forbids glass on safety messages); the
@@ -29,17 +81,21 @@ export default function SafetyScreen() {
   const { t } = useT();
   const { colors } = useTheme();
   const [checked, setChecked] = useState(() => !!useAppStore.getState().safetyAcknowledgedAt);
+  const [adult, setAdult] = useState(() => useAppStore.getState().ageConfirmed);
+  const ready = checked && adult;
 
   return (
     <PersonalizationShell
       step="safety"
       title={t('onboardingR.safety.title')}
       subtitle={t('onboardingR.safety.subtitle')}
-      canContinue={checked}
+      canContinue={ready}
       onContinue={() => {
+        useAppStore.getState().confirmAge();
         useAppStore.getState().acknowledgeSafety();
         goNext('safety');
       }}
+      secondary={{ label: t('onboardingR.age.under'), onPress: () => router.push('/under-18') }}
     >
       <FadeUp delay={100}>
         <View
@@ -91,48 +147,24 @@ export default function SafetyScreen() {
         </View>
       </FadeUp>
 
+      <FadeUp delay={450}>
+        <ConfirmCard
+          checked={adult}
+          onToggle={() => setAdult((c) => !c)}
+          label={t('onboardingR.age.confirm')}
+        />
+      </FadeUp>
+
       <FadeUp delay={500}>
-        <Pressable
-          role="checkbox"
-          aria-checked={checked}
-          accessibilityState={{ checked }}
-          accessibilityLabel={t('onboardingR.safety.understand')}
-          accessibilityHint={t('onboardingR.safety.hint')}
-          onPress={() => {
-            haptic.select();
-            setChecked((c) => !c);
-          }}
-          style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
-        >
-          <OptionSurface selected={checked} pad={16}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-              <View
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  borderColor: checked ? colors.leaf : colors.hairline,
-                  backgroundColor: checked ? colors.leaf : 'transparent',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {checked ? <Icon as={Check} size={16} weight="bold" color={colors.onPrimary} /> : null}
-              </View>
-              <Text
-                variant="bodyLarge"
-                className="font-sans-semibold"
-                style={{ flex: 1, color: colors.forest }}
-              >
-                {t('onboardingR.safety.understand')}
-              </Text>
-            </View>
-          </OptionSurface>
-        </Pressable>
-        {!checked ? (
+        <ConfirmCard
+          checked={checked}
+          onToggle={() => setChecked((c) => !c)}
+          label={t('onboardingR.safety.understand')}
+          hint={t('onboardingR.safety.hintBoth')}
+        />
+        {!ready ? (
           <Text variant="footnote" style={{ color: colors.muted, marginTop: 8, paddingHorizontal: 4 }}>
-            {t('onboardingR.safety.hint')}
+            {t('onboardingR.safety.hintBoth')}
           </Text>
         ) : null}
       </FadeUp>

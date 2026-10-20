@@ -15,6 +15,8 @@ import { ErrorState } from '@/features/states/error-state';
 import { OfflineBanner } from '@/features/states/offline-banner';
 import { ToastHost } from '@/components/toast';
 import { applyDirection } from '@/i18n/direction';
+import { configureNotificationDisplay, syncReminders } from '@/lib/reminders';
+import { usePrefsStore } from '@/store/prefs-store';
 import { detectLanguage, i18n, setLanguage } from '@/i18n';
 import { useAppStore, useAuthStore, useStoresHydrated } from '@/store';
 import { useAppFonts } from '@/theme/fonts';
@@ -44,6 +46,7 @@ export default function RootLayout() {
           <ThemeProvider>
             <BottomSheetModalProvider>
               <LanguageSync />
+              <ReminderSync />
               <RootStack />
               <OfflineBanner />
               <LockedSheetHost />
@@ -55,6 +58,35 @@ export default function RootLayout() {
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
+}
+
+/** Keeps the phone's scheduled reminders in step with the saved reminder settings and the language. */
+function ReminderSync() {
+  const reminder = usePrefsStore((s) => s.reminder);
+  const language = useAppStore((s) => s.language);
+  const onboardingComplete = useAppStore((s) => s.onboardingComplete);
+
+  useEffect(() => {
+    configureNotificationDisplay();
+  }, []);
+
+  useEffect(() => {
+    if (!onboardingComplete) {
+      // data was deleted (or never set up): make sure no old reminder is left on the phone
+      void syncReminders({ ...reminder, enabled: false }, { title: '', channel: '', lines: [''] });
+      return;
+    }
+    const id = setTimeout(() => {
+      void syncReminders(reminder, {
+        title: i18n.t('reminders.notify.title'),
+        channel: i18n.t('reminders.notify.channel'),
+        lines: [1, 2, 3, 4, 5, 6, 7].map((n) => i18n.t(`reminders.notify.l${n}`)),
+      });
+    }, 600);
+    return () => clearTimeout(id);
+  }, [reminder, language, onboardingComplete]);
+
+  return null;
 }
 
 /** Keeps i18next + native layout direction in step with the persisted language. */

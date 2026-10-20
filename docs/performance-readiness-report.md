@@ -130,3 +130,19 @@ k6 scripts in `/load-tests`, staging only. Journeys: open app and refresh token,
 ## 7. What I did not measure
 
 Bundle size, cold-start time, frame rates and memory were not measured (no release build was made). They are the first job of PERF-04.
+
+## 8. Measured (2026-10-20, PERF-04, no device build needed)
+
+| Measurement | Before | After |
+|---|---|---|
+| Font files packaged | 37 (5.9 MB) | 11 (3.6 MB: the 10 used, plus an icon font) |
+| Exported assets | 9.8 MB | 7.6 MB |
+| Android export, total | 24 MB | 21 MB |
+| Android JavaScript bundle (Hermes bytecode) | 13.9 MB | 13.9 MB |
+
+The 2.2 MB saving in assets came from importing each font weight from its own entry point (`src/theme/fonts.ts`) instead of the package root, which pulled in every weight and style. The JavaScript bundle (13.9 MB) is large for an app of this size: the likely causes are the icon packs and the bundled content; worth checking with a bundle visualiser in a later pass. Not yet measured: cold start, frame rate and memory on a real phone (needs a release build on the device).
+
+## 9. Done in this pass
+
+- **PERF-02:** the session history is a virtualised list with memoised rows. With 1,500 sessions only about 37 rows exist in the page, the same as with 50.
+- **Fonts:** 2.2 MB smaller (above). The four Urdu (Nastaliq) weights are the largest remaining fonts; dropping the Medium weight would save more if needed.

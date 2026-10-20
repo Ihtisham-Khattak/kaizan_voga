@@ -12,7 +12,6 @@ export const STEPS = [
   'equipment',
   'accessibility',
   'voice',
-  'age',
   'safety',
   'reminders',
   'plan',
@@ -20,14 +19,20 @@ export const STEPS = [
 export type StepKey = (typeof STEPS)[number];
 
 /** Steps that cannot be skipped (legal / safety). */
-export const REQUIRED: StepKey[] = ['age', 'safety'];
+export const REQUIRED: StepKey[] = ['safety'];
 
 export const stepIndex = (k: StepKey) => STEPS.indexOf(k);
 export const hrefOf = (k: StepKey) => `/${k}` as Href;
 
+let lastNav = { from: '', at: 0 };
+
 export function goNext(k: StepKey) {
   const next = STEPS[stepIndex(k) + 1];
   if (!next) return;
+  // a double tap (or a delayed callback after a tap) must not open the next screen twice
+  const now = Date.now();
+  if (lastNav.from === k && now - lastNav.at < 1500) return;
+  lastNav = { from: k, at: now };
   useAppStore.getState().setOnboardingStep(`/${next}`);
   router.push(hrefOf(next));
 }

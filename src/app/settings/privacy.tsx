@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { Group, Row, SettingsScreen, SwitchRow } from '@/features/settings/ui';
 import { useT } from '@/i18n';
+import { exportMyData } from '@/lib/share-export';
 import { resetAllStores, useAppStore } from '@/store';
 
 const ITEMS = [
@@ -56,7 +57,11 @@ export default function PrivacyScreen() {
           icon={DownloadSimple}
           label={t('pf.privacy.export')}
           sub={t('pf.privacy.exportBody')}
-          onPress={() => toast.info(t('pf.privacy.exportDone'))}
+          onPress={async () => {
+            const ok = await exportMyData();
+            if (ok) toast.success(t('pf.privacy.exportDone'));
+            else toast.gentle(t('pf.privacy.exportFailed'));
+          }}
         />
         <SwitchRow
           icon={ChartBar}

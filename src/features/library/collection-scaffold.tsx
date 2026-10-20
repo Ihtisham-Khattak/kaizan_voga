@@ -10,6 +10,7 @@ import { GlassCard } from '@/components/glass-card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useT } from '@/i18n';
+import { safeBack } from '@/lib/nav';
 
 /** Shared layout for stack screens that list things: soft backdrop, glass back button, big title, scrolling body. */
 export function CollectionScaffold({
@@ -30,7 +31,7 @@ export function CollectionScaffold({
       <AuroraBackground variant={tint === 'lavender' ? 'evening' : 'day'} />
       <GlassCard radius={22} style={{ position: 'absolute', top: insets.top + 8, start: 12, zIndex: 5 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => safeBack()}
           accessibilityRole="button"
           accessibilityLabel={t('a11y.goBack')}
           className="size-11 items-center justify-center"

@@ -19,6 +19,7 @@ import { useT } from '@/i18n';
 import { haptic } from '@/lib/haptics';
 import { cn } from '@/lib/utils';
 import { useHasPremium, useSubscriptionStore } from '@/store/subscription-store';
+import { safeBack } from '@/lib/nav';
 
 const go = (href: string) => () => router.push(href as Href);
 
@@ -106,7 +107,7 @@ export default function PremiumScreen() {
             </Text>
           </View>
           <Pressable
-            onPress={() => router.back()}
+            onPress={() => safeBack()}
             accessibilityRole="button"
             accessibilityLabel={t('premium.paywall.close')}
             className="size-11 items-center justify-center rounded-full bg-bg/80"

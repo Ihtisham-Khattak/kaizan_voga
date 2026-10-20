@@ -299,6 +299,9 @@ Install it with `adb install --user 0 -r app-release.apk`. The `arm64-v8a` build
 |---|---|
 | `npm start` · `npm run android` · `npm run ios` · `npm run web` | Start the dev server or open a platform |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Automated tests (Node's test runner via tsx): the recommendation engine's safety rules, content data rules, session plan, reminder timing and the data export |
+| `npm run audit:i18n` | Finds English text typed straight into screens instead of going through translation |
+| `node scripts/qa-sweep.js 320 light no en` | Opens every screen at a phone width (and theme, large text, language) and reports errors and sideways overflow (needs the web preview running) |
 | `npm run lint` | ESLint via Expo |
 | `npm run validate:data` | Checks that content references (poses in routines, ids, levels) are consistent |
 | `npm run audit:copy` | Scans English copy for banned medical or absolute claims |
@@ -313,7 +316,7 @@ Install it with `adb install --user 0 -r app-release.apk`. The `arm64-v8a` build
 
 Every change should pass these before it is called done:
 
-- ✅ `npm run typecheck`, `npm run lint`
+- ✅ `npm run typecheck`, `npm run lint`, `npm test`
 - ✅ `npm run validate:data`
 - ✅ `npm run audit:copy`: **0 wording issues** (no *cure, treat, diagnose, heal, guarantee, "proven to"…* in user‑facing copy)
 - ✅ EN ⇄ UR **key parity** (typed)
@@ -331,8 +334,11 @@ Every change should pass these before it is called done:
 | Accounts | Mocked: sign up, sign in, password recovery and guest mode work locally; no server. |
 | Content | 66 poses, 27 routines, 8 programs, 10 yoga styles and 7 breathing sessions are local data. |
 | Subscriptions | Mock checkout and entitlement; no real payments. Prices are placeholders. |
-| Reminders, audio, downloads | The settings and flows exist; real notifications, voice and music packs, and offline files are not wired yet. |
+| Reminders | Real weekly notifications are scheduled from your days, time and quiet hours (needs a device to verify). |
+| Audio, downloads | The phone's own voice and placeholder sound loops; offline files are not wired yet. |
 | Premium gating | Enforced for premium content and downloads; some feature gates are still partial. |
+| Recommendations | A real rule-based engine uses your goals, level, time, movement, equipment and limitations (chair-only, avoid the floor, sensitive knees or wrists, balance). |
+| Privacy | "Export my data" saves a real JSON file; "Delete my data" wipes every store and cancels reminders. |
 
 **Known gaps to close before release**
 

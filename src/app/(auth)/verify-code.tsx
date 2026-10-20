@@ -10,6 +10,7 @@ import { AuthScaffold } from '@/features/auth/scaffold';
 import { useT } from '@/i18n';
 import { finishSignUp, verifyCode } from '@/lib/auth';
 import { maskEmail } from '@/lib/validation';
+import { safeBack } from '@/lib/nav';
 
 /** Verify code — 6-box code entry for sign-up verification and password reset. (Mock: 000000 fails.) */
 export default function VerifyCodeScreen() {
@@ -61,7 +62,7 @@ export default function VerifyCodeScreen() {
               : t('auth.verify.resend')}
           </Text>
         </Button>
-        <Button variant="ghost" onPress={() => router.back()}>
+        <Button variant="ghost" onPress={() => safeBack()}>
           <Text>{t('auth.verify.change')}</Text>
         </Button>
       </View>

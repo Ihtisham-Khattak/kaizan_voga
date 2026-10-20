@@ -23,7 +23,7 @@ import { useT } from '@/i18n';
 import { KaizenIcon } from '@/icons';
 import { minutesOf } from '@/lib/format';
 import { JOURNEY_ID, journeyDay } from '@/lib/journey';
-import { startBreathing, startSession } from '@/lib/nav';
+import { startBreathing, startSession, safeBack } from '@/lib/nav';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/app-store';
 import { useTheme } from '@/theme/theme-provider';
@@ -101,7 +101,7 @@ export default function ProgramDetail() {
           mood="tired"
           title={t('pose.notFound.title')}
           body={t('pose.notFound.body')}
-          cta={{ label: t('common.back'), onPress: () => router.back() }}
+          cta={{ label: t('common.back'), onPress: () => safeBack() }}
         />
       </View>
     );
